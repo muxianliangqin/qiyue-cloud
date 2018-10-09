@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: qiyue-cloud-crawler
+  datasource:
+    url: jdbc:mysql://localhost:3306/user
+    username: test
+    password: root123
+    tomcat:
+      max-active: 0
+      max-idle: 0
+      min-idle: 0
+      max-wait: -1
+      initial-size: 10
+server:
+  port: 8081
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7000/eureka/
+
+

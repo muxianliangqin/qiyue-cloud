@@ -1,0 +1,55 @@
+spring:
+  profiles:
+#    active: constant,pro
+    active: constant,dev
+
+#spring.datasource.annouce.url=jdbc:mysql://localhost:3306/annouce
+#spring.datasource.annouce.username=test
+#spring.datasource.annouce.password=root123
+#spring.datasource.tomcat.max-active=0
+#spring.datasource.tomcat.max-idle=0
+#spring.datasource.tomcat.min-idle=0
+#spring.datasource.tomcat.initial-size=20
+#spring.datasource.tomcat.max-wait=-1
+#
+#spring.datasource.user.url=jdbc:mysql://localhost:3306/user
+#spring.datasource.user.username=test
+#spring.datasource.user.password=root123
+#
+#
+##logging
+#logging.level.root=info
+#logging.level.org.springframework.web=info
+#logging.level.org.hibernate=info
+#spring.jpa.show-sql=true
+#spring.jpa.properties.hibernate.format_sql=false
+#
+##session
+#spring.session.store-type=redis
+#server.servlet.session.timeout=600
+#
+#spring.redis.host=127.0.0.1
+#spring.redis.port=6379
+#spring.redis.password=
+#spring.redis.database=0
+##最大连接数
+#spring.redis.jedis.pool.max-active=8
+##异常抛出之前的等待时间 ms
+#spring.redis.jedis.pool.max-wait=-1
+##最大空闲数
+#spring.redis.jedis.pool.max-idle=5
+##最小空闲数
+#spring.redis.jedis.pool.min-idle=0
+##连接超时
+#spring.redis.timeout=6000
+
+#schedul.core.pool.size=10
+#schedul.max.pool.size=200
+#schedul.queue.capacity=5
+#
+#spider.select.level=1
+#
+#sql.query.default.size=100
+#sql.batch.size=50
+#sql.query.page.size=10
+
