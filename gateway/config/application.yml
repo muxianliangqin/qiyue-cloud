@@ -13,4 +13,3 @@ zuul:
   routes:
     qiyue-cloud-crawler: /crawler/**
     qiyue-cloud-user: /user/**
-    qiyue-cloud-server: /server/**
