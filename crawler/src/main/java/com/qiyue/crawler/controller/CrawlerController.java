@@ -15,17 +15,12 @@ public class CrawlerController {
     @Autowired
     private CrawlerService crawlerService;
 
-    @RequestMapping(value = "/findAllWebs")
-    public List<WebEntity> findAllWebs(){
-        return crawlerService.findAllWebs();
+    @RequestMapping("/getMenuNode")
+    public String getMenuNode(){
+        return crawlerService.getMenuNode();
     }
 
-    @RequestMapping(value = "/findAllCategories")
-    public List<CategoryEntity> findAllCategories(){
-        return crawlerService.findAllCategories();
-    }
-
-    @RequestMapping(value = "/findNews")
+    @RequestMapping("/findNews")
     public List<NewsEntity> findByCategoryUrl(String categoryUrl){
         return crawlerService.findByCategoryUrl(categoryUrl);
     }

@@ -20,9 +20,6 @@ public class NewsEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "news_desc")
-    private String desc;
-
     @Column(name = "category_url")
     private String categoryUrl;
 
