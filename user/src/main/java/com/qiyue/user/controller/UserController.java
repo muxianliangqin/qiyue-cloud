@@ -14,7 +14,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/getMenuNode")
+    @RequestMapping("/getMenuNode")
     public String getMenuNode(int id){
         return userService.getMenuNode(id);
     }
