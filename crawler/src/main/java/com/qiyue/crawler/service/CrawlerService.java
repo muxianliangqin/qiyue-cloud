@@ -61,6 +61,10 @@ public class CrawlerService {
     }
 
     public List<NewsEntity> findByCategoryUrl(String categoryUrl){
-        return newsRepository.findByCategoryUrl(categoryUrl);
+        return newsRepository.findByCategoryUrlAndState(categoryUrl,"0");
+    }
+
+    public long countTotalNum(String categoryUrl){
+        return newsRepository.countByCategoryUrlAndState(categoryUrl,"0");
     }
 }

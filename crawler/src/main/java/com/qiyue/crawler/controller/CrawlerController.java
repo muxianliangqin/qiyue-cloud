@@ -24,4 +24,8 @@ public class CrawlerController {
     public List<NewsEntity> findByCategoryUrl(String categoryUrl){
         return crawlerService.findByCategoryUrl(categoryUrl);
     }
+    @RequestMapping("/totalNum")
+    public long countTotalNum(String categoryUrl){
+        return crawlerService.countTotalNum(categoryUrl);
+    }
 }
