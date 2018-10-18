@@ -53,6 +53,7 @@ public class CrawlerService {
                 menu.setUrl(k.getUrl());
                 menu.setSupCode("web_" + webEntityMap.get(k.getWebUrl()).getId());
                 menu.setDesc(k.getDesc());
+                menu.setXpath(k.getXpath());
                 NodeTree.insert(node,menu);
             }
         });
