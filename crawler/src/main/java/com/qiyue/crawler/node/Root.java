@@ -1,42 +1,42 @@
 package com.qiyue.crawler.node;
 
 public class Root implements Element {
-    private String code;
+    private String id;
 
-    private String supCode;
-
-    @Override
-    public String getCode() {
-        return code;
-    }
+    private String supId;
 
     public Root(){
 
     }
 
-    public Root(String code, String supCode) {
-        this.code = code;
-        this.supCode = supCode;
+    public Root(String id, String supId) {
+        this.id = id;
+        this.supId = supId;
     }
 
     @Override
-    public String getSupCode() {
-        return supCode;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    @Override
+    public String getSupId() {
+        return supId;
     }
 
-    public void setSupCode(String supCode) {
-        this.supCode = supCode;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setSupId(String supId) {
+        this.supId = supId;
     }
 
     @Override
     public String toString() {
         return "{" +
-                "'code':'" + code + '\'' +
-                ", 'supCode':'" + supCode + '\'' +
+                "'id':'" + id + '\'' +
+                ", 'supId':'" + supId + '\'' +
                 '}';
     }
 }

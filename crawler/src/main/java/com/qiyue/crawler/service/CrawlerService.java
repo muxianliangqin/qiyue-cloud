@@ -14,6 +14,7 @@ import com.qiyue.crawler.node.NodeTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,20 +39,19 @@ public class CrawlerService {
         List<CategoryEntity> categoryEntityMap = categoryRepository.findByState("0");
         webEntities.forEach(k->{
             Menu menu = new Menu();
-            menu.setCode("web_" + k.getId());
+            menu.setId("web_" + k.getId());
             menu.setName(k.getName());
             menu.setUrl(k.getUrl());
-            //menu.setSupCode("n002");
             menu.setDesc(k.getDesc());
             NodeTree.insert(node,menu);
         });
         categoryEntityMap.forEach(k->{
             if (webEntityMap.containsKey(k.getWebUrl())){
                 Menu menu = new Menu();
-                menu.setCode("category_" + k.getId());
+                menu.setId(String.valueOf(k.getId()));
                 menu.setName(k.getName());
                 menu.setUrl(k.getUrl());
-                menu.setSupCode("web_" + webEntityMap.get(k.getWebUrl()).getId());
+                menu.setSupId("web_" + webEntityMap.get(k.getWebUrl()).getId());
                 menu.setDesc(k.getDesc());
                 menu.setXpath(k.getXpath());
                 NodeTree.insert(node,menu);
@@ -67,5 +67,20 @@ public class CrawlerService {
 
     public long countTotalNum(String categoryUrl){
         return newsRepository.countByCategoryUrlAndState(categoryUrl,"0");
+    }
+
+    @Transactional
+    public int deleteCategory(String categoryCode) {
+        return categoryRepository.updateState(Integer.parseInt(categoryCode));
+    }
+
+    @Transactional
+    public CategoryEntity ModifyCategory(Menu menu){
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setId(Integer.parseInt(menu.getId()));
+        categoryEntity.setUrl(menu.getUrl());
+        categoryEntity.setName(menu.getName());
+        categoryEntity.setXpath(menu.getXpath());
+        return categoryRepository.saveAndFlush(categoryEntity);
     }
 }

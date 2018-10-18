@@ -14,14 +14,14 @@ public class NodeTree {
             node.setElement(ele);
             flag = true;
         } else {
-            String code = node.getElement().getCode();
-            String supCode = ele.getSupCode();
+            String code = node.getElement().getId();
+            String supCode = ele.getSupId();
             if (supCode == null || "".equals(supCode)) {
                 Node subNode = new Node(ele);
                 subNode.setParent(NodeTree.node);
                 NodeTree.node.getChildren().add(subNode);
                 NodeTree.node.hasChild = true;
-                subNode.breadcrumbs.add(ele.getCode());
+                subNode.breadcrumbs.add(ele.getId());
                 flag = true;
             } else if (code.equals(supCode)) {
                 Node subNode = new Node(ele);
@@ -29,7 +29,7 @@ public class NodeTree {
                 node.getChildren().add(subNode);
                 node.hasChild = true;
                 subNode.breadcrumbs.addAll(node.breadcrumbs);
-                subNode.breadcrumbs.add(ele.getCode());
+                subNode.breadcrumbs.add(ele.getId());
                 flag = true;
             } else {
                 for (Node child:node.getChildren()) {

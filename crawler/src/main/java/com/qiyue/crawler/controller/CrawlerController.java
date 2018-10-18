@@ -2,7 +2,7 @@ package com.qiyue.crawler.controller;
 
 import com.qiyue.crawler.dao.entity.CategoryEntity;
 import com.qiyue.crawler.dao.entity.NewsEntity;
-import com.qiyue.crawler.dao.entity.WebEntity;
+import com.qiyue.crawler.node.Menu;
 import com.qiyue.crawler.service.CrawlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +27,13 @@ public class CrawlerController {
     @RequestMapping("/totalNum")
     public long countTotalNum(String categoryUrl){
         return crawlerService.countTotalNum(categoryUrl);
+    }
+    @RequestMapping("/deleteCategory")
+    public int deleteCategory(String categoryCode){
+        return crawlerService.deleteCategory(categoryCode);
+    }
+    @RequestMapping("/ModifyCategory")
+    public CategoryEntity ModifyCategory(Menu menu){
+        return crawlerService.ModifyCategory(menu);
     }
 }
