@@ -23,10 +23,10 @@ public class UserService {
         Node node = NodeTree.getInstance();
         menuEntities.forEach(menuEntity->{
             Menu menu = new Menu();
-            menu.setCode(menuEntity.getCode());
+            menu.setId(menuEntity.getCode());
             menu.setName(menuEntity.getName());
             menu.setUrl(menuEntity.getUrl());
-            menu.setSupCode(menuEntity.getSuperCode());
+            menu.setSupId(menuEntity.getSuperCode());
             menu.setDesc(menuEntity.getDesc());
             NodeTree.insert(node,menu);
         });
