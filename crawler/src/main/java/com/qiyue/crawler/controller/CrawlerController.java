@@ -29,11 +29,11 @@ public class CrawlerController {
         return crawlerService.countTotalNum(categoryUrl);
     }
     @RequestMapping("/deleteCategory")
-    public int deleteCategory(String categoryCode){
-        return crawlerService.deleteCategory(categoryCode);
+    public int deleteCategory(String categoryId){
+        return crawlerService.deleteCategory(categoryId);
     }
     @RequestMapping("/ModifyCategory")
-    public CategoryEntity ModifyCategory(Menu menu){
-        return crawlerService.ModifyCategory(menu);
+    public void ModifyCategory(Menu menu){
+        crawlerService.ModifyCategory(menu);
     }
 }

@@ -1,47 +1,41 @@
 package com.qiyue.crawler.util;
 
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.util.Assert;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SqlUtil {
 
-	public static Object updateNoNull(Object src,Object target) {
-		Assert.notNull(src, "src不能为空");
-		Assert.notNull(target, "target不能为空");
-		String srcType = src.getClass().getTypeName();
-		String tarType = target.getClass().getTypeName();
-		Assert.isTrue(srcType.equals(tarType), "src和target类型必须相同");
-		Field [] srcFields = src.getClass().getDeclaredFields();
-		for (Field field:srcFields) {
-			try {
-				field.setAccessible(true);
-				Object value = field.get(src);
-				if (value != null) {
-					continue;
-				}
-				String fieldName = field.getName();
-				Field tField = target.getClass().getDeclaredField(fieldName);
-				tField.setAccessible(true);
-				BeanWrapper tBean = new BeanWrapperImpl(target);
-				Object tValue = tBean.getPropertyValue(tField.getName());
+	/**
+	 * 将目标源中不为空的字段过滤，将数据库中查出的数据源复制到提交的目标源中
+	 *
+	 * @param source 用id从数据库中查出来的数据源
+	 * @param target 提交的实体，目标源
+	 */
+	public static void copyNullProperties(Object source, Object target) {
+		BeanUtils.copyProperties(source, target, getNoNullProperties(target));
+	}
 
-				field.set(src, tValue);
-
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			}
-
+	/**
+	 * @param target 目标源数据
+	 * @return 将目标源中不为空的字段取出
+	 */
+	private static String[] getNoNullProperties(Object target) {
+		BeanWrapper srcBean = new BeanWrapperImpl(target);
+		PropertyDescriptor[] pds = srcBean.getPropertyDescriptors();
+		Set<String> noEmptyName = new HashSet<>();
+		for (PropertyDescriptor p : pds) {
+			Object value = srcBean.getPropertyValue(p.getName());
+			if (value != null) noEmptyName.add(p.getName());
 		}
-		return src;
+		String[] result = new String[noEmptyName.size()];
+		return noEmptyName.toArray(result);
 	}
 }

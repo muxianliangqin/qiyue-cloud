@@ -11,6 +11,7 @@ import com.qiyue.crawler.dao.repo.WebRepository;
 import com.qiyue.crawler.node.Menu;
 import com.qiyue.crawler.node.Node;
 import com.qiyue.crawler.node.NodeTree;
+import com.qiyue.crawler.util.SqlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CrawlerService {
@@ -70,17 +72,21 @@ public class CrawlerService {
     }
 
     @Transactional
-    public int deleteCategory(String categoryCode) {
-        return categoryRepository.updateState(Integer.parseInt(categoryCode));
+    public int deleteCategory(String categoryId) {
+        return categoryRepository.updateState(Integer.parseInt(categoryId));
     }
 
     @Transactional
-    public CategoryEntity ModifyCategory(Menu menu){
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setId(Integer.parseInt(menu.getId()));
-        categoryEntity.setUrl(menu.getUrl());
-        categoryEntity.setName(menu.getName());
-        categoryEntity.setXpath(menu.getXpath());
-        return categoryRepository.saveAndFlush(categoryEntity);
+    public void ModifyCategory(Menu menu){
+        Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findById(Integer.parseInt(menu.getId()));
+        if (categoryEntityOptional.isPresent()) {
+            CategoryEntity categoryEntity = new CategoryEntity();
+            categoryEntity.setId(Integer.parseInt(menu.getId()));
+            categoryEntity.setUrl(menu.getUrl());
+            categoryEntity.setName(menu.getName());
+            categoryEntity.setXpath(menu.getXpath());
+            SqlUtil.copyNullProperties(categoryEntityOptional.get(),categoryEntity);
+            CategoryEntity newOne = categoryRepository.saveAndFlush(categoryEntity);
+        }
     }
 }
