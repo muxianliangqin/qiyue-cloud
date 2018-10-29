@@ -53,7 +53,6 @@ public class DateUtil {
 	/**
 	 * 获取指定日期的前后任意天数的日期
 	 * @param inputDate 初始日期
-	 * @param beforeOrAfter 往过去还是未来计算
 	 * @param days 天数
 	 * @param inputDateFormat 输入日期格式
 	 * @param outputDateFormat 数输出日期格式
