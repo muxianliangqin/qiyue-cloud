@@ -1,0 +1,5 @@
+spring:
+  profiles:
+#    active: constant,pro
+    active: constant,dev
+
