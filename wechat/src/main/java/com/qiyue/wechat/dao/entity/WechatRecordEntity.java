@@ -6,8 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "category_info")
-public class WechatRecordEntity {
+@Table(name = "wechat_record")
+public class WeChatRecordEntity {
     @Id
     @Column(name = "record_id")
     private int id;

@@ -1,9 +1,9 @@
 package com.qiyue.wechat.controller;
 
-import com.qiyue.wechat.dao.entity.UserRefWechatEntity;
-import com.qiyue.wechat.dao.entity.WechatRecordEntity;
+import com.qiyue.wechat.dao.entity.UserRefWeChatEntity;
+import com.qiyue.wechat.dao.entity.WeChatRecordEntity;
 import com.qiyue.wechat.node.Menu;
-import com.qiyue.wechat.service.WechatService;
+import com.qiyue.wechat.service.WeChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,36 +13,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
-public class WechatController {
+public class WeChatController {
     @Autowired
-    private WechatService wechatService;
+    private WeChatService weChatService;
 
     @RequestMapping("/getMenuNode")
-    public String getMenuNode(){
-        return wechatService.getMenuNode();
+    public String getMenuNode(int userId){
+        return weChatService.getMenuNode(userId);
     }
 
-    @RequestMapping("/findNews")
-    public Page<NewsEntity> findByCategoryUrl(@RequestParam(value = "categoryUrl") String categoryUrl,
-                                               @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
-        return wechatService.findByCategoryUrlPage(categoryUrl,pageable);
+    @RequestMapping("/findMenus")
+    public Page<WeChatRecordEntity> findByGroupNickName(@RequestParam(value = "groupNickName") String groupNickName,
+                                                      @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
+        return weChatService.findByGroupNickName(groupNickName,pageable);
     }
 
     @RequestMapping("/totalNum")
-    public long countTotalNum(String categoryUrl){
-        return wechatService.countTotalNum(categoryUrl);
+    public long countTotalNum(String groupNickName){
+        return weChatService.countTotalNum(groupNickName);
     }
 
-    @RequestMapping("/deleteCategory")
+    @RequestMapping("/delete")
     public int deleteCategory(String categoryId){
-        return wechatService.deleteCategory(categoryId);
+        return weChatService.delete(categoryId);
     }
 
-    @RequestMapping("/ModifyCategory")
-    public CategoryEntity ModifyCategory(Menu menu){
-        return wechatService.ModifyCategory(menu);
+    @RequestMapping("/modify")
+    public UserRefWeChatEntity modify(Menu menu){
+        return weChatService.modify(menu);
     }
 }

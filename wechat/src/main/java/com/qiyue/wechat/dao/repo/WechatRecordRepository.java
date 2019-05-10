@@ -1,22 +1,16 @@
 package com.qiyue.wechat.dao.repo;
 
-import com.qiyue.wechat.dao.entity.WechatRecordEntity;
+import com.qiyue.wechat.dao.entity.WeChatRecordEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-
-public interface WechatRecordRepository extends JpaRepository<WechatRecordEntity,Integer> {
+public interface WeChatRecordRepository extends JpaRepository<WeChatRecordEntity,Integer> {
 
 
-    Page<WechatRecordEntity> findByGroupNickNameAndState(String groupNickName,
-                                                         String state,
-                                                         Pageable pageable);
+    Page<WeChatRecordEntity> findByGroupNickName(String groupNickName,
+                                                 Pageable pageable);
 
-    long countByGroupNickNameAndState(String groupNickName,
-                                      String state);
+    long countByGroupNickName(String groupNickName);
 
 }
