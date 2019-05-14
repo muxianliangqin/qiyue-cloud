@@ -23,13 +23,24 @@ public class WeChatController {
         return weChatService.getMenuNode(userId);
     }
 
-    @RequestMapping("/findMenus")
+    @RequestMapping("/findGroups")
+    public Page<UserRefWeChatEntity> findByUserIdAndState(@RequestParam(value = "userId") int userId,
+                                                        @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
+        return weChatService.findByUserIdAndState(userId,pageable);
+    }
+
+    @RequestMapping("/countGroups")
+    public long countGroups(@RequestParam(value = "userId") int userId) {
+        return weChatService.countGroups(userId);
+    }
+
+    @RequestMapping("/findRecords")
     public Page<WeChatRecordEntity> findByGroupNickName(@RequestParam(value = "groupNickName") String groupNickName,
-                                                      @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
+                                                      @PageableDefault(sort = {"recordTime"}, direction = Sort.Direction.DESC) Pageable pageable){
         return weChatService.findByGroupNickName(groupNickName,pageable);
     }
 
-    @RequestMapping("/totalNum")
+    @RequestMapping("/countRecords")
     public long countTotalNum(String groupNickName){
         return weChatService.countTotalNum(groupNickName);
     }

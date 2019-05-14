@@ -6,6 +6,7 @@ import com.qiyue.crawler.constant.Constant;
 import com.qiyue.crawler.dao.entity.CategoryEntity;
 import com.qiyue.crawler.dao.entity.NewsEntity;
 import com.qiyue.crawler.dao.entity.WebEntity;
+import com.qiyue.crawler.dao.repo.CategoryRefNewsRepository;
 import com.qiyue.crawler.dao.repo.CategoryRepository;
 import com.qiyue.crawler.dao.repo.NewsRepository;
 import com.qiyue.crawler.dao.repo.WebRepository;
@@ -37,6 +38,7 @@ public class CrawlerService {
 
     @Autowired
     private NewsRepository newsRepository;
+
 
     public String getMenuNode(){
         Node node = NodeTree.getInstance();

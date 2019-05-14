@@ -46,4 +46,7 @@ public class MenuEntity {
     @Column(name = "update_user")
     private String updateUser;
 
+    @Column(name = "xpath")
+    private String xpath;
+
 }

@@ -42,6 +42,14 @@ public class WeChatService {
         return json.toString();
     }
 
+    public Page<UserRefWeChatEntity> findByUserIdAndState(int userId, Pageable pageable) {
+        return userRefWeChatRepository.findByUserIdAndState(userId, "0", pageable);
+    }
+
+    public long countGroups(int userId){
+        return userRefWeChatRepository.countByUserIdAndState(userId,"0");
+    }
+
     public Page<WeChatRecordEntity> findByGroupNickName(String groupNickName, Pageable pageable){
         return weChatRecordRepository.findByGroupNickName(groupNickName, pageable);
     }
