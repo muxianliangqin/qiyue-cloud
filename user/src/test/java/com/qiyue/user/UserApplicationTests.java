@@ -2,6 +2,7 @@ package com.qiyue.user;
 
 import com.qiyue.user.controller.UserController;
 import com.qiyue.user.node.Node;
+import com.qiyue.user.util.BaseUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,12 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserApplicationTests {
-    @Autowired
-    protected WebApplicationContext webApplicationContext;
-    @Autowired
-    private UserController userController;
+//    @Autowired
+//    protected WebApplicationContext webApplicationContext;
+//    @Autowired
+//    private UserController userController;
 
-    private MockMvc mockMvc;
+//    private MockMvc mockMvc;
 
 //    @Before
 //    public void setUp() {
@@ -40,8 +41,8 @@ public class UserApplicationTests {
 
     @Test
     public void contextLoads() throws Exception {
-        String menuTree = userController.getMenuNode(1);
-        System.out.println(menuTree);
+//        String menuTree = userController.getMenuNode(1);
+//        System.out.println(menuTree);
 //
 //        MvcResult result = mockMvc
 //                .perform(MockMvcRequestBuilders.post("/getMenuNode")
@@ -50,5 +51,11 @@ public class UserApplicationTests {
 //                .andDo(print())
 //                .andExpect(status().isOk())
 //                .andReturn();
+    }
+
+    @Test
+    public void test1() throws Exception {
+//        System.out.println(BaseUtil.getRandomString(20,2));
+        System.out.println(BaseUtil.encrypt("test123","Tj1PC56Yl5mZEB6fak7S"));
     }
 }
