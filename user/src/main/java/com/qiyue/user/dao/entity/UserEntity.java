@@ -56,4 +56,7 @@ public class UserEntity implements Serializable{
 	@Column(name = "update_user")
 	private String updateUser;
 
+	@Column(name = "salt")
+	private String salt;
+
 }

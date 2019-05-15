@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public Optional<UserEntity> login(String username, String password){
+    public Map<String,String> login(String username, String password) throws Exception {
         return userService.login(username,password);
     }
 
