@@ -27,5 +27,10 @@ public interface UserRefWeChatRepository extends JpaRepository<UserRefWeChatEnti
     @Query("update UserRefWeChatEntity set state = '1' where id = ?1")
     int updateState(int id);
 
+    @Modifying
+    @Query(value="insert into user_ref_group (user_id,group_nick_name) values (?1,?2)",
+            nativeQuery=true)
+    int add(int userId,String groupNickName);
+
     UserRefWeChatEntity saveAndFlush(UserRefWeChatEntity userRefWeChatEntity);
 }

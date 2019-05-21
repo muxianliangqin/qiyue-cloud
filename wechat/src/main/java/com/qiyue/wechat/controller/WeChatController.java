@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class WeChatController {
@@ -46,8 +47,14 @@ public class WeChatController {
     }
 
     @RequestMapping("/delete")
-    public int deleteCategory(String categoryId){
-        return weChatService.delete(categoryId);
+    public int delete(@RequestParam(value = "groupId") int id){
+        return weChatService.delete(id);
+    }
+
+    @RequestMapping("/add")
+    public int add(@RequestParam(value = "userId") int userId,
+                   @RequestParam(value = "groupNickName") String groupNickName){
+        return weChatService.add(userId,groupNickName);
     }
 
     @RequestMapping("/modify")

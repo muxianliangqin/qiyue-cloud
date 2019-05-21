@@ -59,8 +59,13 @@ public class WeChatService {
     }
 
     @Transactional
-    public int delete(String id) {
-        return userRefWeChatRepository.updateState(Integer.parseInt(id));
+    public int delete(int id) {
+        return userRefWeChatRepository.updateState(id);
+    }
+
+    @Transactional
+    public int add(int userId,String groupNickName) {
+        return userRefWeChatRepository.add(userId,groupNickName);
     }
 
     @Transactional
