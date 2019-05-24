@@ -24,8 +24,13 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public Map<String,String> login(String username, String password) throws Exception {
+    public Map<String,Object> login(String username, String password) throws Exception {
         return userService.login(username,password);
+    }
+
+    @RequestMapping("/checkToken")
+    public Map<String,Object> checkToken(String token) {
+        return userService.checkToken(token);
     }
 
 }

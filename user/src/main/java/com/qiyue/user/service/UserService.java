@@ -46,8 +46,8 @@ public class UserService {
         return json.toString();
     }
 
-    public Map<String,String> login(String username, String password) throws Exception {
-        Map<String,String> map = new HashMap<>();
+    public Map<String,Object> login(String username, String password) throws Exception {
+        Map<String,Object> map = new HashMap<>();
         map.put("errorCode","0001");
         map.put("errorMsg","用户名或密码不正确");
         Optional<UserEntity> userEntity = userRepository.findByMobile(username);
@@ -55,13 +55,32 @@ public class UserService {
             UserEntity user = userEntity.get();
             password = BaseUtil.encrypt(password,user.getSalt());
             if (BaseUtil.slowEquals(password,user.getPassword())) {
-                map.put("errorCode","0000");
-                map.put("errorMsg","success");
-                map.put("id",String.valueOf(user.getId()));
-                map.put("username",user.getUsername());
-                map.put("alias",user.getAlias());
+                map = returnUser(user);
             }
         }
+        return map;
+    }
+
+    public Map<String,Object> checkToken(String token) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("errorCode","0001");
+        map.put("errorMsg","token错误");
+        Optional<UserEntity> userEntity = userRepository.findByToken(token);
+        if (userEntity.isPresent()) {
+            map = returnUser(userEntity.get());
+        }
+        return map;
+    }
+
+    public Map<String,Object> returnUser(UserEntity user) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("errorCode","0000");
+        map.put("errorMsg","success");
+        Map<String,String> userMap = new HashMap<>();
+        userMap.put("id",String.valueOf(user.getId()));
+        userMap.put("username",user.getUsername());
+        userMap.put("alias",user.getAlias());
+        map.put("userInfo",userMap);
         return map;
     }
 }

@@ -59,4 +59,7 @@ public class UserEntity implements Serializable{
 	@Column(name = "salt")
 	private String salt;
 
+    @Column(name = "token")
+	private String token;
+
 }

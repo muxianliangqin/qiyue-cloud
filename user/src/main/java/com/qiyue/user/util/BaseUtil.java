@@ -159,4 +159,9 @@ public class BaseUtil {
 		}
 		return output;
 	}
+
+	public static void main(String args[]) throws Exception {
+		String randStr = getRandomString(32,Constant.TYPE_MIX);
+		System.out.println(randStr);
+	}
 }
