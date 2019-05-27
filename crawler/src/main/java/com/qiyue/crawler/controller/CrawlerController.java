@@ -2,7 +2,7 @@ package com.qiyue.crawler.controller;
 
 import com.qiyue.crawler.dao.entity.CategoryEntity;
 import com.qiyue.crawler.dao.entity.NewsEntity;
-import com.qiyue.crawler.node.Menu;
+import com.qiyue.crawler.dao.entity.WebEntity;
 import com.qiyue.crawler.service.CrawlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,20 +20,16 @@ public class CrawlerController {
     @Autowired
     private CrawlerService crawlerService;
 
-    @RequestMapping("/getMenuNode")
-    public String getMenuNode(){
-        return crawlerService.getMenuNode();
+    @RequestMapping("/findWebs")
+    public Page<WebEntity> findWebs(@RequestParam(value = "userId") int userId,
+                                    @PageableDefault(sort = {"updateTime"},direction = Sort.Direction.DESC) Pageable pageable){
+        return crawlerService.findWebs(userId,pageable);
     }
 
     @RequestMapping("/findNews")
     public Page<NewsEntity> findByCategoryUrl(@RequestParam(value = "categoryUrl") String categoryUrl,
                                                @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
-        return crawlerService.findByCategoryUrlPage(categoryUrl,pageable);
-    }
-
-    @RequestMapping("/totalNum")
-    public long countTotalNum(String categoryUrl){
-        return crawlerService.countTotalNum(categoryUrl);
+        return crawlerService.findByCategoryUrlAndState(categoryUrl,pageable);
     }
 
     @RequestMapping("/deleteCategory")
@@ -42,7 +38,7 @@ public class CrawlerController {
     }
 
     @RequestMapping("/ModifyCategory")
-    public CategoryEntity ModifyCategory(Menu menu){
-        return crawlerService.ModifyCategory(menu);
+    public CategoryEntity ModifyCategory(CategoryEntity categoryEntity){
+        return crawlerService.ModifyCategory(categoryEntity);
     }
 }

@@ -3,32 +3,25 @@ package com.qiyue.crawler.dao.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "web_info", uniqueConstraints={
-        @UniqueConstraint(columnNames = {"url","xpath"})
+@Table(name = "web", uniqueConstraints={
+        @UniqueConstraint(columnNames = {"url"})
 })
-public class WebEntity {
+public class WebEntity implements Serializable {
 
     @Id
-    @Column(name = "web_id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "url")
     private String url;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "web_desc")
-    private String desc;
-
-    @Column(name = "xpath")
-    private String xpath;
-
-    @Column(name = "encode")
-    private String encode;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "web_state")
     private String state;
@@ -44,5 +37,12 @@ public class WebEntity {
 
     @Column(name = "update_user")
     private String updateUser;
+
+    @Column(name = "user_id")
+    private int userId;
+
+    @OneToMany
+    @JoinColumn(name = "web_url",referencedColumnName = "url")
+    private List<CategoryEntity> categories;
 
 }

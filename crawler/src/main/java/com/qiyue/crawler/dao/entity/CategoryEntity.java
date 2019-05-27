@@ -6,22 +6,19 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "category_info", uniqueConstraints={
+@Table(name = "category", uniqueConstraints={
         @UniqueConstraint(columnNames = {"url","xpath"})
 })
 public class CategoryEntity {
     @Id
-    @Column(name = "category_id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "url")
     private String url;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "category_desc")
-    private String desc;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "xpath")
     private String xpath;

@@ -6,19 +6,19 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "news_info", uniqueConstraints={
+@Table(name = "news", uniqueConstraints={
         @UniqueConstraint(columnNames = "url")
 })
 public class NewsEntity {
     @Id
-    @Column(name = "news_id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "url")
     private String url;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "category_url")
     private String categoryUrl;
