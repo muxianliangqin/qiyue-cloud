@@ -6,21 +6,21 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "role_ref_menu")
-public class RoleRefMenuEntity {
+@Table(name = "right_menu")
+public class RightMenuEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "rrm_id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "role_code")
+    @Column(name = "right_code")
     private String roleCode;
 
    @Column(name = "menu_code")
     private String menuCode;
 
-    @Column(name = "rrm_state")
+    @Column(name = "rm_state")
     private String state;
 
     @Column(name = "create_time")

@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "role_info",uniqueConstraints = {
+@Table(name = "rights",uniqueConstraints = {
         @UniqueConstraint(columnNames = "code")
 })
-public class RoleEntity {
+public class RightEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "code")
@@ -22,10 +22,10 @@ public class RoleEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "role_desc")
+    @Column(name = "right_desc")
     private String desc;
 
-    @Column(name = "role_state")
+    @Column(name = "right_state")
     private String state;
 
     @Column(name = "create_time")

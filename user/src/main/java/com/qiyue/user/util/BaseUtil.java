@@ -162,6 +162,10 @@ public class BaseUtil {
 
 	public static void main(String args[]) throws Exception {
 		String randStr = getRandomString(32,Constant.TYPE_MIX);
+		String salt = getRandomString(20,Constant.TYPE_MIX);
+		String password = encrypt("test123",salt);
 		System.out.println(randStr);
+		System.out.println(salt);
+		System.out.println(password);
 	}
 }

@@ -6,21 +6,21 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "user_ref_role")
-public class UserRefRoleEntity {
+@Table(name = "user_right")
+public class UserRightEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "urr_id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "role_code")
+    @Column(name = "right_code")
     private String roleCode;
 
-    @Column(name = "urr_state")
+    @Column(name = "ur_state")
     private String state;
 
     @Column(name = "create_time")

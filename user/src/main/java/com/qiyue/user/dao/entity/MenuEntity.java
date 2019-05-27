@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "menu_info",uniqueConstraints = {
+@Table(name = "menu",uniqueConstraints = {
         @UniqueConstraint(columnNames = "code")
 })
 public class MenuEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "menu_id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "code")

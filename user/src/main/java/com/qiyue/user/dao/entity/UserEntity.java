@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name="user_info", uniqueConstraints={
+@Table(name="user", uniqueConstraints={
 		@UniqueConstraint(columnNames = "mobile")
 })
 public class UserEntity implements Serializable{
@@ -17,7 +17,7 @@ public class UserEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "user_id")
+	@Column(name = "id")
 	private int id;
 
 	@Column(name = "mobile")
