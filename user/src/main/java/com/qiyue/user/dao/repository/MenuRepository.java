@@ -14,6 +14,7 @@ public interface MenuRepository extends JpaRepository<MenuEntity, String> {
             "   join rights r on r.code = rm.right_code\n" +
             "   join user_right ur on ur.right_code = r.code\n" +
             "   join user u on u.id = ur.user_id\n" +
-            "   where u.id = ?1",nativeQuery = true)
+            "   where m.menu_state = '0' " +
+            "   and u.id = ?1", nativeQuery = true)
     public List<MenuEntity> getMenus(int userId);
 }
