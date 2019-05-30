@@ -1,8 +1,5 @@
 package com.qiyue.crawler.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.qiyue.crawler.constant.Constant;
 import com.qiyue.crawler.dao.entity.CategoryEntity;
 import com.qiyue.crawler.dao.entity.NewsEntity;
 import com.qiyue.crawler.dao.entity.WebEntity;
@@ -10,6 +7,7 @@ import com.qiyue.crawler.dao.repo.CategoryRepository;
 import com.qiyue.crawler.dao.repo.NewsRepository;
 import com.qiyue.crawler.dao.repo.WebRepository;
 import com.qiyue.crawler.except.BaseExcept;
+import com.qiyue.crawler.self.Response;
 import com.qiyue.crawler.util.SqlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,12 +33,14 @@ public class CrawlerService {
     private NewsRepository newsRepository;
 
 
-    public Page<WebEntity> findWebs(int userId,Pageable pageable){
-        return webRepository.findByUserIdAndState(userId,"0",pageable);
+    public Response findWebs(int userId,Pageable pageable){
+        Page<WebEntity> webEntityPage = webRepository.findByUserIdAndState(userId,"0",pageable);
+        return Response.success(webEntityPage);
     }
 
-    public Page<NewsEntity> findByCategoryUrlAndState(String categoryUrl,Pageable pageable){
-        return newsRepository.findByCategoryUrlAndState(categoryUrl,"0", pageable);
+    public Response findByCategoryUrlAndState(String categoryUrl,Pageable pageable){
+        Page<NewsEntity> newsEntityPage = newsRepository.findByCategoryUrlAndState(categoryUrl,"0", pageable);
+        return Response.success(newsEntityPage);
     }
 
     @Transactional

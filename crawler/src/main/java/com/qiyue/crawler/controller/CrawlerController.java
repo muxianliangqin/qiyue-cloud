@@ -1,11 +1,9 @@
 package com.qiyue.crawler.controller;
 
 import com.qiyue.crawler.dao.entity.CategoryEntity;
-import com.qiyue.crawler.dao.entity.NewsEntity;
-import com.qiyue.crawler.dao.entity.WebEntity;
+import com.qiyue.crawler.self.Response;
 import com.qiyue.crawler.service.CrawlerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -21,13 +19,13 @@ public class CrawlerController {
     private CrawlerService crawlerService;
 
     @RequestMapping("/findWebs")
-    public Page<WebEntity> findWebs(@RequestParam(value = "userId") int userId,
-                                    @PageableDefault(sort = {"updateTime"},direction = Sort.Direction.DESC) Pageable pageable){
+    public Response findWebs(@RequestParam(value = "userId") int userId,
+                             @PageableDefault(sort = {"updateTime"},direction = Sort.Direction.DESC) Pageable pageable){
         return crawlerService.findWebs(userId,pageable);
     }
 
     @RequestMapping("/findNews")
-    public Page<NewsEntity> findByCategoryUrl(@RequestParam(value = "categoryUrl") String categoryUrl,
+    public Response findByCategoryUrl(@RequestParam(value = "categoryUrl") String categoryUrl,
                                                @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
         return crawlerService.findByCategoryUrlAndState(categoryUrl,pageable);
     }
