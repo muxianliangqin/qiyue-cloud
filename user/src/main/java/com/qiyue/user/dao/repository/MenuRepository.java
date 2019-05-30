@@ -1,6 +1,8 @@
 package com.qiyue.user.dao.repository;
 
 import com.qiyue.user.dao.entity.MenuEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,4 +19,6 @@ public interface MenuRepository extends JpaRepository<MenuEntity, String> {
             "   where m.menu_state = '0' " +
             "   and u.id = ?1", nativeQuery = true)
     public List<MenuEntity> getMenus(int userId);
+
+    Page<MenuEntity> findAll(Pageable pageable);
 }
