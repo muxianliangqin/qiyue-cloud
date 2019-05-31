@@ -1,15 +1,11 @@
 package com.qiyue.wechat.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.qiyue.wechat.dao.entity.UserRefWeChatEntity;
-import com.qiyue.wechat.dao.entity.WeChatRecordEntity;
-import com.qiyue.wechat.dao.repo.UserRefWeChatRepository;
-import com.qiyue.wechat.dao.repo.WeChatRecordRepository;
+import com.qiyue.wechat.dao.entity.GroupEntity;
+import com.qiyue.wechat.dao.entity.RecordEntity;
+import com.qiyue.wechat.dao.repo.GroupRepository;
+import com.qiyue.wechat.dao.repo.RecordRepository;
 import com.qiyue.wechat.except.BaseExcept;
-import com.qiyue.wechat.node.Menu;
-import com.qiyue.wechat.node.Node;
-import com.qiyue.wechat.node.NodeTree;
+import com.qiyue.wechat.self.Response;
 import com.qiyue.wechat.util.SqlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,69 +13,48 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class WeChatService {
 
     @Autowired
-    private WeChatRecordRepository weChatRecordRepository;
+    private RecordRepository recordRepository;
 
     @Autowired
-    private UserRefWeChatRepository userRefWeChatRepository;
+    private GroupRepository groupRepository;
 
-    public String getMenuNode(int userId){
-        Node node = NodeTree.getInstance();
-        List<UserRefWeChatEntity> wechatRecordEntities = userRefWeChatRepository.findByUserIdAndState(userId, "0");
-        wechatRecordEntities.forEach(k->{
-            Menu menu = new Menu();
-            menu.setId(String.valueOf(k.getId()));
-            menu.setName(k.getGroupNickName());
-            NodeTree.insert(node,menu);
-        });
-        JSONObject json = JSON.parseObject(node.toString());
-        return json.toString();
+    public Response findGroups(int userId, Pageable pageable) {
+        Page<GroupEntity> groupEntityPage = groupRepository.findByUserIdAndState(userId, "0", pageable);
+        Response response = Response.success(groupEntityPage);
+        return response;
     }
 
-    public Page<UserRefWeChatEntity> findByUserIdAndState(int userId, Pageable pageable) {
-        return userRefWeChatRepository.findByUserIdAndState(userId, "0", pageable);
-    }
-
-    public long countGroups(int userId){
-        return userRefWeChatRepository.countByUserIdAndState(userId,"0");
-    }
-
-    public Page<WeChatRecordEntity> findByGroupNickName(String groupNickName, Pageable pageable){
-        return weChatRecordRepository.findByGroupNickName(groupNickName, pageable);
-    }
-
-    public long countTotalNum(String groupNickName){
-        return weChatRecordRepository.countByGroupNickName(groupNickName);
+    public Response findRecords(int groupId, Pageable pageable){
+        Page<RecordEntity> recordEntityPage = recordRepository.findByGroupId(groupId, pageable);
+        Response response = Response.success(recordEntityPage);
+        return response;
     }
 
     @Transactional
     public int delete(int id) {
-        return userRefWeChatRepository.updateState(id);
+        return groupRepository.updateState(id);
     }
 
     @Transactional
     public int add(int userId,String groupNickName) {
-        return userRefWeChatRepository.add(userId,groupNickName);
+        return groupRepository.add(userId,groupNickName);
     }
 
     @Transactional
-    public UserRefWeChatEntity modify(Menu menu){
-        Optional<UserRefWeChatEntity> categoryEntityOptional = userRefWeChatRepository.findById(Integer.parseInt(menu.getId()));
+    public GroupEntity modify(GroupEntity groupEntity){
+        Optional<GroupEntity> categoryEntityOptional = groupRepository.findById(groupEntity.getId());
         if (!categoryEntityOptional.isPresent()) {
             throw new BaseExcept("0000","更新记录不存在");
         }
-        UserRefWeChatEntity userRefWeChatEntity = new UserRefWeChatEntity();
-        userRefWeChatEntity.setId(Integer.parseInt(menu.getId()));
-        userRefWeChatEntity.setGroupNickName(menu.getName());
 //        categoryEntity.setUpdateUser("");
-        SqlUtil.copyNullProperties(categoryEntityOptional.get(), userRefWeChatEntity);
-        UserRefWeChatEntity newOne = userRefWeChatRepository.saveAndFlush(userRefWeChatEntity);
+        SqlUtil.copyNullProperties(categoryEntityOptional.get(), groupEntity);
+        GroupEntity newOne = groupRepository.saveAndFlush(groupEntity);
         return newOne;
     }
 }

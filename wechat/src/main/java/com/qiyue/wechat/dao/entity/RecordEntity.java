@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "wechat_record")
-public class WeChatRecordEntity {
+@Table(name = "record")
+public class RecordEntity {
     @Id
-    @Column(name = "record_id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "group_nick_name")
-    private String groupNickName;
+    @Column(name = "group_id")
+    private int groupId;
 
     @Column(name = "nick_name")
     private String nickName;
