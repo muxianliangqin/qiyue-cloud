@@ -31,12 +31,17 @@ public class CrawlerController {
     }
 
     @RequestMapping("/deleteCategory")
-    public int deleteCategory(String categoryId){
+    public Response deleteCategory(int categoryId){
         return crawlerService.deleteCategory(categoryId);
     }
 
-    @RequestMapping("/ModifyCategory")
-    public CategoryEntity ModifyCategory(CategoryEntity categoryEntity){
+    @RequestMapping("/addCategory")
+    public Response addCategory(String title, String url, String xpath, String webUrl){
+        return crawlerService.addCategory(title, url, xpath, webUrl);
+    }
+
+    @RequestMapping("/modifyCategory")
+    public Response ModifyCategory(CategoryEntity categoryEntity){
         return crawlerService.ModifyCategory(categoryEntity);
     }
 }

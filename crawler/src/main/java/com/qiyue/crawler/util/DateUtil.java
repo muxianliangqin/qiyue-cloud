@@ -8,10 +8,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
-	public static String getSystemTime(String formatar){
+	public static String getSystemTime(String formatter){
         Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat(formatar);
-        return formatter.format(currentTime);
+        SimpleDateFormat format = new SimpleDateFormat(formatter);
+        return format.format(currentTime);
 	}
 
 	public static String getSystemTime(){

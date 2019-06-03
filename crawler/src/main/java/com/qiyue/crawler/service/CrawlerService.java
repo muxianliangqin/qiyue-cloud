@@ -1,5 +1,6 @@
 package com.qiyue.crawler.service;
 
+import com.qiyue.crawler.constant.Constant;
 import com.qiyue.crawler.dao.entity.CategoryEntity;
 import com.qiyue.crawler.dao.entity.NewsEntity;
 import com.qiyue.crawler.dao.entity.WebEntity;
@@ -8,6 +9,8 @@ import com.qiyue.crawler.dao.repo.NewsRepository;
 import com.qiyue.crawler.dao.repo.WebRepository;
 import com.qiyue.crawler.except.BaseExcept;
 import com.qiyue.crawler.self.Response;
+import com.qiyue.crawler.util.BaseUtil;
+import com.qiyue.crawler.util.DateUtil;
 import com.qiyue.crawler.util.SqlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,19 +47,27 @@ public class CrawlerService {
     }
 
     @Transactional
-    public int deleteCategory(String categoryId) {
-        return categoryRepository.updateState(Integer.parseInt(categoryId));
+    public Response deleteCategory(int categoryId) {
+        long num = categoryRepository.updateState(categoryId);
+        return Response.success(num);
     }
 
     @Transactional
-    public CategoryEntity ModifyCategory(CategoryEntity categoryEntity){
+    public Response addCategory(String title, String url, String xpath, String webUrl) {
+        long num = categoryRepository.add(title, url, xpath, webUrl);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response ModifyCategory(CategoryEntity categoryEntity){
         Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findById(categoryEntity.getId());
         if (!categoryEntityOptional.isPresent()) {
-            throw new BaseExcept("0000","更新记录不存在");
+            return Response.fail("NO_RECORD");
         }
+        categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
 //        categoryEntity.setUpdateUser("");
         SqlUtil.copyNullProperties(categoryEntityOptional.get(),categoryEntity);
         CategoryEntity newOne = categoryRepository.saveAndFlush(categoryEntity);
-        return newOne;
+        return Response.success(newOne);
     }
 }

@@ -1,6 +1,8 @@
 package com.qiyue.crawler.dao.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.Where;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -43,6 +45,8 @@ public class WebEntity implements Serializable {
 
     @OneToMany
     @JoinColumn(name = "web_url",referencedColumnName = "url")
+    @Where(clause = "category_state=0")
+    @OrderBy(clause = "update_time desc")
     private List<CategoryEntity> categories;
 
 }

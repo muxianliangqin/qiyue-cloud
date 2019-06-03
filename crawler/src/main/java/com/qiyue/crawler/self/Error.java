@@ -3,6 +3,7 @@ package com.qiyue.crawler.self;
 public enum Error {
     SUCCESS("0000","success"),
     /* 自定义错误区 */
+    NO_RECORD("0001","记录不存在"),
 
     /* 系统错误区 */
     ENUM_ERROR("0003","枚举名称错误"),
