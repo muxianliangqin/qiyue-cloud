@@ -32,29 +32,32 @@ public class WeChatService {
 
     public Response findRecords(int groupId, Pageable pageable){
         Page<RecordEntity> recordEntityPage = recordRepository.findByGroupId(groupId, pageable);
-        Response response = Response.success(recordEntityPage);
-        return response;
+        return Response.success(recordEntityPage);
     }
 
     @Transactional
-    public int delete(int id) {
-        return groupRepository.updateState(id);
-    }
-
-    @Transactional
-    public int add(int userId,String groupNickName) {
-        return groupRepository.add(userId,groupNickName);
-    }
-
-    @Transactional
-    public GroupEntity modify(GroupEntity groupEntity){
-        Optional<GroupEntity> categoryEntityOptional = groupRepository.findById(groupEntity.getId());
-        if (!categoryEntityOptional.isPresent()) {
-            throw new BaseExcept("0000","更新记录不存在");
+    public Response delete(int id) {
+        long num = groupRepository.updateState(id);
+        if (num > 0) {
+            return Response.success(num);
+        } else {
+            return Response.fail("NO_RECORD");
         }
-//        categoryEntity.setUpdateUser("");
-        SqlUtil.copyNullProperties(categoryEntityOptional.get(), groupEntity);
-        GroupEntity newOne = groupRepository.saveAndFlush(groupEntity);
-        return newOne;
+    }
+
+    @Transactional
+    public Response add(int userId, String groupNickName) {
+        long num = groupRepository.add(userId,groupNickName);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response modify(int id, String groupNickName){
+        long num = groupRepository.modify(id, groupNickName);
+        if (num > 0) {
+            return Response.success(num);
+        } else {
+            return Response.fail("NO_RECORD");
+        }
     }
 }

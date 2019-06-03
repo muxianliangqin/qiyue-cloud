@@ -30,14 +30,20 @@ public class WeChatController {
     }
 
     @RequestMapping("/delete")
-    public int delete(@RequestParam(value = "groupId") int id){
+    public Response delete(@RequestParam(value = "groupId") int id){
         return weChatService.delete(id);
     }
 
     @RequestMapping("/add")
-    public int add(@RequestParam(value = "userId") int userId,
+    public Response add(@RequestParam(value = "userId") int userId,
                    @RequestParam(value = "groupNickName") String groupNickName){
         return weChatService.add(userId,groupNickName);
+    }
+
+    @RequestMapping("/modify")
+    public Response modify(@RequestParam(value = "id") int id,
+                   @RequestParam(value = "groupNickName") String groupNickName){
+        return weChatService.modify(id, groupNickName);
     }
 
 }

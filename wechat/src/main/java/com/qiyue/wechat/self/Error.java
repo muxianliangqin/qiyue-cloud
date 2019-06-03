@@ -2,6 +2,7 @@ package com.qiyue.wechat.self;
 
 public enum Error {
     SUCCESS("0000","success"),
+    NO_RECORD("0001","记录不存在"),
 
     ENUM_ERROR("0003","枚举名称错误"),
     UNKNOWN_ERROR("9999","未知错误");
