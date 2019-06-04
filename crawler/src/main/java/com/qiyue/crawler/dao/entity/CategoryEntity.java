@@ -23,8 +23,8 @@ public class CategoryEntity {
     @Column(name = "xpath")
     private String xpath;
 
-    @Column(name = "web_url")
-    private String webUrl;
+    @Column(name = "web_id")
+    private int webId;
 
     @Column(name = "category_state")
     private String state;

@@ -1,6 +1,7 @@
 package com.qiyue.crawler.controller;
 
 import com.qiyue.crawler.dao.entity.CategoryEntity;
+import com.qiyue.crawler.dao.entity.WebEntity;
 import com.qiyue.crawler.self.Response;
 import com.qiyue.crawler.service.CrawlerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +31,33 @@ public class CrawlerController {
         return crawlerService.findByCategoryUrlAndState(categoryUrl,pageable);
     }
 
+    @RequestMapping("/deleteWeb")
+    public Response deleteWeb(int webId){
+        return crawlerService.deleteWeb(webId);
+    }
+
+    @RequestMapping("/addWeb")
+    public Response addWeb(String title, String url, String userId){
+        return crawlerService.addWeb(title, url, userId);
+    }
+
+    @RequestMapping("/modifyWeb")
+    public Response modifyWeb(WebEntity webEntity){
+        return crawlerService.modifyWeb(webEntity);
+    }
+
     @RequestMapping("/deleteCategory")
     public Response deleteCategory(int categoryId){
         return crawlerService.deleteCategory(categoryId);
     }
 
     @RequestMapping("/addCategory")
-    public Response addCategory(String title, String url, String xpath, String webUrl){
-        return crawlerService.addCategory(title, url, xpath, webUrl);
+    public Response addCategory(String title, String url, String xpath, int webId){
+        return crawlerService.addCategory(title, url, xpath, webId);
     }
 
     @RequestMapping("/modifyCategory")
-    public Response ModifyCategory(CategoryEntity categoryEntity){
-        return crawlerService.ModifyCategory(categoryEntity);
+    public Response modifyCategory(CategoryEntity categoryEntity){
+        return crawlerService.modifyCategory(categoryEntity);
     }
 }

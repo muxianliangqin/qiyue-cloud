@@ -44,7 +44,7 @@ public class WebEntity implements Serializable {
     private int userId;
 
     @OneToMany
-    @JoinColumn(name = "web_url",referencedColumnName = "url")
+    @JoinColumn(name = "web_id",referencedColumnName = "id")
     @Where(clause = "category_state=0")
     @OrderBy(clause = "update_time desc")
     private List<CategoryEntity> categories;

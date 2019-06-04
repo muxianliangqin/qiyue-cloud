@@ -15,6 +15,7 @@ import com.qiyue.crawler.util.SqlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -47,19 +48,45 @@ public class CrawlerService {
     }
 
     @Transactional
+    public Response deleteWeb(int webId) {
+        long num = webRepository.updateState(webId);
+        num += categoryRepository.updateStateByWebId(webId);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response addWeb(String title, String url, String userId) {
+        long num = webRepository.add(title, url, userId);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response modifyWeb(WebEntity webEntity){
+        Optional<WebEntity> webEntityOptional = webRepository.findById(webEntity.getId());
+        if (!webEntityOptional.isPresent()) {
+            return Response.fail("NO_RECORD");
+        }
+        webEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+//        categoryEntity.setUpdateUser("");
+        SqlUtil.copyNullProperties(webEntityOptional.get(),webEntity);
+        WebEntity newOne = webRepository.saveAndFlush(webEntity);
+        return Response.success(newOne);
+    }
+
+    @Transactional
     public Response deleteCategory(int categoryId) {
         long num = categoryRepository.updateState(categoryId);
         return Response.success(num);
     }
 
     @Transactional
-    public Response addCategory(String title, String url, String xpath, String webUrl) {
-        long num = categoryRepository.add(title, url, xpath, webUrl);
+    public Response addCategory(String title, String url, String xpath, int webId) {
+        long num = categoryRepository.add(title, url, xpath, webId);
         return Response.success(num);
     }
 
     @Transactional
-    public Response ModifyCategory(CategoryEntity categoryEntity){
+    public Response modifyCategory(CategoryEntity categoryEntity){
         Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findById(categoryEntity.getId());
         if (!categoryEntityOptional.isPresent()) {
             return Response.fail("NO_RECORD");
