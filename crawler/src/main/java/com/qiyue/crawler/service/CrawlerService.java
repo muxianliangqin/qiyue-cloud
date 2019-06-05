@@ -137,6 +137,7 @@ public class CrawlerService {
         categoryEntity.setTitle(crawlerResult.getTitle());
         categoryEntity.setXpath(crawlerResult.getXpath());
         categoryEntity.setWebId(webId);
+        categoryEntity.setState("0");
         categoryEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         return categoryRepository.save(categoryEntity);
@@ -147,6 +148,7 @@ public class CrawlerService {
         webEntity.setUrl(crawlerResult.getOrigin());
         webEntity.setTitle("null");
         webEntity.setUserId(crawlerResult.getUserId());
+        webEntity.setState("0");
         webEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         webEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         return webRepository.save(webEntity);

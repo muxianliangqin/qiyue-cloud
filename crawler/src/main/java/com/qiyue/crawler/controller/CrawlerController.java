@@ -1,5 +1,6 @@
 package com.qiyue.crawler.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qiyue.crawler.dao.entity.CategoryEntity;
 import com.qiyue.crawler.dao.entity.WebEntity;
 import com.qiyue.crawler.self.Response;
@@ -63,7 +64,9 @@ public class CrawlerController {
     }
 
     @RequestMapping("/plugin/save")
-    public Response pluginResultSave(CrawlerResult crawlerResult){
+    public Response pluginResultSave(@RequestParam("crawlerResult") String json){
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        CrawlerResult crawlerResult = JSONObject.toJavaObject(jsonObject, CrawlerResult.class);
         return crawlerService.pluginResultSave(crawlerResult);
     }
 
