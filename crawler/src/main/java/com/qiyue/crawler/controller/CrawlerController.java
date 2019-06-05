@@ -3,6 +3,7 @@ package com.qiyue.crawler.controller;
 import com.qiyue.crawler.dao.entity.CategoryEntity;
 import com.qiyue.crawler.dao.entity.WebEntity;
 import com.qiyue.crawler.self.Response;
+import com.qiyue.crawler.self.entity.CrawlerResult;
 import com.qiyue.crawler.service.CrawlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -26,9 +27,9 @@ public class CrawlerController {
     }
 
     @RequestMapping("/findNews")
-    public Response findByCategoryUrl(@RequestParam(value = "categoryUrl") String categoryUrl,
+    public Response findByCategoryUrl(@RequestParam(value = "categoryId") int categoryId,
                                                @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
-        return crawlerService.findByCategoryUrlAndState(categoryUrl,pageable);
+        return crawlerService.findByCategoryUrlAndState(categoryId,pageable);
     }
 
     @RequestMapping("/deleteWeb")
@@ -37,7 +38,7 @@ public class CrawlerController {
     }
 
     @RequestMapping("/addWeb")
-    public Response addWeb(String title, String url, String userId){
+    public Response addWeb(String title, String url, int userId){
         return crawlerService.addWeb(title, url, userId);
     }
 
@@ -60,4 +61,10 @@ public class CrawlerController {
     public Response modifyCategory(CategoryEntity categoryEntity){
         return crawlerService.modifyCategory(categoryEntity);
     }
+
+    @RequestMapping("/plugin/save")
+    public Response pluginResultSave(CrawlerResult crawlerResult){
+        return crawlerService.pluginResultSave(crawlerResult);
+    }
+
 }

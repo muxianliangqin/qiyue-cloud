@@ -16,6 +16,7 @@ import java.util.List;
 public class WebEntity implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 

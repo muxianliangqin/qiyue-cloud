@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity,Integer> {
 
@@ -26,4 +27,6 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity,Integer
             @Param("url") String url,
             @Param("xpath") String xpath,
             @Param("webId") int webId);
+
+    Optional<CategoryEntity> findByUrl(String url);
 }

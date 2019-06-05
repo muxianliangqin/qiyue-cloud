@@ -11,6 +11,7 @@ import javax.persistence.*;
 })
 public class NewsEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -20,8 +21,8 @@ public class NewsEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "category_url")
-    private String categoryUrl;
+    @Column(name = "category_id")
+    private int categoryId;
 
     @Column(name = "news_state")
     private String state;

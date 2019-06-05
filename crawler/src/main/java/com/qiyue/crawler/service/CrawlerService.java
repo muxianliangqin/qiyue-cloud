@@ -9,6 +9,8 @@ import com.qiyue.crawler.dao.repo.NewsRepository;
 import com.qiyue.crawler.dao.repo.WebRepository;
 import com.qiyue.crawler.except.BaseExcept;
 import com.qiyue.crawler.self.Response;
+import com.qiyue.crawler.self.entity.CrawlerResult;
+import com.qiyue.crawler.self.entity.NewsLink;
 import com.qiyue.crawler.util.BaseUtil;
 import com.qiyue.crawler.util.DateUtil;
 import com.qiyue.crawler.util.SqlUtil;
@@ -19,10 +21,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CrawlerService {
@@ -42,8 +42,8 @@ public class CrawlerService {
         return Response.success(webEntityPage);
     }
 
-    public Response findByCategoryUrlAndState(String categoryUrl,Pageable pageable){
-        Page<NewsEntity> newsEntityPage = newsRepository.findByCategoryUrlAndState(categoryUrl,"0", pageable);
+    public Response findByCategoryUrlAndState(int categoryId,Pageable pageable){
+        Page<NewsEntity> newsEntityPage = newsRepository.findByCategoryIdAndState(categoryId,"0", pageable);
         return Response.success(newsEntityPage);
     }
 
@@ -55,7 +55,7 @@ public class CrawlerService {
     }
 
     @Transactional
-    public Response addWeb(String title, String url, String userId) {
+    public Response addWeb(String title, String url, int userId) {
         long num = webRepository.add(title, url, userId);
         return Response.success(num);
     }
@@ -97,4 +97,60 @@ public class CrawlerService {
         CategoryEntity newOne = categoryRepository.saveAndFlush(categoryEntity);
         return Response.success(newOne);
     }
+
+    @Transactional
+    public Response pluginResultSave(CrawlerResult crawlerResult) {
+        Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findByUrl(crawlerResult.getBaseURI());
+        if (categoryEntityOptional.isPresent()) {
+            saveNewsEntities(categoryEntityOptional.get().getId(), crawlerResult);
+        } else {
+            Optional<WebEntity> optionalWebEntity = webRepository.findByUrl(crawlerResult.getOrigin());
+            if (optionalWebEntity.isPresent()) {
+                CategoryEntity categoryEntity = saveCategoryEntities(optionalWebEntity.get().getId(),crawlerResult);
+                List<NewsEntity> newsEntities = saveNewsEntities(categoryEntity.getId(),crawlerResult);
+            } else {
+                WebEntity webEntity = saveWebEntities(crawlerResult);
+                CategoryEntity categoryEntity = saveCategoryEntities(webEntity.getId(),crawlerResult);
+                List<NewsEntity> newsEntities = saveNewsEntities(categoryEntity.getId(),crawlerResult);
+            }
+        }
+        return Response.success("ok");
+    }
+
+    private List<NewsEntity> saveNewsEntities(int categoryId, CrawlerResult crawlerResult) {
+        List<NewsLink> newsLinks = crawlerResult.getValidResults();
+        List<NewsEntity> newsEntities = newsLinks.stream().map((v)->{
+            NewsEntity newsEntity = new NewsEntity();
+            newsEntity.setUrl(v.getHref());
+            newsEntity.setTitle(v.getTitle());
+            newsEntity.setCategoryId(categoryId);
+            newsEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+            newsEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+            return newsEntity;
+        }).collect(Collectors.toList());
+        return newsRepository.saveAll(newsEntities);
+    }
+
+    private CategoryEntity saveCategoryEntities(int webId, CrawlerResult crawlerResult) {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setUrl(crawlerResult.getBaseURI());
+        categoryEntity.setTitle(crawlerResult.getTitle());
+        categoryEntity.setXpath(crawlerResult.getXpath());
+        categoryEntity.setWebId(webId);
+        categoryEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        return categoryRepository.save(categoryEntity);
+    }
+
+    private WebEntity saveWebEntities(CrawlerResult crawlerResult) {
+        WebEntity webEntity = new WebEntity();
+        webEntity.setUrl(crawlerResult.getOrigin());
+        webEntity.setTitle("null");
+        webEntity.setUserId(crawlerResult.getUserId());
+        webEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        webEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        return webRepository.save(webEntity);
+    }
+
+
 }
