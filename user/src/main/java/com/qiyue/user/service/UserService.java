@@ -82,8 +82,6 @@ public class UserService {
     public UserEntity userMessageFilter(UserEntity user) {
         user.setPassword(null);
         user.setSalt(null);
-        user.setToken(null);
-        user.setOpenid(null);
         return user;
     }
 
