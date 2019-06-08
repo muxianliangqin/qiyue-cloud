@@ -12,5 +12,6 @@ public class CrawlerResult {
     private String baseURI;
     private String title;
     private String xpath;
+    private String charset;
     private ArrayList<NewsLink> validResults;
 }

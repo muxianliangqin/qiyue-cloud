@@ -27,6 +27,9 @@ public class CategoryEntity {
     @Column(name = "web_id")
     private int webId;
 
+    @Column(name = "charset")
+    private String charset;
+
     @Column(name = "category_state")
     private String state;
 

@@ -135,6 +135,7 @@ public class CrawlerService {
         categoryEntity.setUrl(crawlerResult.getBaseURI());
         categoryEntity.setTitle(crawlerResult.getTitle());
         categoryEntity.setXpath(crawlerResult.getXpath());
+        categoryEntity.setCharset(crawlerResult.getCharset());
         categoryEntity.setWebId(webId);
         categoryEntity.setState("0");
         categoryEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
