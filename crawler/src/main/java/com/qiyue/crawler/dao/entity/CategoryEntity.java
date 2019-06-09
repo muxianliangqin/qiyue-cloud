@@ -30,6 +30,9 @@ public class CategoryEntity {
     @Column(name = "charset")
     private String charset;
 
+    @Column(name = "new_num")
+    private int newNum;
+
     @Column(name = "category_state")
     private String state;
 

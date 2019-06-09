@@ -43,7 +43,12 @@ public class CrawlerService {
         return Response.success(webEntityPage);
     }
 
-    public Response findByCategoryUrlAndState(int categoryId,Pageable pageable){
+    public Response findByUserIdInAndState(List<Integer> userIds,Pageable pageable){
+        Page<WebEntity> webEntityPage = webRepository.findByUserIdInAndState(userIds,"0",pageable);
+        return Response.success(webEntityPage);
+    }
+
+    public Response findByCategoryIdAndState(int categoryId,Pageable pageable){
         Page<NewsEntity> newsEntityPage = newsRepository.findByCategoryIdAndState(categoryId,"0", pageable);
         return Response.success(newsEntityPage);
     }
@@ -81,8 +86,8 @@ public class CrawlerService {
     }
 
     @Transactional
-    public Response addCategory(String title, String url, String xpath, int webId) {
-        long num = categoryRepository.add(title, url, xpath, webId);
+    public Response addCategory(String title, String url, String xpath, String charset, int webId) {
+        long num = categoryRepository.add(title, url, xpath, charset,  webId);
         return Response.success(num);
     }
 
@@ -138,6 +143,7 @@ public class CrawlerService {
         categoryEntity.setCharset(crawlerResult.getCharset());
         categoryEntity.setWebId(webId);
         categoryEntity.setState("0");
+        categoryEntity.setNewNum(0);
         categoryEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         return categoryRepository.save(categoryEntity);
@@ -154,5 +160,15 @@ public class CrawlerService {
         return webRepository.save(webEntity);
     }
 
+    @Transactional
+    public Response categoryHasRead(int categoryId) {
+        int num = categoryRepository.hasRead(categoryId);
+        return Response.success(num);
+    }
 
+    @Transactional
+    public Response newsHasRead(int newsId) {
+        int num = newsRepository.hasRead(newsId);
+        return Response.success(num);
+    }
 }

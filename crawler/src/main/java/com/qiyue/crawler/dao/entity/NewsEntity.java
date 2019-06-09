@@ -24,6 +24,9 @@ public class NewsEntity {
     @Column(name = "category_id")
     private int categoryId;
 
+    @Column(name = "unread")
+    private String unread;
+
     @Column(name = "news_state")
     private String state;
 

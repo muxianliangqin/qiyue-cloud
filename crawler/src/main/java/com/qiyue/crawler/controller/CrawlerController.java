@@ -22,15 +22,15 @@ public class CrawlerController {
     private CrawlerService crawlerService;
 
     @RequestMapping("/findWebs")
-    public Response findWebs(@RequestParam(value = "userId") int userId,
+    public Response findAllByUserIdAndState(@RequestParam(value = "userIds") List<Integer> userIds,
                              @PageableDefault(sort = {"updateTime"},direction = Sort.Direction.DESC) Pageable pageable){
-        return crawlerService.findWebs(userId,pageable);
+        return crawlerService.findByUserIdInAndState(userIds,pageable);
     }
 
     @RequestMapping("/findNews")
-    public Response findByCategoryUrl(@RequestParam(value = "categoryId") int categoryId,
+    public Response findByCategoryId(@RequestParam(value = "categoryId") int categoryId,
                                                @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
-        return crawlerService.findByCategoryUrlAndState(categoryId,pageable);
+        return crawlerService.findByCategoryIdAndState(categoryId,pageable);
     }
 
     @RequestMapping("/deleteWeb")
@@ -54,8 +54,8 @@ public class CrawlerController {
     }
 
     @RequestMapping("/addCategory")
-    public Response addCategory(String title, String url, String xpath, int webId){
-        return crawlerService.addCategory(title, url, xpath, webId);
+    public Response addCategory(String title, String url, String xpath, String charset, int webId){
+        return crawlerService.addCategory(title, url, xpath, charset, webId);
     }
 
     @RequestMapping("/modifyCategory")
@@ -70,4 +70,13 @@ public class CrawlerController {
         return crawlerService.pluginResultSave(crawlerResult);
     }
 
+    @RequestMapping("/categoryHasRead")
+    public Response categoryHasRead(int categoryId) {
+        return crawlerService.categoryHasRead(categoryId);
+    }
+
+    @RequestMapping("/newsHasRead")
+    public Response newsHasRead(int newsId) {
+        return crawlerService.newsHasRead(newsId);
+    }
 }
