@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface MenuRepository extends JpaRepository<MenuEntity, String> {
+public interface MenuRepository extends JpaRepository<MenuEntity, Integer> {
     @Query(value = "select distinct(m.id),m.code,m.name,m.super_code,m.url,m.menu_desc, \n" +
             "            m.menu_state,m.create_time,m.create_user,m.update_time,m.update_user,m.xpath\n" +
             "   from menu m \n" +

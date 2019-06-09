@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import com.qiyue.user.constant.Constant;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.RightEntity;
+import com.qiyue.user.dao.entity.RightEqualEntity;
 import com.qiyue.user.dao.entity.UserEntity;
 import com.qiyue.user.dao.repository.MenuRepository;
+import com.qiyue.user.dao.repository.RightEqualRepository;
 import com.qiyue.user.dao.repository.RightRepository;
 import com.qiyue.user.dao.repository.UserRepository;
 import com.qiyue.user.node.Menu;
@@ -22,10 +24,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,8 +39,22 @@ public class UserService {
     @Autowired
     private RightRepository rightRepository;
 
+    @Autowired
+    private RightEqualRepository rightEqualRepository;
+
     public Response getMenuNode(int userId){
         List<MenuEntity> menuEntities = menuRepository.getMenus(userId);
+        List<RightEqualEntity> rightEqualEntities = rightEqualRepository.findByUserIdAndState(userId, "0");
+        Map<String,List<Integer>> rightEqual = new HashMap<>();
+        rightEqualEntities.forEach((v)->{
+            if (!rightEqual.containsKey(v.getMenuCode())) {
+                List<Integer> rights = new ArrayList<>();
+                rights.add(v.getEqualUserId());
+                rightEqual.put(v.getMenuCode(),rights);
+            } else {
+                rightEqual.get(v.getMenuCode()).add(v.getEqualUserId());
+            }
+        });
         Node node = NodeTree.getInstance();
         menuEntities.forEach(menuEntity->{
             Menu menu = new Menu();
@@ -51,6 +64,7 @@ public class UserService {
             menu.setSupId(menuEntity.getSuperCode());
             menu.setDesc(menuEntity.getDesc());
             menu.setXpath(menuEntity.getXpath());
+            menu.setRightEqual(rightEqual.get(menuEntity.getCode()));
             NodeTree.insert(node,menu);
         });
         JSONObject json = JSON.parseObject(node.toString());

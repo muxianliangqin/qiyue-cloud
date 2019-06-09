@@ -3,6 +3,7 @@ package com.qiyue.user.node;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class Menu extends Root implements Serializable {
@@ -18,6 +19,8 @@ public class Menu extends Root implements Serializable {
     private String url;
 
     private String xpath;
+
+    private List<Integer> rightEqual;
 
     public Menu() {
         super();
@@ -41,6 +44,7 @@ public class Menu extends Root implements Serializable {
                 ", 'desc':'" + desc + '\'' +
                 ", 'url':'" + url + '\'' +
                 ", 'xpath':'" + xpath + '\'' +
+                ", 'rightEqual':'" + rightEqual + '\'' +
                 '}';
     }
 }
