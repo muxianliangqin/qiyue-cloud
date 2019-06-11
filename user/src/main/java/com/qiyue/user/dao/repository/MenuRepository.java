@@ -4,9 +4,12 @@ import com.qiyue.user.dao.entity.MenuEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<MenuEntity, Integer> {
     @Query(value = "select distinct(m.id),m.code,m.name,m.super_code,m.url,m.menu_desc, \n" +
@@ -21,4 +24,21 @@ public interface MenuRepository extends JpaRepository<MenuEntity, Integer> {
     public List<MenuEntity> getMenus(int userId);
 
     Page<MenuEntity> findAll(Pageable pageable);
+
+    @Query(value = "update menu set menu_state = '1' where id = :id",
+            nativeQuery = true)
+    @Modifying
+    int stop(@Param("id") int id);
+
+    @Query(value = "update menu set menu_state = '0' where id = :id",
+            nativeQuery = true)
+    @Modifying
+    int restart(@Param("id") int id);
+
+    @Query(value = "insert into menu (code,name,super_code) values (:code,:name,:superCode)",
+            nativeQuery = true)
+    @Modifying
+    int add(@Param("code") String code,
+            @Param("name") String name,
+            @Param("superCode") String superCode);
 }

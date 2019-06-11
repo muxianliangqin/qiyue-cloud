@@ -1,75 +1,29 @@
 package com.qiyue.user.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.qiyue.user.constant.Constant;
-import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.RightEntity;
-import com.qiyue.user.dao.entity.RightEqualEntity;
 import com.qiyue.user.dao.entity.UserEntity;
-import com.qiyue.user.dao.repository.MenuRepository;
-import com.qiyue.user.dao.repository.RightEqualRepository;
 import com.qiyue.user.dao.repository.RightRepository;
 import com.qiyue.user.dao.repository.UserRepository;
-import com.qiyue.user.node.Menu;
-import com.qiyue.user.node.Node;
-import com.qiyue.user.node.NodeTree;
-import com.qiyue.user.self.Error;
 import com.qiyue.user.self.Response;
 import com.qiyue.user.util.BaseUtil;
+import com.qiyue.user.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-
-    @Autowired
-    private MenuRepository menuRepository;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private RightRepository rightRepository;
-
-    @Autowired
-    private RightEqualRepository rightEqualRepository;
-
-    public Response getMenuNode(int userId){
-        List<MenuEntity> menuEntities = menuRepository.getMenus(userId);
-        List<RightEqualEntity> rightEqualEntities = rightEqualRepository.findByUserIdAndState(userId, "0");
-        Map<String,List<Integer>> rightEqual = new HashMap<>();
-        rightEqualEntities.forEach((v)->{
-            if (!rightEqual.containsKey(v.getMenuCode())) {
-                List<Integer> rights = new ArrayList<>();
-                rights.add(v.getEqualUserId());
-                rightEqual.put(v.getMenuCode(),rights);
-            } else {
-                rightEqual.get(v.getMenuCode()).add(v.getEqualUserId());
-            }
-        });
-        Node node = NodeTree.getInstance();
-        menuEntities.forEach(menuEntity->{
-            Menu menu = new Menu();
-            menu.setId(menuEntity.getCode());
-            menu.setName(menuEntity.getName());
-            menu.setUrl(menuEntity.getUrl());
-            menu.setSupId(menuEntity.getSuperCode());
-            menu.setDesc(menuEntity.getDesc());
-            menu.setXpath(menuEntity.getXpath());
-            menu.setRightEqual(rightEqual.get(menuEntity.getCode()));
-            NodeTree.insert(node,menu);
-        });
-        JSONObject json = JSON.parseObject(node.toString());
-        return Response.success(json);
-    }
 
     public Response login(String username, String password) throws Exception {
         Optional<UserEntity> userEntity = userRepository.findByMobile(username);
@@ -99,16 +53,59 @@ public class UserService {
         return user;
     }
 
-    public Response findUsers(Pageable pageable){
+    public Response userFindAll(Pageable pageable){
         Page<UserEntity> userEntityPage = userRepository.findAll(pageable);
         userEntityPage.getContent().forEach((k)->{k = userMessageFilter(k);});
         return Response.success(userEntityPage);
     }
 
-    public Response findMenus(Pageable pageable){
-        Page<MenuEntity> menuEntityPage = menuRepository.findAll(pageable);
-        return Response.success(menuEntityPage);
+    @Transactional
+    public Response userDel(int userId){
+        userRepository.deleteById(userId);
+        return Response.success("ok");
     }
+
+    @Transactional
+    public Response userStop(int userId){
+        int num = userRepository.stop(userId);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response userRestart(int userId){
+        int num = userRepository.restart(userId);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response userAdd(UserEntity userEntity) throws Exception {
+        String salt = BaseUtil.getRandomString(20,Constant.TYPE_MIX);
+        String password = BaseUtil.encrypt(userEntity.getPassword(),salt);
+        int num = userRepository.add(userEntity.getUsername(),
+                userEntity.getMobile(),
+                password,
+                salt,
+                userEntity.getAlias(),
+                userEntity.getGender());
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response userModify(UserEntity userEntity){
+        Optional<UserEntity> userEntityOptional = userRepository.findById(userEntity.getId());
+        if (!userEntityOptional.isPresent()) {
+            Response.fail("NO_RECORD");
+        }
+        UserEntity oldOne = userEntityOptional.get();
+        oldOne.setUsername(userEntity.getUsername());
+        oldOne.setMobile(userEntity.getMobile());
+        oldOne.setAlias(userEntity.getAlias());
+        oldOne.setGender(userEntity.getGender());
+        oldOne.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        UserEntity newOne = userRepository.saveAndFlush(oldOne);
+        return Response.success(newOne);
+    }
+
 
     public Response findRights(Pageable pageable){
         Page<RightEntity> rightEntityPage = rightRepository.findAll(pageable);
