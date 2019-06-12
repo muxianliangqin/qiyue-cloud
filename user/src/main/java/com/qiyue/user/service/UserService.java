@@ -22,9 +22,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private RightRepository rightRepository;
-
     public Response login(String username, String password) throws Exception {
         Optional<UserEntity> userEntity = userRepository.findByMobile(username);
         if (userEntity.isPresent()) {
@@ -60,20 +57,20 @@ public class UserService {
     }
 
     @Transactional
-    public Response userDel(int userId){
-        userRepository.deleteById(userId);
+    public Response userDel(int id){
+        userRepository.deleteById(id);
         return Response.success("ok");
     }
 
     @Transactional
-    public Response userStop(int userId){
-        int num = userRepository.stop(userId);
+    public Response userStop(int id){
+        int num = userRepository.stop(id);
         return Response.success(num);
     }
 
     @Transactional
-    public Response userRestart(int userId){
-        int num = userRepository.restart(userId);
+    public Response userRestart(int id){
+        int num = userRepository.restart(id);
         return Response.success(num);
     }
 
@@ -104,12 +101,6 @@ public class UserService {
         oldOne.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         UserEntity newOne = userRepository.saveAndFlush(oldOne);
         return Response.success(newOne);
-    }
-
-
-    public Response findRights(Pageable pageable){
-        Page<RightEntity> rightEntityPage = rightRepository.findAll(pageable);
-        return Response.success(rightEntityPage);
     }
 
 }

@@ -64,20 +64,20 @@ public class MenuService {
     }
 
     @Transactional
-    public Response menuDel(int menuId){
-        menuRepository.deleteById(menuId);
+    public Response menuDel(int id){
+        menuRepository.deleteById(id);
         return Response.success("ok");
     }
 
     @Transactional
-    public Response menuStop(int menuId){
-        int num = menuRepository.stop(menuId);
+    public Response menuStop(int id){
+        int num = menuRepository.stop(id);
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuRestart(int menuId){
-        int num = menuRepository.restart(menuId);
+    public Response menuRestart(int id){
+        int num = menuRepository.restart(id);
         return Response.success(num);
     }
 

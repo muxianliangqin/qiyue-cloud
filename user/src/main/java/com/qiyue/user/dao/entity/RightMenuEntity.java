@@ -15,7 +15,7 @@ public class RightMenuEntity {
     private int id;
 
     @Column(name = "right_code")
-    private String roleCode;
+    private String rightCode;
 
    @Column(name = "menu_code")
     private String menuCode;
