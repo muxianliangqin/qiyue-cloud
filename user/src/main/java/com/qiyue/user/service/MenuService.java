@@ -1,7 +1,5 @@
 package com.qiyue.user.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.qiyue.user.constant.Constant;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.RightEqualEntity;
@@ -9,7 +7,6 @@ import com.qiyue.user.dao.repository.MenuRepository;
 import com.qiyue.user.dao.repository.RightEqualRepository;
 import com.qiyue.user.node.Menu;
 import com.qiyue.user.node.Node;
-import com.qiyue.user.node.NodeTree;
 import com.qiyue.user.self.Response;
 import com.qiyue.user.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,30 +29,28 @@ public class MenuService {
     public Response getMenuNode(int userId){
         List<MenuEntity> menuEntities = menuRepository.getMenus(userId);
         List<RightEqualEntity> rightEqualEntities = rightEqualRepository.findByUserIdAndState(userId, "0");
-        Map<String,List<Integer>> rightEqual = new HashMap<>();
+        Map<String,List<Integer>> equalUsers = new HashMap<>();
         rightEqualEntities.forEach((v)->{
-            if (!rightEqual.containsKey(v.getMenuCode())) {
+            if (!equalUsers.containsKey(v.getMenuCode())) {
                 List<Integer> rights = new ArrayList<>();
                 rights.add(v.getEqualUserId());
-                rightEqual.put(v.getMenuCode(),rights);
+                equalUsers.put(v.getMenuCode(),rights);
             } else {
-                rightEqual.get(v.getMenuCode()).add(v.getEqualUserId());
+                equalUsers.get(v.getMenuCode()).add(v.getEqualUserId());
             }
         });
-        Node node = NodeTree.getInstance();
+        Node node = new Node();
         menuEntities.forEach(menuEntity->{
             Menu menu = new Menu();
-            menu.setId(menuEntity.getCode());
+            menu.setCode(menuEntity.getCode());
             menu.setName(menuEntity.getName());
             menu.setUrl(menuEntity.getUrl());
-            menu.setSupId(menuEntity.getSuperCode());
+            menu.setSuperCode(menuEntity.getSuperCode());
             menu.setDesc(menuEntity.getDesc());
-            menu.setXpath(menuEntity.getXpath());
-            menu.setRightEqual(rightEqual.get(menuEntity.getCode()));
-            NodeTree.insert(node,menu);
+            menu.setEqualUsers(equalUsers.get(menuEntity.getCode()));
+            node.insert(node,menu);
         });
-        JSONObject json = JSON.parseObject(node.toString());
-        return Response.success(json);
+        return Response.success(node);
     }
 
     public Response menuFindAll(Pageable pageable){

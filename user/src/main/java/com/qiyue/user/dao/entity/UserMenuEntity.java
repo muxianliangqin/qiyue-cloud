@@ -6,32 +6,21 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "menu",uniqueConstraints = {
-        @UniqueConstraint(columnNames = "code")
-})
-public class MenuEntity {
+@Table(name = "user_menu")
+public class UserMenuEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "code")
-    private String code;
+    @Column(name = "user_id")
+    private int userId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "menu_code")
+    private String menuCode;
 
-    @Column(name = "url")
-    private String url;
-
-    @Column(name = "menu_desc")
-    private String desc;
-
-    @Column(name = "super_code")
-    private String superCode;
-
-    @Column(name = "menu_state")
+    @Column(name = "state")
     private String state;
 
     @Column(name = "create_time")
@@ -45,5 +34,4 @@ public class MenuEntity {
 
     @Column(name = "update_user")
     private String updateUser;
-
 }

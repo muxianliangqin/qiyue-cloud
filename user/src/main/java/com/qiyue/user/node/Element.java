@@ -1,10 +1,27 @@
 package com.qiyue.user.node;
 
-public interface Element {
+import lombok.Data;
 
-    public String getId();
+@Data
+public class Element {
+    private String code;
 
-    public String getSupId();
+    private String superCode;
 
-    public String toString();
+    public Element() {
+
+    }
+
+    public Element(String code, String superCode) {
+        this.code = code;
+        this.superCode = superCode;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "{" +
+//                "'code':'" + code + '\'' +
+//                ", 'superCode':'" + superCode + '\'' +
+//                '}';
+//    }
 }

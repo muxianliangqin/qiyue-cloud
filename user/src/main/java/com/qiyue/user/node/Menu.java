@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class Menu extends Root implements Serializable {
+public class Menu extends Element implements Serializable {
     /**
      *
      */
@@ -18,33 +18,30 @@ public class Menu extends Root implements Serializable {
 
     private String url;
 
-    private String xpath;
+    private List<Integer> equalUsers;
 
-    private List<Integer> rightEqual;
-
-    public Menu() {
+    public Menu(){
         super();
     }
 
-    public Menu(String id, String supId) {
-        super(id,supId);
+    public Menu(String code, String superCode) {
+        super(code,superCode);
     }
 
-    public Menu(String id, String name, String supId) {
-        super(id,supId);
+    public Menu(String code, String name, String superCode) {
+        super(code,superCode);
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "'id':'" + super.getId() + '\'' +
-                ", 'supId':'" + super.getSupId() + '\'' +
-                ", 'name':'" + name + '\'' +
-                ", 'desc':'" + desc + '\'' +
-                ", 'url':'" + url + '\'' +
-                ", 'xpath':'" + xpath + '\'' +
-                ", 'rightEqual':'" + rightEqual + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "{" +
+//                "'code':'" + super.getCode() + '\'' +
+//                ", 'superCode':'" + super.getSuperCode() + '\'' +
+//                ", 'name':'" + name + '\'' +
+//                ", 'desc':'" + desc + '\'' +
+//                ", 'url':'" + url + '\'' +
+//                ", 'rightEqual':'" + equalUsers + '\'' +
+//                '}';
+//    }
 }

@@ -6,6 +6,7 @@ public enum Error {
     LOGIN_ERROR("0001","用户名或密码不正确"),
     TOKEN_ERROR("0002","token码错误"),
     NO_RECORD("0003","记录不存在"),
+    USER_MENU_INSERT_BATCH_ERROR("0004","user_menu表批量插入失败"),
 
     /* 系统错误区 */
     ENUM_ERROR("9998","枚举名称错误"),
