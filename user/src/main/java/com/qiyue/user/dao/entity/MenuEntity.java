@@ -1,15 +1,19 @@
 package com.qiyue.user.dao.entity;
 
+import com.qiyue.user.node.Element;
 import lombok.Data;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "menu",uniqueConstraints = {
         @UniqueConstraint(columnNames = "code")
 })
-public class MenuEntity {
+public class MenuEntity extends Element implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,5 +49,11 @@ public class MenuEntity {
 
     @Column(name = "update_user")
     private String updateUser;
+
+    @OneToMany
+    @JoinColumn(name = "menu_code",referencedColumnName = "code")
+    @Where(clause = "state=0")
+    @org.hibernate.annotations.OrderBy(clause = "update_time desc")
+    private List<MenuLoanEntity> menuLoanEntities;
 
 }

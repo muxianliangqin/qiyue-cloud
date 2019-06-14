@@ -6,8 +6,8 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "right_equal")
-public class RightEqualEntity {
+@Table(name = "menu_loan")
+public class MenuLoanEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +20,7 @@ public class RightEqualEntity {
     @Column(name = "menu_code")
     private String menuCode;
 
-    @Column(name = "equal_user_id")
+    @Column(name = "loan_user_id")
     private int equalUserId;
 
     @Column(name = "state")

@@ -58,6 +58,14 @@ public class Node implements Serializable {
         return false;
     }
 
+    public static Node insertBatch(List<? extends Element> elements){
+        Node node = new Node();
+        elements.forEach(k -> {
+            node.insert(node, k);
+        });
+        return node;
+    }
+
     public static void main(String[] args) {
         Menu module1 = new Menu("module1","module1","");
         Menu menu1 = new Menu("menu1","menu1","module1");

@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @EnableDiscoveryClient
@@ -77,9 +79,14 @@ public class UserController {
     }
 
     /* 菜单处理 */
+    @RequestMapping("/menu/findAllPage")
+    public Response findAll(@PageableDefault(sort = "code",direction = Sort.Direction.ASC) Pageable pageable) {
+        return menuService.findAll(pageable);
+    }
+
     @RequestMapping("/menu/findAll")
-    public Response menuFindAll(@PageableDefault(sort = "code",direction = Sort.Direction.ASC) Pageable pageable) {
-        return menuService.menuFindAll(pageable);
+    public Response menuFindAll() {
+        return menuService.menuFindAll();
     }
 
     @RequestMapping("/menu/del")
@@ -88,13 +95,13 @@ public class UserController {
     }
 
     @RequestMapping("/menu/stop")
-    public Response menuStop(int id) {
-        return menuService.menuStop(id);
+    public Response menuStop(@RequestParam(name = "ids") List<Integer> ids) {
+        return menuService.menuStop(ids);
     }
 
     @RequestMapping("/menu/restart")
-    public Response menuRestart(int id) {
-        return menuService.menuRestart(id);
+    public Response menuRestart(@RequestParam(name = "ids") List<Integer> ids) {
+        return menuService.menuRestart(ids);
     }
 
     @RequestMapping("/menu/add")

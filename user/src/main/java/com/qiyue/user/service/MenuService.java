@@ -2,7 +2,7 @@ package com.qiyue.user.service;
 
 import com.qiyue.user.constant.Constant;
 import com.qiyue.user.dao.entity.MenuEntity;
-import com.qiyue.user.dao.entity.RightEqualEntity;
+import com.qiyue.user.dao.entity.MenuLoanEntity;
 import com.qiyue.user.dao.repository.MenuRepository;
 import com.qiyue.user.dao.repository.RightEqualRepository;
 import com.qiyue.user.node.Menu;
@@ -28,34 +28,17 @@ public class MenuService {
 
     public Response getMenuNode(int userId){
         List<MenuEntity> menuEntities = menuRepository.getMenus(userId);
-        List<RightEqualEntity> rightEqualEntities = rightEqualRepository.findByUserIdAndState(userId, "0");
-        Map<String,List<Integer>> equalUsers = new HashMap<>();
-        rightEqualEntities.forEach((v)->{
-            if (!equalUsers.containsKey(v.getMenuCode())) {
-                List<Integer> rights = new ArrayList<>();
-                rights.add(v.getEqualUserId());
-                equalUsers.put(v.getMenuCode(),rights);
-            } else {
-                equalUsers.get(v.getMenuCode()).add(v.getEqualUserId());
-            }
-        });
-        Node node = new Node();
-        menuEntities.forEach(menuEntity->{
-            Menu menu = new Menu();
-            menu.setCode(menuEntity.getCode());
-            menu.setName(menuEntity.getName());
-            menu.setUrl(menuEntity.getUrl());
-            menu.setSuperCode(menuEntity.getSuperCode());
-            menu.setDesc(menuEntity.getDesc());
-            menu.setEqualUsers(equalUsers.get(menuEntity.getCode()));
-            node.insert(node,menu);
-        });
-        return Response.success(node);
+        return Response.success(Node.insertBatch(menuEntities));
     }
 
-    public Response menuFindAll(Pageable pageable){
+    public Response findAll(Pageable pageable){
         Page<MenuEntity> menuEntityPage = menuRepository.findAll(pageable);
         return Response.success(menuEntityPage);
+    }
+
+    public Response menuFindAll(){
+        List<MenuEntity> menuEntities = menuRepository.findAll();
+        return Response.success(Node.insertBatch(menuEntities));
     }
 
     @Transactional
@@ -65,20 +48,21 @@ public class MenuService {
     }
 
     @Transactional
-    public Response menuStop(int id){
-        int num = menuRepository.stop(id);
+    public Response menuStop(List<Integer> ids){
+        int num = menuRepository.stop(ids);
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuRestart(int id){
-        int num = menuRepository.restart(id);
+    public Response menuRestart(List<Integer> ids){
+        int num = menuRepository.restart(ids);
         return Response.success(num);
     }
 
     @Transactional
     public Response menuAdd(MenuEntity menuEntity){
-        int num = menuRepository.add(menuEntity.getCode(), menuEntity.getName(), menuEntity.getSuperCode());
+        int num = menuRepository.add(menuEntity.getCode(), menuEntity.getName(),
+                menuEntity.getUrl(),menuEntity.getSuperCode());
         return Response.success(num);
     }
 
