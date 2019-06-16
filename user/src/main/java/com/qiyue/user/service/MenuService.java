@@ -4,8 +4,7 @@ import com.qiyue.user.constant.Constant;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.MenuLoanEntity;
 import com.qiyue.user.dao.repository.MenuRepository;
-import com.qiyue.user.dao.repository.RightEqualRepository;
-import com.qiyue.user.node.Menu;
+import com.qiyue.user.dao.repository.MenuLoanRepository;
 import com.qiyue.user.node.Node;
 import com.qiyue.user.self.Response;
 import com.qiyue.user.util.DateUtil;
@@ -24,10 +23,15 @@ public class MenuService {
     private MenuRepository menuRepository;
 
     @Autowired
-    private RightEqualRepository rightEqualRepository;
+    private MenuLoanRepository menuLoanRepository;
 
     public Response getMenuNode(int userId){
         List<MenuEntity> menuEntities = menuRepository.getMenus(userId);
+        menuEntities.forEach(v -> {
+            if (v.getMenuLoanEntities().size() > 0) {
+                v.getMenuLoanEntities().stream().filter(k -> {return userId == k.getUserId();});
+            }
+        });
         return Response.success(Node.insertBatch(menuEntities));
     }
 
@@ -48,14 +52,32 @@ public class MenuService {
     }
 
     @Transactional
-    public Response menuStop(List<Integer> ids){
-        int num = menuRepository.stop(ids);
+    public Response menuStop(int id){
+        int num = menuRepository.stop(id);
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuRestart(List<Integer> ids){
-        int num = menuRepository.restart(ids);
+    public Response menuRestart(int id){
+        int num = menuRepository.restart(id);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response menuDelBatch(List<Integer> ids){
+        int num = menuRepository.delBatch(ids);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response menuStopBatch(List<Integer> ids){
+        int num = menuRepository.stopBatch(ids);
+        return Response.success(num);
+    }
+
+    @Transactional
+    public Response menuRestartBatch(List<Integer> ids){
+        int num = menuRepository.restartBatch(ids);
         return Response.success(num);
     }
 

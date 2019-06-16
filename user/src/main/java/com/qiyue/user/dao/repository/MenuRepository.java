@@ -23,15 +23,30 @@ public interface MenuRepository extends JpaRepository<MenuEntity, Integer> {
 
     Page<MenuEntity> findAll(Pageable pageable);
 
+    @Query(value = "update menu set menu_state = '1' where id = :id",
+            nativeQuery = true)
+    @Modifying
+    int stop(@Param("id") int id);
+
+    @Query(value = "update menu set menu_state = '0' where id = :id",
+            nativeQuery = true)
+    @Modifying
+    int restart(@Param("id") int id);
+
+    @Query(value = "delete from menu where id in :ids",
+            nativeQuery = true)
+    @Modifying
+    int delBatch(@Param("ids") List<Integer> ids);
+
     @Query(value = "update menu set menu_state = '1' where id in :ids",
             nativeQuery = true)
     @Modifying
-    int stop(@Param("ids") List<Integer> ids);
+    int stopBatch(@Param("ids") List<Integer> ids);
 
     @Query(value = "update menu set menu_state = '0' where id in :ids",
             nativeQuery = true)
     @Modifying
-    int restart(@Param("ids") List<Integer> ids);
+    int restartBatch(@Param("ids") List<Integer> ids);
 
     @Query(value = "insert into menu (code,name,url,super_code)" +
             " values (:code,:name,:url,:superCode)",

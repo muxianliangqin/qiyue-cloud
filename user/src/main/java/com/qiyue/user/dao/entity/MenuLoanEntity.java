@@ -21,7 +21,7 @@ public class MenuLoanEntity {
     private String menuCode;
 
     @Column(name = "loan_user_id")
-    private int equalUserId;
+    private int loanUserId;
 
     @Column(name = "state")
     private String state;

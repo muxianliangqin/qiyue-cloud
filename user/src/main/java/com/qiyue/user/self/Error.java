@@ -7,6 +7,7 @@ public enum Error {
     TOKEN_ERROR("0002","token码错误"),
     NO_RECORD("0003","记录不存在"),
     USER_MENU_INSERT_BATCH_ERROR("0004","user_menu表批量插入失败"),
+    USER_MENU_INSERT_EMPTY_INPUT_ERROR("0004","user_menu表批量插入输入参数为空"),
 
     /* 系统错误区 */
     ENUM_ERROR("9998","枚举名称错误"),

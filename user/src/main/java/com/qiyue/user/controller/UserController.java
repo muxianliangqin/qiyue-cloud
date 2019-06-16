@@ -1,8 +1,10 @@
 package com.qiyue.user.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.RightEntity;
 import com.qiyue.user.dao.entity.UserEntity;
+import com.qiyue.user.dao.entity.UserMenuEntity;
 import com.qiyue.user.self.Response;
 import com.qiyue.user.service.MenuService;
 import com.qiyue.user.service.RightService;
@@ -48,9 +50,14 @@ public class UserController {
     }
 
     /* 用户处理 */
+    @RequestMapping("/user/findAllPage")
+    public Response findAllPage(@PageableDefault(sort = "id",direction = Sort.Direction.ASC) Pageable pageable) {
+        return userService.findAllPage(pageable);
+    }
+
     @RequestMapping("/user/findAll")
-    public Response userFindAll(@PageableDefault(sort = "id",direction = Sort.Direction.ASC) Pageable pageable) {
-        return userService.userFindAll(pageable);
+    public Response findAll() {
+        return userService.findAll();
     }
 
     @RequestMapping("/user/del")
@@ -78,6 +85,17 @@ public class UserController {
         return userService.userModify(userEntity);
     }
 
+    @RequestMapping("/user/findUserMenus")
+    public Response findUserMenus(int userId) {
+        return userService.findUserMenus(userId);
+    }
+
+    @RequestMapping("/user/setUserMenus")
+    public Response setUserMenus(@RequestParam("userMenuEntities") String json) {
+        List<UserMenuEntity> userMenuEntities = JSONObject.parseArray(json, UserMenuEntity.class);
+        return userService.setUserMenus(userMenuEntities);
+    }
+
     /* 菜单处理 */
     @RequestMapping("/menu/findAllPage")
     public Response findAll(@PageableDefault(sort = "code",direction = Sort.Direction.ASC) Pageable pageable) {
@@ -95,13 +113,28 @@ public class UserController {
     }
 
     @RequestMapping("/menu/stop")
-    public Response menuStop(@RequestParam(name = "ids") List<Integer> ids) {
-        return menuService.menuStop(ids);
+    public Response menuStop(@RequestParam(name = "id") int id) {
+        return menuService.menuStop(id);
     }
 
     @RequestMapping("/menu/restart")
-    public Response menuRestart(@RequestParam(name = "ids") List<Integer> ids) {
-        return menuService.menuRestart(ids);
+    public Response menuRestart(@RequestParam(name = "id") int id) {
+        return menuService.menuRestart(id);
+    }
+
+    @RequestMapping("/menu/delBatch")
+    public Response menuDelBatch(@RequestParam(name = "ids") List<Integer> ids) {
+        return menuService.menuDelBatch(ids);
+    }
+
+    @RequestMapping("/menu/stopBatch")
+    public Response menuStopBatch(@RequestParam(name = "ids") List<Integer> ids) {
+        return menuService.menuStopBatch(ids);
+    }
+
+    @RequestMapping("/menu/restartBatch")
+    public Response menuRestartBatch(@RequestParam(name = "ids") List<Integer> ids) {
+        return menuService.menuRestartBatch(ids);
     }
 
     @RequestMapping("/menu/add")

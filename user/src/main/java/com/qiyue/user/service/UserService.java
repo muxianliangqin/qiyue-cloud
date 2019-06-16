@@ -1,9 +1,12 @@
 package com.qiyue.user.service;
 
 import com.qiyue.user.constant.Constant;
+import com.qiyue.user.dao.em.UserMenuEntityManager;
 import com.qiyue.user.dao.entity.RightEntity;
 import com.qiyue.user.dao.entity.UserEntity;
+import com.qiyue.user.dao.entity.UserMenuEntity;
 import com.qiyue.user.dao.repository.RightRepository;
+import com.qiyue.user.dao.repository.UserMenuRepository;
 import com.qiyue.user.dao.repository.UserRepository;
 import com.qiyue.user.self.Response;
 import com.qiyue.user.util.BaseUtil;
@@ -21,6 +24,12 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserMenuRepository userMenuRepository;
+
+    @Autowired
+    private UserMenuEntityManager userMenuEntityManager;
 
     public Response login(String username, String password) throws Exception {
         Optional<UserEntity> userEntity = userRepository.findByMobile(username);
@@ -50,10 +59,16 @@ public class UserService {
         return user;
     }
 
-    public Response userFindAll(Pageable pageable){
+    public Response findAllPage(Pageable pageable){
         Page<UserEntity> userEntityPage = userRepository.findAll(pageable);
         userEntityPage.getContent().forEach((k)->{k = userMessageFilter(k);});
         return Response.success(userEntityPage);
+    }
+
+    public Response findAll(){
+        List<UserEntity> userEntities = userRepository.findAll();
+        userEntities.forEach((k)->{k = userMessageFilter(k);});
+        return Response.success(userEntities);
     }
 
     @Transactional
@@ -103,4 +118,18 @@ public class UserService {
         return Response.success(newOne);
     }
 
+    public Response findUserMenus(int userId){
+        List<UserMenuEntity> userMenuEntities = userMenuRepository.findByUserId(userId);
+        return Response.success(userMenuEntities);
+     }
+
+     @Transactional
+     public Response setUserMenus(List<UserMenuEntity> userMenuEntities) {
+        if (userMenuEntities.size() > 0) {
+            userMenuRepository.deleteByUserId(userMenuEntities.get(0).getUserId());
+            return userMenuEntityManager.setUserMenus(userMenuEntities);
+        } else {
+            return Response.fail("USER_MENU_INSERT_EMPTY_INPUT_ERROR");
+        }
+     }
 }
