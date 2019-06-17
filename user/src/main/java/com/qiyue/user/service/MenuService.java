@@ -1,6 +1,7 @@
 package com.qiyue.user.service;
 
 import com.qiyue.user.constant.Constant;
+import com.qiyue.user.dao.em.UserEntityManager;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.MenuLoanEntity;
 import com.qiyue.user.dao.repository.MenuRepository;
@@ -8,11 +9,14 @@ import com.qiyue.user.dao.repository.MenuLoanRepository;
 import com.qiyue.user.node.Node;
 import com.qiyue.user.self.Response;
 import com.qiyue.user.util.DateUtil;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -23,15 +27,15 @@ public class MenuService {
     private MenuRepository menuRepository;
 
     @Autowired
-    private MenuLoanRepository menuLoanRepository;
+    private UserEntityManager userEntityManager;
+
+    @Autowired
+    private EntityManager entityManager ;
 
     public Response getMenuNode(int userId){
+        Filter filter = entityManager.unwrap(Session.class).enableFilter("userIdFilter");
+        filter.setParameter("userId", userId);
         List<MenuEntity> menuEntities = menuRepository.getMenus(userId);
-        menuEntities.forEach(v -> {
-            if (v.getMenuLoanEntities().size() > 0) {
-                v.getMenuLoanEntities().stream().filter(k -> {return userId == k.getUserId();});
-            }
-        });
         return Response.success(Node.insertBatch(menuEntities));
     }
 
@@ -103,4 +107,7 @@ public class MenuService {
         return Response.success(newOne);
     }
 
+    public Response menuLoanAddBatch(List<MenuLoanEntity> menuLoanEntities) {
+        return userEntityManager.menuLoanAddBatch(menuLoanEntities);
+    }
 }

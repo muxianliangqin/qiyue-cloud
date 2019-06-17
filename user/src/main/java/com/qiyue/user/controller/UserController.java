@@ -1,10 +1,7 @@
 package com.qiyue.user.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.qiyue.user.dao.entity.MenuEntity;
-import com.qiyue.user.dao.entity.RightEntity;
-import com.qiyue.user.dao.entity.UserEntity;
-import com.qiyue.user.dao.entity.UserMenuEntity;
+import com.qiyue.user.dao.entity.*;
 import com.qiyue.user.self.Response;
 import com.qiyue.user.service.MenuService;
 import com.qiyue.user.service.RightService;
@@ -145,6 +142,12 @@ public class UserController {
     @RequestMapping("/menu/modify")
     public Response menuModify(MenuEntity menuEntity) {
         return menuService.menuModify(menuEntity);
+    }
+
+    @RequestMapping("/menuLoan/addBatch")
+    public Response menuLoanAddBatch(@RequestParam(name = "menuLoanEntities") String json) {
+        List<MenuLoanEntity> menuLoanEntities = JSONObject.parseArray(json, MenuLoanEntity.class);
+        return menuService.menuLoanAddBatch(menuLoanEntities);
     }
 
     /* 权限处理 */

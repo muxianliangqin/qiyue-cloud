@@ -2,6 +2,7 @@ package com.qiyue.user.dao.entity;
 
 import com.qiyue.user.node.Element;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -50,10 +51,26 @@ public class MenuEntity extends Element implements Serializable {
     @Column(name = "update_user")
     private String updateUser;
 
+
+    /*
+    @OneToMany：表与表一对多关系
+    @JoinColumn：
+        表示两个表相关连的字段，name：many表的字段，referencedColumnName：one表的字段
+    @Where：where条件子句，可用于静态条件
+    @org.hibernate.annotations.OrderBy：order by子句
+    @Filter：where子句，设置动态筛选条件，需要在many表上配置@FilterDef配合使用
+    所有子句应填表的字段名称而不是实体类的属性名称
+    生成sql语句：
+    where menuloanen0_.loan_user_id = ?
+    and ( menuloanen0_.state=0)
+    and menuloanen0_.menu_code=?
+    order by menuloanen0_.update_time desc
+     */
     @OneToMany
-    @JoinColumn(name = "menu_code",referencedColumnName = "code")
+    @JoinColumn(name = "menu_code", referencedColumnName = "code")
     @Where(clause = "state=0")
     @org.hibernate.annotations.OrderBy(clause = "update_time desc")
+    @Filter(name="userIdFilter", condition = "loan_user_id = :userId")
     private List<MenuLoanEntity> menuLoanEntities;
 
 }

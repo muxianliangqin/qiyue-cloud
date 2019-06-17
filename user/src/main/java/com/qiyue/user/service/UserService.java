@@ -1,11 +1,9 @@
 package com.qiyue.user.service;
 
 import com.qiyue.user.constant.Constant;
-import com.qiyue.user.dao.em.UserMenuEntityManager;
-import com.qiyue.user.dao.entity.RightEntity;
+import com.qiyue.user.dao.em.UserEntityManager;
 import com.qiyue.user.dao.entity.UserEntity;
 import com.qiyue.user.dao.entity.UserMenuEntity;
-import com.qiyue.user.dao.repository.RightRepository;
 import com.qiyue.user.dao.repository.UserMenuRepository;
 import com.qiyue.user.dao.repository.UserRepository;
 import com.qiyue.user.self.Response;
@@ -29,7 +27,7 @@ public class UserService {
     private UserMenuRepository userMenuRepository;
 
     @Autowired
-    private UserMenuEntityManager userMenuEntityManager;
+    private UserEntityManager userEntityManager;
 
     public Response login(String username, String password) throws Exception {
         Optional<UserEntity> userEntity = userRepository.findByMobile(username);
@@ -127,7 +125,7 @@ public class UserService {
      public Response setUserMenus(List<UserMenuEntity> userMenuEntities) {
         if (userMenuEntities.size() > 0) {
             userMenuRepository.deleteByUserId(userMenuEntities.get(0).getUserId());
-            return userMenuEntityManager.setUserMenus(userMenuEntities);
+            return userEntityManager.userMenuAddBatch(userMenuEntities);
         } else {
             return Response.fail("USER_MENU_INSERT_EMPTY_INPUT_ERROR");
         }
