@@ -9,4 +9,6 @@ public interface MenuLoanRepository extends JpaRepository<MenuLoanEntity, Intege
 
     List<MenuLoanEntity> findByUserIdAndState(int userId, String state);
 
+    int deleteByUserId(int userId);
+
 }

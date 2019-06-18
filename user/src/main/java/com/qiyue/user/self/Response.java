@@ -1,11 +1,6 @@
 package com.qiyue.user.self;
 
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.qiyue.user.dao.entity.RightEntity;
 
 public class Response {
     private String errorCode;
@@ -40,8 +35,8 @@ public class Response {
 
     public static Response success(Object content) {
         Response response = new Response();
-        response.errorCode = Error.SUCCESS.getCode();
-        response.errorMsg = Error.SUCCESS.getMsg();
+        response.errorCode = RightEntity.Error.SUCCESS.getCode();
+        response.errorMsg = RightEntity.Error.SUCCESS.getMsg();
         response.content = content;
         return response;
     }
@@ -55,11 +50,11 @@ public class Response {
 
     public static Response fail(String enumName) {
         Response response = new Response();
-        Error error = null;
+        RightEntity.Error error = null;
         try{
-            error = Error.valueOf(enumName);
+            error = RightEntity.Error.valueOf(enumName);
         } catch (IllegalArgumentException e){
-            error = Error.valueOf("ENUM_ERROR");
+            error = RightEntity.Error.valueOf("ENUM_ERROR");
         }
         response.errorCode = error.getCode();
         response.errorMsg = error.getMsg();

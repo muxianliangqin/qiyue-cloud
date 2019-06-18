@@ -121,13 +121,13 @@ public class UserService {
         return Response.success(userMenuEntities);
      }
 
-     @Transactional
-     public Response setUserMenus(List<UserMenuEntity> userMenuEntities) {
+    @Transactional
+    public Response setUserMenus(List<UserMenuEntity> userMenuEntities) {
         if (userMenuEntities.size() > 0) {
             userMenuRepository.deleteByUserId(userMenuEntities.get(0).getUserId());
             return userEntityManager.userMenuAddBatch(userMenuEntities);
         } else {
             return Response.fail("USER_MENU_INSERT_EMPTY_INPUT_ERROR");
         }
-     }
+    }
 }

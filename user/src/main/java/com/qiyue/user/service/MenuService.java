@@ -27,10 +27,13 @@ public class MenuService {
     private MenuRepository menuRepository;
 
     @Autowired
+    private MenuLoanRepository menuLoanRepository;
+
+    @Autowired
     private UserEntityManager userEntityManager;
 
     @Autowired
-    private EntityManager entityManager ;
+    private EntityManager entityManager;
 
     public Response getMenuNode(int userId){
         Filter filter = entityManager.unwrap(Session.class).enableFilter("userIdFilter");
@@ -108,6 +111,12 @@ public class MenuService {
     }
 
     public Response menuLoanAddBatch(List<MenuLoanEntity> menuLoanEntities) {
-        return userEntityManager.menuLoanAddBatch(menuLoanEntities);
+        if (menuLoanEntities.size() > 0) {
+            menuLoanRepository.deleteByUserId(menuLoanEntities.get(0).getUserId());
+            return userEntityManager.menuLoanAddBatch(menuLoanEntities);
+        } else {
+            return Response.fail("MENU_LOAN_INSERT_EMPTY_INPUT_ERROR");
+        }
+
     }
 }
