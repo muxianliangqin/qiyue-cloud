@@ -139,7 +139,8 @@ public class CrawlerService {
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setUrl(crawlerResult.getBaseURI());
         categoryEntity.setTitle(crawlerResult.getTitle());
-        categoryEntity.setXpath(crawlerResult.getXpath());
+        categoryEntity.setXpathTitle(crawlerResult.getXpathTitle());
+        categoryEntity.setXpathText(crawlerResult.getXpathText());
         categoryEntity.setCharset(crawlerResult.getCharset());
         categoryEntity.setWebId(webId);
         categoryEntity.setState("0");

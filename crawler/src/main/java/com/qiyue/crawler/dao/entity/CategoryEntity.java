@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "category", uniqueConstraints={
-        @UniqueConstraint(columnNames = {"url","xpath"})
+        @UniqueConstraint(columnNames = {"url","xpath_title"})
 })
 public class CategoryEntity {
     @Id
@@ -21,8 +21,11 @@ public class CategoryEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "xpath")
-    private String xpath;
+    @Column(name = "xpath_title")
+    private String xpathTitle;
+
+    @Column(name = "xpath_text")
+    private String xpathText;
 
     @Column(name = "web_id")
     private int webId;
