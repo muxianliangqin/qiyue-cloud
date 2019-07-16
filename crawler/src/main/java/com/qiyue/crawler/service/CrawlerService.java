@@ -86,8 +86,8 @@ public class CrawlerService {
     }
 
     @Transactional
-    public Response addCategory(String title, String url, String xpath, String charset, int webId) {
-        long num = categoryRepository.add(title, url, xpath, charset,  webId);
+    public Response addCategory(String title, String url, String xpathTitle, String xpathText, String charset, int webId) {
+        long num = categoryRepository.add(title, url, xpathTitle, xpathText, charset,  webId);
         return Response.success(num);
     }
 

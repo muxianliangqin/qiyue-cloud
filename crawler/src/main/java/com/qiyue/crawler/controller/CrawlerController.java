@@ -54,8 +54,8 @@ public class CrawlerController {
     }
 
     @RequestMapping("/addCategory")
-    public Response addCategory(String title, String url, String xpath, String charset, int webId){
-        return crawlerService.addCategory(title, url, xpath, charset, webId);
+    public Response addCategory(String title, String url, String xpathTitle,String xpathText, String charset, int webId){
+        return crawlerService.addCategory(title, url, xpathTitle, xpathText, charset, webId);
     }
 
     @RequestMapping("/modifyCategory")

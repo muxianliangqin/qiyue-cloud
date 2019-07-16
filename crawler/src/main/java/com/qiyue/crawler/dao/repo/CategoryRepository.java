@@ -25,12 +25,13 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity,Integer
     int updateStateByWebId(int webId);
 
     @Modifying
-    @Query(value = "insert into category (title, url, xpath, charset, web_id) " +
-            "values (:title, :url, :xpath, :charset, :webId)",
+    @Query(value = "insert into category (title, url, xpath_title, xpath_text, charset, web_id) " +
+            "values (:title, :url, :xpathTitle, :xpathText, :charset, :webId)",
             nativeQuery = true)
     int add(@Param("title") String title,
             @Param("url") String url,
-            @Param("xpath") String xpath,
+            @Param("xpathTitle") String xpathTitle,
+            @Param("xpathText") String xpathText,
             @Param("charset") String charset,
             @Param("webId") int webId);
 
