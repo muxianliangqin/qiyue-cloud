@@ -13,7 +13,7 @@ public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "url")
     private String url;
@@ -28,13 +28,13 @@ public class CategoryEntity {
     private String xpathText;
 
     @Column(name = "web_id")
-    private int webId;
+    private Integer webId;
 
     @Column(name = "charset")
     private String charset;
 
     @Column(name = "new_num")
-    private int newNum;
+    private Integer newNum;
 
     @Column(name = "category_state")
     private String state;

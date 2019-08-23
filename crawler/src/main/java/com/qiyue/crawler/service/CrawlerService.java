@@ -74,6 +74,7 @@ public class CrawlerService {
         }
         webEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
 //        categoryEntity.setUpdateUser("");
+        // 使用此方法时，注意对象的int等属性使用Integer包装类，否则属性初始化值不是null，导致不会替换
         SqlUtil.copyNullProperties(webEntityOptional.get(),webEntity);
         WebEntity newOne = webRepository.saveAndFlush(webEntity);
         return Response.success(newOne);

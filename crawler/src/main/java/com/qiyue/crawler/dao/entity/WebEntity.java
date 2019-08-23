@@ -18,7 +18,7 @@ public class WebEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "url")
     private String url;
@@ -42,7 +42,7 @@ public class WebEntity implements Serializable {
     private String updateUser;
 
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 
     @OneToMany
     @JoinColumn(name = "web_id",referencedColumnName = "id")
