@@ -15,8 +15,14 @@ public class RegexpsEntity {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "reg_exp")
     private String regexp;
+
+    @Column(name = "reg_label")
+    private String label;
 
     @Column(name = "reg_desc")
     private String desc;
