@@ -4,7 +4,11 @@ import com.qiyue.crawler.dao.entity.RegexpsEntity;
 import com.qiyue.crawler.self.Response;
 import com.qiyue.crawler.service.RegexpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -14,9 +18,29 @@ public class RegexpController {
     @Autowired
     private RegexpService regexpService;
 
-    @RequestMapping("/regexp/findAll")
+    @RequestMapping("/regexp/regexpFindAll")
     public Response regexpFindAll(){
         return regexpService.regexpFindAll();
     }
 
+    @RequestMapping("/regexp/keywordAdd")
+    public Response add(String name, String regexp, String codes, int userId) {
+        return regexpService.add(name, regexp, codes, userId);
+    }
+
+    @RequestMapping("/regexp/keywordModify")
+    public Response modify(String name, String regexp, String codes, int id) {
+        return regexpService.modify(name, regexp, codes, id);
+    }
+
+    @RequestMapping("/regexp/keywordFindAll")
+    public Response keywordFindAll(@RequestParam(name = "userId") int userId,
+                                   @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
+        return regexpService.keywordFindAll(userId, pageable);
+    }
+
+    @RequestMapping("/regexp/keywordDel")
+    public Response keywordDel(int id) {
+        return regexpService.keywordDel(id);
+    }
 }

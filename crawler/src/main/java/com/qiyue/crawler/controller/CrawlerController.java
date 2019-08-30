@@ -29,7 +29,7 @@ public class CrawlerController {
 
     @RequestMapping("/findNews")
     public Response findByCategoryId(@RequestParam(value = "categoryId") int categoryId,
-                                               @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
+                                     @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
         return crawlerService.findByCategoryIdAndState(categoryId,pageable);
     }
 
