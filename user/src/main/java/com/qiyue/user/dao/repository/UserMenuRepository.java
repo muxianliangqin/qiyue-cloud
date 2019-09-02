@@ -9,5 +9,5 @@ public interface UserMenuRepository extends JpaRepository<UserMenuEntity, Intege
 
     List<UserMenuEntity> findByUserId(int userId);
 
-    int deleteByUserId(int userId);
+    int deleteByMenuCodeIn(List<Integer> ids);
 }

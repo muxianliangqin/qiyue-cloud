@@ -1,5 +1,7 @@
 package com.qiyue.user.service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.qiyue.user.constant.Constant;
 import com.qiyue.user.dao.em.UserEntityManager;
 import com.qiyue.user.dao.entity.UserEntity;
@@ -122,12 +124,14 @@ public class UserService {
      }
 
     @Transactional
-    public Response setUserMenus(List<UserMenuEntity> userMenuEntities) {
-        if (userMenuEntities.size() > 0) {
-            userMenuRepository.deleteByUserId(userMenuEntities.get(0).getUserId());
-            return userEntityManager.userMenuAddBatch(userMenuEntities);
-        } else {
-            return Response.fail("USER_MENU_INSERT_EMPTY_INPUT_ERROR");
-        }
+    public Response setUserMenus(String menus) {
+        JSONObject obj = JSONObject.parseObject(menus);
+        List<Integer> subtractMenus = (List<Integer>)obj.get("subtractMenus");
+        userMenuRepository.deleteByMenuCodeIn(subtractMenus);
+        Object addMenus = obj.get("addMenus");
+        List<UserMenuEntity> userMenuEntities = JSONObject.parseArray(
+                JSONObject.toJSONString(addMenus), UserMenuEntity.class);
+        userEntityManager.userMenuAddBatch(userMenuEntities);
+        return Response.success("ok");
     }
 }

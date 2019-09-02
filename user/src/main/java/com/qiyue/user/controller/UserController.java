@@ -88,9 +88,8 @@ public class UserController {
     }
 
     @RequestMapping("/user/setUserMenus")
-    public Response setUserMenus(@RequestParam("userMenuEntities") String json) {
-        List<UserMenuEntity> userMenuEntities = JSONObject.parseArray(json, UserMenuEntity.class);
-        return userService.setUserMenus(userMenuEntities);
+    public Response setUserMenus(@RequestParam("menus") String menus) {
+        return userService.setUserMenus(menus);
     }
 
     /* 菜单处理 */
