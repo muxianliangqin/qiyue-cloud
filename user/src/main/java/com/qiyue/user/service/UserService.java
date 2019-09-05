@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -31,13 +33,15 @@ public class UserService {
     @Autowired
     private UserEntityManager userEntityManager;
 
-    public Response login(String username, String password) throws Exception {
+    public Response login(HttpServletRequest request, String username, String password) throws Exception {
         Optional<UserEntity> userEntity = userRepository.findByMobile(username);
         if (userEntity.isPresent()) {
             UserEntity user = userEntity.get();
             password = BaseUtil.encrypt(password,user.getSalt());
             if (BaseUtil.slowEquals(password,user.getPassword())) {
-               user = userMessageFilter(user);
+                user = userMessageFilter(user);
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", user);
                 return Response.success(user);
             }
         }

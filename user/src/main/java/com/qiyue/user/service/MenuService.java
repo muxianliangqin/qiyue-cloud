@@ -4,9 +4,11 @@ import com.qiyue.user.constant.Constant;
 import com.qiyue.user.dao.em.UserEntityManager;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.MenuLoanEntity;
+import com.qiyue.user.dao.entity.UserEntity;
 import com.qiyue.user.dao.repository.MenuRepository;
 import com.qiyue.user.dao.repository.MenuLoanRepository;
 import com.qiyue.user.node.Node;
+import com.qiyue.user.redis.RedisUtil;
 import com.qiyue.user.self.Response;
 import com.qiyue.user.util.DateUtil;
 import org.hibernate.Filter;
@@ -17,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -34,6 +38,9 @@ public class MenuService {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     public Response getMenuNode(int userId){
         Filter filter = entityManager.unwrap(Session.class).enableFilter("userIdFilter");
