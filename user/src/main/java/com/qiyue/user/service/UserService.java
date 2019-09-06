@@ -1,16 +1,16 @@
 package com.qiyue.user.service;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.qiyue.user.constant.Constant;
+import com.qiyue.common.session.User;
+import com.qiyue.common.constant.Constant;
 import com.qiyue.user.dao.em.UserEntityManager;
 import com.qiyue.user.dao.entity.UserEntity;
 import com.qiyue.user.dao.entity.UserMenuEntity;
 import com.qiyue.user.dao.repository.UserMenuRepository;
 import com.qiyue.user.dao.repository.UserRepository;
-import com.qiyue.user.self.Response;
-import com.qiyue.user.util.BaseUtil;
-import com.qiyue.user.util.DateUtil;
+import com.qiyue.common.response.Response;
+import com.qiyue.common.util.BaseUtil;
+import com.qiyue.common.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,12 +40,25 @@ public class UserService {
             password = BaseUtil.encrypt(password,user.getSalt());
             if (BaseUtil.slowEquals(password,user.getPassword())) {
                 user = userMessageFilter(user);
-                HttpSession session = request.getSession(true);
-                session.setAttribute("user", user);
+                HttpSession session = request.getSession();
+                session.setAttribute(Constant.SESSION_USER, transformUser(user));
                 return Response.success(user);
             }
         }
         return Response.fail("LOGIN_ERROR");
+    }
+
+    public static User transformUser(UserEntity userEntity){
+        User user = new User();
+        user.setUsername(userEntity.getUsername());
+        user.setEmail(userEntity.getEmail());
+        user.setAlias(userEntity.getAlias());
+        user.setGender(userEntity.getGender());
+        user.setMobile(userEntity.getMobile());
+        user.setOpenid(userEntity.getOpenid());
+        user.setState(userEntity.getState());
+        user.setToken(userEntity.getToken());
+        return user;
     }
 
     public Response checkToken(String token) {

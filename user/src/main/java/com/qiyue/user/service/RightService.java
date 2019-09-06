@@ -1,12 +1,12 @@
 package com.qiyue.user.service;
 
-import com.qiyue.user.constant.Constant;
+import com.qiyue.common.constant.Constant;
 import com.qiyue.user.dao.entity.RightEntity;
 import com.qiyue.user.dao.entity.RightMenuEntity;
 import com.qiyue.user.dao.repository.RightMenuRepository;
 import com.qiyue.user.dao.repository.RightRepository;
-import com.qiyue.user.self.Response;
-import com.qiyue.user.util.DateUtil;
+import com.qiyue.common.response.Response;
+import com.qiyue.common.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

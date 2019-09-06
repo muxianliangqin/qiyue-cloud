@@ -1,21 +1,15 @@
 package com.qiyue.user.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.qiyue.user.dao.entity.*;
-import com.qiyue.user.self.Response;
-import com.qiyue.user.service.MenuService;
-import com.qiyue.user.service.RightService;
+import com.qiyue.common.response.Response;
 import com.qiyue.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController

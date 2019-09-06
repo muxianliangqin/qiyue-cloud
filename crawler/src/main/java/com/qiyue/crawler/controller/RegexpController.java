@@ -1,7 +1,6 @@
 package com.qiyue.crawler.controller;
 
-import com.qiyue.crawler.dao.entity.RegexpsEntity;
-import com.qiyue.crawler.self.Response;
+import com.qiyue.common.response.Response;
 import com.qiyue.crawler.service.RegexpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +9,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class RegexpController {

@@ -1,16 +1,15 @@
 package com.qiyue.user.service;
 
-import com.qiyue.user.constant.Constant;
+import com.qiyue.common.constant.Constant;
 import com.qiyue.user.dao.em.UserEntityManager;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.MenuLoanEntity;
-import com.qiyue.user.dao.entity.UserEntity;
 import com.qiyue.user.dao.repository.MenuRepository;
 import com.qiyue.user.dao.repository.MenuLoanRepository;
-import com.qiyue.user.node.Node;
-import com.qiyue.user.redis.RedisUtil;
-import com.qiyue.user.self.Response;
-import com.qiyue.user.util.DateUtil;
+import com.qiyue.common.node.Node;
+import com.qiyue.common.redis.RedisUtil;
+import com.qiyue.common.response.Response;
+import com.qiyue.common.util.DateUtil;
 import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.*;
 

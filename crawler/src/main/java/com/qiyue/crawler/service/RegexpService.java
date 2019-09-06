@@ -4,7 +4,7 @@ import com.qiyue.crawler.dao.entity.KeywordEntity;
 import com.qiyue.crawler.dao.entity.RegexpsEntity;
 import com.qiyue.crawler.dao.repo.KeywordRepository;
 import com.qiyue.crawler.dao.repo.RegexpsRepository;
-import com.qiyue.crawler.self.Response;
+import com.qiyue.common.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

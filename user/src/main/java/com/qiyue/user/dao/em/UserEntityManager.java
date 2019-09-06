@@ -2,14 +2,12 @@ package com.qiyue.user.dao.em;
 
 import com.qiyue.user.dao.entity.MenuLoanEntity;
 import com.qiyue.user.dao.entity.UserMenuEntity;
-import com.qiyue.user.self.Response;
+import com.qiyue.common.response.Response;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

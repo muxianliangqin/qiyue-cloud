@@ -1,0 +1,27 @@
+package com.qiyue.common.session;
+
+import lombok.Data;
+import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
+
+@Component
+@Data
+public class User implements Serializable {
+
+    private String mobile;
+
+    private String email;
+
+    private String username;
+
+    private String alias;
+
+    private String gender;
+
+    private String openid;
+
+    private String state;
+
+    private String token;
+}

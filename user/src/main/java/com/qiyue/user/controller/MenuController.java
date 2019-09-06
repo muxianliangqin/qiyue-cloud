@@ -3,7 +3,7 @@ package com.qiyue.user.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.MenuLoanEntity;
-import com.qiyue.user.self.Response;
+import com.qiyue.common.response.Response;
 import com.qiyue.user.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
