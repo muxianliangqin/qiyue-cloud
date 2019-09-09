@@ -60,6 +60,14 @@ public class Constant {
 	public final static String DATE_FORMATER_WITH_HYPHEN_NO_TIME = "yyyy-MM-dd";
 
 	// session - user
-	public final static String SESSION_USER = "USER";
+	public final static String SESSION_USER = "user";
+	public final static String COOKIE_SESSION_ID = "sessionId";
+    public final static String SESSION_REDIS_NAME_SPACE = "user";
+    public final static String SESSION_REDIS_KEY_PREFIX = SESSION_USER + ":sessions:";
+	public final static String SESSION_REDIS_EXPIRE_KEY_PREFIX = SESSION_USER + ":sessions:expires:";
+
+	//http
+	// http连接时session过期等response返回的status
+    public final static int HTTP_RESPONSE_STATUS_SESSION_EXPIRE = 700;
 
 }

@@ -58,5 +58,6 @@ public class Constant {
 	public final static String DATE_FORMATER_WITH_HYPHEN_NO_TIME = "yyyy-MM-dd";
 
 	// session - user
-	public final static String SESSION_USER = "USER";
+	public final static String SESSION_USER = "user";
+	public final static String SESSION_REDIS_NAME_SPACE = "user";
 }

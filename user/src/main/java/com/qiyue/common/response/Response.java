@@ -1,6 +1,7 @@
 package com.qiyue.common.response;
 
 import com.qiyue.user.dao.entity.RightEntity;
+import com.qiyue.common.enumerate.Error;
 
 public class Response {
     private String errorCode;
@@ -33,10 +34,18 @@ public class Response {
         this.content = content;
     }
 
+    public static Response success() {
+        Response response = new Response();
+        response.errorCode = Error.SUCCESS.getCode();
+        response.errorMsg = Error.SUCCESS.getMsg();
+        response.content = "ok";
+        return response;
+    }
+
     public static Response success(Object content) {
         Response response = new Response();
-        response.errorCode = RightEntity.Error.SUCCESS.getCode();
-        response.errorMsg = RightEntity.Error.SUCCESS.getMsg();
+        response.errorCode = Error.SUCCESS.getCode();
+        response.errorMsg = Error.SUCCESS.getMsg();
         response.content = content;
         return response;
     }
@@ -50,11 +59,11 @@ public class Response {
 
     public static Response fail(String enumName) {
         Response response = new Response();
-        RightEntity.Error error = null;
+        Error error = null;
         try{
-            error = RightEntity.Error.valueOf(enumName);
+            error = Error.valueOf(enumName);
         } catch (IllegalArgumentException e){
-            error = RightEntity.Error.valueOf("ENUM_ERROR");
+            error = Error.valueOf("ENUM_ERROR");
         }
         response.errorCode = error.getCode();
         response.errorMsg = error.getMsg();

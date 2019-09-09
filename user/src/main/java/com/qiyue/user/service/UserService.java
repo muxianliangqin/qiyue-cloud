@@ -16,7 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.*;
@@ -33,22 +35,37 @@ public class UserService {
     @Autowired
     private UserEntityManager userEntityManager;
 
-    public Response login(HttpServletRequest request, String username, String password) throws Exception {
+    public Response login(HttpServletRequest request,
+                          String username, String password) throws Exception {
         Optional<UserEntity> userEntity = userRepository.findByMobile(username);
-        if (userEntity.isPresent()) {
-            UserEntity user = userEntity.get();
-            password = BaseUtil.encrypt(password,user.getSalt());
-            if (BaseUtil.slowEquals(password,user.getPassword())) {
-                user = userMessageFilter(user);
-                HttpSession session = request.getSession();
-                session.setAttribute(Constant.SESSION_USER, transformUser(user));
-                return Response.success(user);
-            }
+        if (!userEntity.isPresent()) {
+            return Response.fail("LOGIN_ERROR");
         }
-        return Response.fail("LOGIN_ERROR");
+        UserEntity user = userEntity.get();
+        password = BaseUtil.encrypt(password,user.getSalt());
+        if (!BaseUtil.slowEquals(password, user.getPassword())) {
+            return Response.fail("LOGIN_ERROR");
+        }
+        user = userMessageFilter(user);
+        HttpSession session = request.getSession();
+        User sessionUser = (User)session.getAttribute(Constant.SESSION_USER);
+        // 如果session中已存在的user信息与登录用户不一致
+        if (null != sessionUser && !user.getUsername().equals(sessionUser.getUsername())) {
+            return Response.fail("LOGIN_MULTI_ERROR");
+        }
+        session.setAttribute(Constant.SESSION_USER, transformUser(user));
+        return Response.success(user);
     }
 
-    public static User transformUser(UserEntity userEntity){
+    public Response logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (null != session) {
+            session.invalidate();
+        }
+        return Response.success();
+    }
+
+    public User transformUser(UserEntity userEntity){
         User user = new User();
         user.setUsername(userEntity.getUsername());
         user.setEmail(userEntity.getEmail());
@@ -70,6 +87,9 @@ public class UserService {
         return Response.fail("TOKEN_ERROR");
     }
 
+    /*
+    将用户的一些敏感信息去除
+     */
     public UserEntity userMessageFilter(UserEntity user) {
         user.setPassword(null);
         user.setSalt(null);
