@@ -21,8 +21,8 @@ public class RegexpController {
     }
 
     @RequestMapping("/regexp/keywordAdd")
-    public Response add(String name, String regexp, String codes, int userId) {
-        return regexpService.add(name, regexp, codes, userId);
+    public Response add(String name, String regexp, String codes) {
+        return regexpService.add(name, regexp, codes);
     }
 
     @RequestMapping("/regexp/keywordModify")
@@ -31,9 +31,8 @@ public class RegexpController {
     }
 
     @RequestMapping("/regexp/keywordFindAll")
-    public Response keywordFindAll(@RequestParam(name = "userId") int userId,
-                                   @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
-        return regexpService.keywordFindAll(userId, pageable);
+    public Response keywordFindAll(@PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
+        return regexpService.keywordFindAll(pageable);
     }
 
     @RequestMapping("/regexp/keywordDel")

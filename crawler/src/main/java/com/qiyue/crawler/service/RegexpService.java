@@ -1,5 +1,6 @@
 package com.qiyue.crawler.service;
 
+import com.qiyue.common.session.ContextUtil;
 import com.qiyue.crawler.dao.entity.KeywordEntity;
 import com.qiyue.crawler.dao.entity.RegexpsEntity;
 import com.qiyue.crawler.dao.repo.KeywordRepository;
@@ -29,7 +30,8 @@ public class RegexpService {
     }
 
     @Transactional
-    public Response add(String name, String regexp, String codes, int userId) {
+    public Response add(String name, String regexp, String codes) {
+        int userId = ContextUtil.getUser().getId();
         int i = keywordRepository.add(name, regexp, codes, userId);
         return Response.success(i);
     }
@@ -40,7 +42,8 @@ public class RegexpService {
         return Response.success(i);
     }
 
-    public Response keywordFindAll(int userId, Pageable pageable) {
+    public Response keywordFindAll(Pageable pageable) {
+        int userId = ContextUtil.getUser().getId();
         Page<KeywordEntity> keywordEntityPage = keywordRepository.findAllByUserId(userId, pageable);
         return Response.success(keywordEntityPage);
     }

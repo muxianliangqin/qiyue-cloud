@@ -67,6 +67,7 @@ public class UserService {
 
     public User transformUser(UserEntity userEntity){
         User user = new User();
+        user.setId(userEntity.getId());
         user.setUsername(userEntity.getUsername());
         user.setEmail(userEntity.getEmail());
         user.setAlias(userEntity.getAlias());
@@ -74,7 +75,6 @@ public class UserService {
         user.setMobile(userEntity.getMobile());
         user.setOpenid(userEntity.getOpenid());
         user.setState(userEntity.getState());
-        user.setToken(userEntity.getToken());
         return user;
     }
 

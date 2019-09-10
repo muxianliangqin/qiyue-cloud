@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Data
 public class User implements Serializable {
 
+    private int id;
+
     private String mobile;
 
     private String email;
@@ -23,5 +25,4 @@ public class User implements Serializable {
 
     private String state;
 
-    private String token;
 }
