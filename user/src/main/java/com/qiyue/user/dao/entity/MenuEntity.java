@@ -2,6 +2,7 @@ package com.qiyue.user.dao.entity;
 
 import com.qiyue.common.node.Element;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Where;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "menu", uniqueConstraints = {
         @UniqueConstraint(columnNames = "code")

@@ -212,7 +212,7 @@ public class HttpUtil {
         String boundary = "";
         try {
             conn.setRequestMethod("POST");
-            boundary = "----" + BaseUtil.getRandomString(10, BaseUtil.TYPE_MIX) + "----";
+            boundary = "----" + BaseUtil.getRandomString(10, Constant.TYPE_MIX) + "----";
             conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
             OutputStream os = new DataOutputStream(conn.getOutputStream()); // 获取输出�?
             formParamFormat(paramsMap, os, boundary);

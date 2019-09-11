@@ -1,7 +1,7 @@
 package com.qiyue.wechat.controller;
 
+import com.qiyue.common.response.Response;
 import com.qiyue.wechat.dao.entity.RecordEntity;
-import com.qiyue.wechat.self.Response;
 import com.qiyue.wechat.service.WeChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

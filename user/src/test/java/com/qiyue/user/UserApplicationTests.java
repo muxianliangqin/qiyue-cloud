@@ -43,6 +43,6 @@ public class UserApplicationTests {
     @Test
     public void test1() throws Exception {
 //        System.out.println(BaseUtil.getRandomString(20,2));
-        System.out.println(BaseUtil.encrypt("test123","Tj1PC56Yl5mZEB6fak7S"));
+        System.out.println(BaseUtil.encrypt("test123", "Tj1PC56Yl5mZEB6fak7S"));
     }
 }

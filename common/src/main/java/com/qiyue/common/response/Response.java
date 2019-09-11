@@ -33,6 +33,14 @@ public class Response {
         this.content = content;
     }
 
+    public static Response success() {
+        Response response = new Response();
+        response.errorCode = Error.SUCCESS.getCode();
+        response.errorMsg = Error.SUCCESS.getMsg();
+        response.content = "ok";
+        return response;
+    }
+
     public static Response success(Object content) {
         Response response = new Response();
         response.errorCode = Error.SUCCESS.getCode();
