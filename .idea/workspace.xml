@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="66b15c3d-ed96-4b7d-a0b9-70a845f7caf5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/qiyue-cloud.iml" beforeDir="false" />
+    <list default="true" id="66b15c3d-ed96-4b7d-a0b9-70a845f7caf5" name="Default" comment="--">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/src/main/java/com/qiyue/common/aspect/TimeAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/com/qiyue/common/aspect/TimeAspect.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/crawler/target/" />
@@ -32,11 +28,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeAspect.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TimeAspect.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common/src/main/java/com/qiyue/common/aspect/TimeAspect.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="30" column="40" lean-forward="true" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="40" />
+            <state relative-caret-position="-152">
+              <caret line="29" column="61" lean-forward="true" selection-start-line="29" selection-start-column="61" selection-end-line="29" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -59,10 +55,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
+            <state relative-caret-position="30">
               <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
             </state>
           </provider>
@@ -205,11 +201,6 @@
               <item name="qiyue" type="b2602c69:ProjectViewProjectNode" />
               <item name="qiyue-cloud" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="qiyue" type="b2602c69:ProjectViewProjectNode" />
-              <item name="qiyue-cloud" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -343,7 +334,7 @@
       <option name="presentableId" value="Default" />
       <updated>1568171609861</updated>
       <workItem from="1568171611402" duration="4690000" />
-      <workItem from="1568181393970" duration="13947000" />
+      <workItem from="1568181393970" duration="14205000" />
     </task>
     <task id="LOCAL-00001" summary="将原服务整合成module，将公共类提取到common模块">
       <created>1568195745592</created>
@@ -352,17 +343,24 @@
       <option name="project" value="LOCAL" />
       <updated>1568195745592</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="--">
+      <created>1568195831323</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1568195831323</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18637000" />
+    <option name="totallyTimeSpent" value="18895000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50075644" side_tool="true" weight="0.3781942" />
       <window_info anchor="right" id="Maven Projects" order="0" weight="0.32980332" />
       <window_info anchor="bottom" id="Database Changes" order="4" show_stripe_button="false" />
       <window_info id="Capture Tool" order="7" />
@@ -378,7 +376,7 @@
       <window_info id="Image Layers" order="1" />
       <window_info anchor="bottom" id="Java Enterprise" order="3" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="bottom" id="Run Dashboard" visible="true" weight="0.30323678" />
+      <window_info anchor="bottom" id="Run Dashboard" sideWeight="0.49924356" visible="true" weight="0.3781942" />
       <window_info anchor="bottom" id="Run" order="9" weight="0.29642248" />
       <window_info anchor="bottom" id="Version Control" order="5" weight="0.61839867" />
       <window_info anchor="bottom" id="Spring" order="0" />
@@ -414,7 +412,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="将原服务整合成module，将公共类提取到common模块" />
-    <option name="LAST_COMMIT_MESSAGE" value="将原服务整合成module，将公共类提取到common模块" />
+    <MESSAGE value="--" />
+    <option name="LAST_COMMIT_MESSAGE" value="--" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -744,13 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crawler/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
@@ -767,8 +759,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/common/src/main/java/com/qiyue/common/aspect/TimeAspect.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="30" column="40" lean-forward="true" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="40" />
+        <state relative-caret-position="-152">
+          <caret line="29" column="61" lean-forward="true" selection-start-line="29" selection-start-column="61" selection-end-line="29" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
         </state>
       </provider>
     </entry>
