@@ -21,16 +21,16 @@ public class CrawlerEntityManager {
 
     @Transactional
     public void newsBatchUpdate(List<NewsEntity> list) {
-        try{
+        try {
             String sql = "insert ignore into news (url,title,category_id) values (?,?,?)";
-            SessionImplementor session =entityManager.unwrap(SessionImplementor.class);
+            SessionImplementor session = entityManager.unwrap(SessionImplementor.class);
             Connection conn = session.connection();
             PreparedStatement ps = conn.prepareStatement(sql);
             conn.setAutoCommit(false);
-            for (int i=0;i<list.size();i++) {
-                ps.setString(1,list.get(i).getUrl());
-                ps.setString(2,list.get(i).getTitle());
-                ps.setInt(3,list.get(i).getCategoryId());
+            for (int i = 0; i < list.size(); i++) {
+                ps.setString(1, list.get(i).getUrl());
+                ps.setString(2, list.get(i).getTitle());
+                ps.setInt(3, list.get(i).getCategoryId());
                 ps.addBatch();
                 if ((i + 1) % 50 == 0) {
                     int[] ints = ps.executeBatch();

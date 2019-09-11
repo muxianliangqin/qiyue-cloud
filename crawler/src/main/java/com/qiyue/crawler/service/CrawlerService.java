@@ -43,18 +43,18 @@ public class CrawlerService {
     private CrawlerEntityManager crawlerEntityManager;
 
 
-    public Response findWebs(int userId,Pageable pageable){
-        Page<WebEntity> webEntityPage = webRepository.findByUserIdAndState(userId,"0",pageable);
+    public Response findWebs(int userId, Pageable pageable) {
+        Page<WebEntity> webEntityPage = webRepository.findByUserIdAndState(userId, "0", pageable);
         return Response.success(webEntityPage);
     }
 
-    public Response findByUserIdInAndState(List<Integer> userIds,Pageable pageable){
-        Page<WebEntity> webEntityPage = webRepository.findByUserIdInAndState(userIds,"0",pageable);
+    public Response findByUserIdInAndState(List<Integer> userIds, Pageable pageable) {
+        Page<WebEntity> webEntityPage = webRepository.findByUserIdInAndState(userIds, "0", pageable);
         return Response.success(webEntityPage);
     }
 
-    public Response findByCategoryIdAndState(int categoryId,Pageable pageable){
-        Page<NewsEntity> newsEntityPage = newsRepository.findByCategoryIdAndState(categoryId,"0", pageable);
+    public Response findByCategoryIdAndState(int categoryId, Pageable pageable) {
+        Page<NewsEntity> newsEntityPage = newsRepository.findByCategoryIdAndState(categoryId, "0", pageable);
         return Response.success(newsEntityPage);
     }
 
@@ -72,7 +72,7 @@ public class CrawlerService {
     }
 
     @Transactional
-    public Response modifyWeb(WebEntity webEntity){
+    public Response modifyWeb(WebEntity webEntity) {
         Optional<WebEntity> webEntityOptional = webRepository.findById(webEntity.getId());
         if (!webEntityOptional.isPresent()) {
             return Response.fail("NO_RECORD");
@@ -80,7 +80,7 @@ public class CrawlerService {
         webEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
 //        categoryEntity.setUpdateUser("");
         // 使用此方法时，注意对象的int等属性使用Integer包装类，否则属性初始化值不是null，导致不会替换
-        SqlUtil.copyNullProperties(webEntityOptional.get(),webEntity);
+        SqlUtil.copyNullProperties(webEntityOptional.get(), webEntity);
         WebEntity newOne = webRepository.saveAndFlush(webEntity);
         return Response.success(newOne);
     }
@@ -93,19 +93,19 @@ public class CrawlerService {
 
     @Transactional
     public Response addCategory(String title, String url, String xpathTitle, String xpathText, String charset, int webId) {
-        long num = categoryRepository.add(title, url, xpathTitle, xpathText, charset,  webId);
+        long num = categoryRepository.add(title, url, xpathTitle, xpathText, charset, webId);
         return Response.success(num);
     }
 
     @Transactional
-    public Response modifyCategory(CategoryEntity categoryEntity){
+    public Response modifyCategory(CategoryEntity categoryEntity) {
         Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findById(categoryEntity.getId());
         if (!categoryEntityOptional.isPresent()) {
             return Response.fail("NO_RECORD");
         }
         categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
 //        categoryEntity.setUpdateUser("");
-        SqlUtil.copyNullProperties(categoryEntityOptional.get(),categoryEntity);
+        SqlUtil.copyNullProperties(categoryEntityOptional.get(), categoryEntity);
         CategoryEntity newOne = categoryRepository.saveAndFlush(categoryEntity);
         return Response.success(newOne);
     }
@@ -118,12 +118,12 @@ public class CrawlerService {
         } else {
             Optional<WebEntity> optionalWebEntity = webRepository.findByUrl(crawlerResult.getOrigin());
             if (optionalWebEntity.isPresent()) {
-                CategoryEntity categoryEntity = saveCategoryEntities(optionalWebEntity.get().getId(),crawlerResult);
-                saveNewsEntities(categoryEntity.getId(),crawlerResult);
+                CategoryEntity categoryEntity = saveCategoryEntities(optionalWebEntity.get().getId(), crawlerResult);
+                saveNewsEntities(categoryEntity.getId(), crawlerResult);
             } else {
                 WebEntity webEntity = saveWebEntities(crawlerResult);
-                CategoryEntity categoryEntity = saveCategoryEntities(webEntity.getId(),crawlerResult);
-                saveNewsEntities(categoryEntity.getId(),crawlerResult);
+                CategoryEntity categoryEntity = saveCategoryEntities(webEntity.getId(), crawlerResult);
+                saveNewsEntities(categoryEntity.getId(), crawlerResult);
             }
         }
         return Response.success("ok");
@@ -131,7 +131,7 @@ public class CrawlerService {
 
     private void saveNewsEntities(int categoryId, CrawlerResult crawlerResult) {
         List<NewsLink> newsLinks = crawlerResult.getValidResults();
-        List<NewsEntity> newsEntities = newsLinks.stream().map((v)->{
+        List<NewsEntity> newsEntities = newsLinks.stream().map((v) -> {
             NewsEntity newsEntity = new NewsEntity();
             newsEntity.setUrl(v.getHref());
             newsEntity.setTitle(v.getTitle());

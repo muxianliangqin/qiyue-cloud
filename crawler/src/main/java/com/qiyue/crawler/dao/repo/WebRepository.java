@@ -11,12 +11,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface WebRepository extends JpaRepository<WebEntity,Integer> {
+public interface WebRepository extends JpaRepository<WebEntity, Integer> {
     Page<WebEntity> findByUserIdAndState(int userId,
                                          String state,
                                          Pageable pageable);
 
-    Page<WebEntity> findByUserIdInAndState(List<Integer> userIds, String state,Pageable pageable);
+    Page<WebEntity> findByUserIdInAndState(List<Integer> userIds, String state, Pageable pageable);
 
     @Modifying
     @Query("update WebEntity set state = '1' where id = ?1")

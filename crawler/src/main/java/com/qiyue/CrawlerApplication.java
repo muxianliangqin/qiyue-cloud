@@ -8,7 +8,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableRedisHttpSession(redisNamespace=Constant.SESSION_REDIS_NAME_SPACE)
+@EnableRedisHttpSession(redisNamespace = Constant.SESSION_REDIS_NAME_SPACE)
 public class CrawlerApplication {
 
     public static void main(String[] args) {

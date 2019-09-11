@@ -23,48 +23,48 @@ public class CrawlerController {
 
     @RequestMapping("/findWebs")
     public Response findAllByUserIdAndState(@RequestParam(value = "userIds") List<Integer> userIds,
-                             @PageableDefault(sort = {"updateTime"},direction = Sort.Direction.DESC) Pageable pageable){
-        return crawlerService.findByUserIdInAndState(userIds,pageable);
+                                            @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return crawlerService.findByUserIdInAndState(userIds, pageable);
     }
 
     @RequestMapping("/findNews")
     public Response findByCategoryId(@RequestParam(value = "categoryId") int categoryId,
-                                     @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
-        return crawlerService.findByCategoryIdAndState(categoryId,pageable);
+                                     @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return crawlerService.findByCategoryIdAndState(categoryId, pageable);
     }
 
     @RequestMapping("/deleteWeb")
-    public Response deleteWeb(int webId){
+    public Response deleteWeb(int webId) {
         return crawlerService.deleteWeb(webId);
     }
 
     @RequestMapping("/addWeb")
-    public Response addWeb(String title, String url, int userId){
+    public Response addWeb(String title, String url, int userId) {
         return crawlerService.addWeb(title, url, userId);
     }
 
     @RequestMapping("/modifyWeb")
-    public Response modifyWeb(WebEntity webEntity){
+    public Response modifyWeb(WebEntity webEntity) {
         return crawlerService.modifyWeb(webEntity);
     }
 
     @RequestMapping("/deleteCategory")
-    public Response deleteCategory(int categoryId){
+    public Response deleteCategory(int categoryId) {
         return crawlerService.deleteCategory(categoryId);
     }
 
     @RequestMapping("/addCategory")
-    public Response addCategory(String title, String url, String xpathTitle,String xpathText, String charset, int webId){
+    public Response addCategory(String title, String url, String xpathTitle, String xpathText, String charset, int webId) {
         return crawlerService.addCategory(title, url, xpathTitle, xpathText, charset, webId);
     }
 
     @RequestMapping("/modifyCategory")
-    public Response modifyCategory(CategoryEntity categoryEntity){
+    public Response modifyCategory(CategoryEntity categoryEntity) {
         return crawlerService.modifyCategory(categoryEntity);
     }
 
     @RequestMapping("/plugin/save")
-    public Response pluginResultSave(@RequestParam("crawlerResult") String json){
+    public Response pluginResultSave(@RequestParam("crawlerResult") String json) {
         JSONObject jsonObject = JSONObject.parseObject(json);
         CrawlerResult crawlerResult = JSONObject.toJavaObject(jsonObject, CrawlerResult.class);
         return crawlerService.pluginResultSave(crawlerResult);

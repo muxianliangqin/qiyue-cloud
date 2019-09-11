@@ -18,10 +18,10 @@ public class TimeAspect {
 //        logger.info("Completed: " + joinPoint);
 //    }
 
-	 /**
+    /**
      * 定义一个切入点.
      * 解释下：
-     *
+     * <p>
      * ~ 第一个 * 代表任意修饰符及任意返回值.
      * ~ 第二个 * 定义在web包或者子包
      * ~ 第三个 * 任意方法
@@ -33,6 +33,7 @@ public class TimeAspect {
 
     /**
      * 声明环绕通知
+     *
      * @param pjp
      * @return
      * @throws Throwable
@@ -42,7 +43,7 @@ public class TimeAspect {
         long begin = System.currentTimeMillis();
         Object obj = pjp.proceed();
         long end = System.currentTimeMillis();
-        log.info("\n调用controller方法：{},参数:{},耗时:{}毫秒",pjp.getSignature().toString(), Arrays.toString(pjp.getArgs()), (end - begin));
+        log.info("\n调用controller方法：{},参数:{},耗时:{}毫秒", pjp.getSignature().toString(), Arrays.toString(pjp.getArgs()), (end - begin));
         return obj;
     }
 }

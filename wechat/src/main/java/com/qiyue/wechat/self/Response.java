@@ -49,9 +49,9 @@ public class Response {
     public static Response fail(String enumName) {
         Response response = new Response();
         Error error = null;
-        try{
+        try {
             error = Error.valueOf(enumName);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             error = Error.valueOf("ENUM_ERROR");
         }
         response.errorCode = error.getCode();
@@ -59,7 +59,7 @@ public class Response {
         return response;
     }
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         System.out.println(Response.fail("eee"));
     }
 }

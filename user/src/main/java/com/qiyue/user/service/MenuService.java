@@ -39,68 +39,68 @@ public class MenuService {
     @Autowired
     private RedisUtil redisUtil;
 
-    public Response getMenuNode(int userId){
+    public Response getMenuNode(int userId) {
         Filter filter = entityManager.unwrap(Session.class).enableFilter("userIdFilter");
         filter.setParameter("userId", userId);
         List<MenuEntity> menuEntities = menuRepository.getMenus(userId);
         return Response.success(Node.insertBatch(menuEntities));
     }
 
-    public Response findAll(Pageable pageable){
+    public Response findAll(Pageable pageable) {
         Page<MenuEntity> menuEntityPage = menuRepository.findAll(pageable);
         return Response.success(menuEntityPage);
     }
 
-    public Response menuFindAll(){
+    public Response menuFindAll() {
         List<MenuEntity> menuEntities = menuRepository.findAll();
         return Response.success(Node.insertBatch(menuEntities));
     }
 
     @Transactional
-    public Response menuDel(int id){
+    public Response menuDel(int id) {
         menuRepository.deleteById(id);
         return Response.success("ok");
     }
 
     @Transactional
-    public Response menuStop(int id){
+    public Response menuStop(int id) {
         int num = menuRepository.stop(id);
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuRestart(int id){
+    public Response menuRestart(int id) {
         int num = menuRepository.restart(id);
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuDelBatch(List<Integer> ids){
+    public Response menuDelBatch(List<Integer> ids) {
         int num = menuRepository.delBatch(ids);
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuStopBatch(List<Integer> ids){
+    public Response menuStopBatch(List<Integer> ids) {
         int num = menuRepository.stopBatch(ids);
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuRestartBatch(List<Integer> ids){
+    public Response menuRestartBatch(List<Integer> ids) {
         int num = menuRepository.restartBatch(ids);
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuAdd(MenuEntity menuEntity){
+    public Response menuAdd(MenuEntity menuEntity) {
         int num = menuRepository.add(menuEntity.getCode(), menuEntity.getName(),
-                menuEntity.getUrl(),menuEntity.getSuperCode());
+                menuEntity.getUrl(), menuEntity.getSuperCode());
         return Response.success(num);
     }
 
     @Transactional
-    public Response menuModify(MenuEntity menuEntity){
+    public Response menuModify(MenuEntity menuEntity) {
         Optional<MenuEntity> menuEntityOptional = menuRepository.findById(menuEntity.getId());
         if (!menuEntityOptional.isPresent()) {
             Response.fail("NO_RECORD");

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "menu",uniqueConstraints = {
+@Table(name = "menu", uniqueConstraints = {
         @UniqueConstraint(columnNames = "code")
 })
 public class MenuEntity extends Element implements Serializable {
@@ -70,7 +70,7 @@ public class MenuEntity extends Element implements Serializable {
     @JoinColumn(name = "menu_code", referencedColumnName = "code")
     @Where(clause = "state=0")
     @org.hibernate.annotations.OrderBy(clause = "update_time desc")
-    @Filter(name="userIdFilter", condition = "loan_user_id = :userId")
+    @Filter(name = "userIdFilter", condition = "loan_user_id = :userId")
     private List<MenuLoanEntity> menuLoanEntities;
 
 }

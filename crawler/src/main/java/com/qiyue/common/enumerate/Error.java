@@ -1,13 +1,13 @@
 package com.qiyue.common.enumerate;
 
 public enum Error {
-    SUCCESS("0000","success"),
+    SUCCESS("0000", "success"),
     /* 自定义错误区 */
-    NO_RECORD("0001","记录不存在"),
+    NO_RECORD("0001", "记录不存在"),
 
     /* 系统错误区 */
-    ENUM_ERROR("0003","枚举名称错误"),
-    UNKNOWN_ERROR("9999","未知错误");
+    ENUM_ERROR("0003", "枚举名称错误"),
+    UNKNOWN_ERROR("9999", "未知错误");
 
     private String code;
 

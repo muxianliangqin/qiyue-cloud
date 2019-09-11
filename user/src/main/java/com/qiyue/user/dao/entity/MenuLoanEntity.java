@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "menu_loan")
 @FilterDef(name = "userIdFilter",
-        parameters = { @ParamDef(name = "userId", type = "java.lang.Integer") })
+        parameters = {@ParamDef(name = "userId", type = "java.lang.Integer")})
 public class MenuLoanEntity {
 
     @Id

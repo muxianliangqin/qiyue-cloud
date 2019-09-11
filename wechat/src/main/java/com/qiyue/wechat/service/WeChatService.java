@@ -30,7 +30,7 @@ public class WeChatService {
         return response;
     }
 
-    public Response findRecords(int groupId, Pageable pageable){
+    public Response findRecords(int groupId, Pageable pageable) {
         Page<RecordEntity> recordEntityPage = recordRepository.findByGroupId(groupId, pageable);
         return Response.success(recordEntityPage);
     }
@@ -47,12 +47,12 @@ public class WeChatService {
 
     @Transactional
     public Response add(int userId, String groupNickName) {
-        long num = groupRepository.add(userId,groupNickName);
+        long num = groupRepository.add(userId, groupNickName);
         return Response.success(num);
     }
 
     @Transactional
-    public Response modify(int id, String groupNickName){
+    public Response modify(int id, String groupNickName) {
         long num = groupRepository.modify(id, groupNickName);
         if (num > 0) {
             return Response.success(num);

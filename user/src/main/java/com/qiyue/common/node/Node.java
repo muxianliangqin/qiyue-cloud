@@ -39,7 +39,7 @@ public class Node implements Serializable {
             subNode.height = node.height + 1;
             return true;
         }
-        for (Node child:node.getChildren()) {
+        for (Node child : node.getChildren()) {
             String code = child.getElement().getCode();
             if (supCode.equals(code)) {
                 Node subNode = new Node(element);
@@ -58,7 +58,7 @@ public class Node implements Serializable {
         return false;
     }
 
-    public static Node insertBatch(List<? extends Element> elements){
+    public static Node insertBatch(List<? extends Element> elements) {
         Node node = new Node();
         elements.forEach(k -> {
             node.insert(node, k);

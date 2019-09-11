@@ -24,9 +24,9 @@ public interface KeywordRepository extends JpaRepository<KeywordEntity, Integer>
             "reg_codes = :codes where id=:id",
             nativeQuery = true)
     int modify(@Param("name") String name,
-            @Param("regexp") String regexp,
-            @Param("codes") String codes,
-            @Param("id") int id);
+               @Param("regexp") String regexp,
+               @Param("codes") String codes,
+               @Param("id") int id);
 
     Page<KeywordEntity> findAllByUserId(int userId, Pageable pageable);
 }

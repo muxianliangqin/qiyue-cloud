@@ -26,7 +26,7 @@ public class UserController {
 
     /* 用户处理 */
     @RequestMapping("/user/findAllPage")
-    public Response findAllPage(@PageableDefault(sort = "id",direction = Sort.Direction.ASC) Pageable pageable) {
+    public Response findAllPage(@PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return userService.findAllPage(pageable);
     }
 

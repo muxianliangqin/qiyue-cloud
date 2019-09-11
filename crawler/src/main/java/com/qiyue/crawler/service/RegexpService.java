@@ -23,7 +23,7 @@ public class RegexpService {
     @Autowired
     private KeywordRepository keywordRepository;
 
-    public Response regexpFindAll(){
+    public Response regexpFindAll() {
         Sort sort = new Sort(Sort.Direction.ASC, "code");
         List<RegexpsEntity> regexpsEntities = regexpsRepository.findAll(sort);
         return Response.success(regexpsEntities);

@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface GroupRepository extends JpaRepository<GroupEntity,Integer> {
+public interface GroupRepository extends JpaRepository<GroupEntity, Integer> {
 
     Page<GroupEntity> findByUserIdAndState(int userId,
                                            String state,
@@ -23,8 +23,8 @@ public interface GroupRepository extends JpaRepository<GroupEntity,Integer> {
     int updateState(int id);
 
     @Modifying
-    @Query(value="insert into groups (user_id,group_nick_name) values (?1,?2)",
-            nativeQuery=true)
+    @Query(value = "insert into groups (user_id,group_nick_name) values (?1,?2)",
+            nativeQuery = true)
     int add(int userId, String groupNickName);
 
     @Modifying

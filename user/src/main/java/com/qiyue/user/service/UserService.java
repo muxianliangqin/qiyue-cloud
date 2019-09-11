@@ -42,13 +42,13 @@ public class UserService {
             return Response.fail("LOGIN_ERROR");
         }
         UserEntity user = userEntity.get();
-        password = BaseUtil.encrypt(password,user.getSalt());
+        password = BaseUtil.encrypt(password, user.getSalt());
         if (!BaseUtil.slowEquals(password, user.getPassword())) {
             return Response.fail("LOGIN_ERROR");
         }
         user = userMessageFilter(user);
         HttpSession session = request.getSession();
-        User sessionUser = (User)session.getAttribute(Constant.SESSION_USER);
+        User sessionUser = (User) session.getAttribute(Constant.SESSION_USER);
         // 如果session中已存在的user信息与登录用户不一致
         if (null != sessionUser && !user.getUsername().equals(sessionUser.getUsername())) {
             return Response.fail("LOGIN_MULTI_ERROR");
@@ -57,7 +57,7 @@ public class UserService {
         return Response.success(user);
     }
 
-    public Response logout(HttpServletRequest request){
+    public Response logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (null != session) {
             session.invalidate();
@@ -65,7 +65,7 @@ public class UserService {
         return Response.success();
     }
 
-    public User transformUser(UserEntity userEntity){
+    public User transformUser(UserEntity userEntity) {
         User user = new User();
         user.setId(userEntity.getId());
         user.setUsername(userEntity.getUsername());
@@ -96,40 +96,44 @@ public class UserService {
         return user;
     }
 
-    public Response findAllPage(Pageable pageable){
+    public Response findAllPage(Pageable pageable) {
         Page<UserEntity> userEntityPage = userRepository.findAll(pageable);
-        userEntityPage.getContent().forEach((k)->{k = userMessageFilter(k);});
+        userEntityPage.getContent().forEach((k) -> {
+            k = userMessageFilter(k);
+        });
         return Response.success(userEntityPage);
     }
 
-    public Response findAll(){
+    public Response findAll() {
         List<UserEntity> userEntities = userRepository.findAll();
-        userEntities.forEach((k)->{k = userMessageFilter(k);});
+        userEntities.forEach((k) -> {
+            k = userMessageFilter(k);
+        });
         return Response.success(userEntities);
     }
 
     @Transactional
-    public Response userDel(int id){
+    public Response userDel(int id) {
         userRepository.deleteById(id);
         return Response.success("ok");
     }
 
     @Transactional
-    public Response userStop(int id){
+    public Response userStop(int id) {
         int num = userRepository.stop(id);
         return Response.success(num);
     }
 
     @Transactional
-    public Response userRestart(int id){
+    public Response userRestart(int id) {
         int num = userRepository.restart(id);
         return Response.success(num);
     }
 
     @Transactional
     public Response userAdd(UserEntity userEntity) throws Exception {
-        String salt = BaseUtil.getRandomString(20,Constant.TYPE_MIX);
-        String password = BaseUtil.encrypt(userEntity.getPassword(),salt);
+        String salt = BaseUtil.getRandomString(20, Constant.TYPE_MIX);
+        String password = BaseUtil.encrypt(userEntity.getPassword(), salt);
         int num = userRepository.add(userEntity.getUsername(),
                 userEntity.getMobile(),
                 password,
@@ -140,7 +144,7 @@ public class UserService {
     }
 
     @Transactional
-    public Response userModify(UserEntity userEntity){
+    public Response userModify(UserEntity userEntity) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(userEntity.getId());
         if (!userEntityOptional.isPresent()) {
             Response.fail("NO_RECORD");
@@ -155,15 +159,15 @@ public class UserService {
         return Response.success(newOne);
     }
 
-    public Response findUserMenus(int userId){
+    public Response findUserMenus(int userId) {
         List<UserMenuEntity> userMenuEntities = userMenuRepository.findByUserId(userId);
         return Response.success(userMenuEntities);
-     }
+    }
 
     @Transactional
     public Response setUserMenus(String menus) {
         JSONObject obj = JSONObject.parseObject(menus);
-        List<Integer> subtractMenus = (List<Integer>)obj.get("subtractMenus");
+        List<Integer> subtractMenus = (List<Integer>) obj.get("subtractMenus");
         userMenuRepository.deleteByMenuCodeIn(subtractMenus);
         Object addMenus = obj.get("addMenus");
         List<UserMenuEntity> userMenuEntities = JSONObject.parseArray(

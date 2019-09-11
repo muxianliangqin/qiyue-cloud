@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "news", uniqueConstraints={
+@Table(name = "news", uniqueConstraints = {
         @UniqueConstraint(columnNames = "url")
 })
 public class NewsEntity {

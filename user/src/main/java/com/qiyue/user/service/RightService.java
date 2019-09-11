@@ -24,31 +24,31 @@ public class RightService {
     @Autowired
     private RightMenuRepository rightMenuRepository;
 
-    public Response rightFindAll(Pageable pageable){
+    public Response rightFindAll(Pageable pageable) {
         Page<RightEntity> rightEntityPage = rightRepository.findAll(pageable);
         return Response.success(rightEntityPage);
     }
 
     @Transactional
-    public Response rightDel(int id){
+    public Response rightDel(int id) {
         rightRepository.deleteById(id);
         return Response.success("ok");
     }
 
     @Transactional
-    public Response rightStop(int id){
+    public Response rightStop(int id) {
         int num = rightRepository.stop(id);
         return Response.success(num);
     }
 
     @Transactional
-    public Response rightRestart(int id){
+    public Response rightRestart(int id) {
         int num = rightRepository.restart(id);
         return Response.success(num);
     }
 
     @Transactional
-    public Response rightAdd(RightEntity rightEntity){
+    public Response rightAdd(RightEntity rightEntity) {
         int num = rightRepository.add(rightEntity.getCode(),
                 rightEntity.getName(),
                 rightEntity.getDesc());
@@ -56,7 +56,7 @@ public class RightService {
     }
 
     @Transactional
-    public Response rightModify(RightEntity RightEntity){
+    public Response rightModify(RightEntity RightEntity) {
         Optional<RightEntity> RightEntityOptional = rightRepository.findById(RightEntity.getId());
         if (!RightEntityOptional.isPresent()) {
             Response.fail("NO_RECORD");
@@ -71,7 +71,7 @@ public class RightService {
     }
 
     public Response rightMenu(String rightCode) {
-        List<RightMenuEntity> rightMenuEntities =  rightMenuRepository.findByRightCode(rightCode);
+        List<RightMenuEntity> rightMenuEntities = rightMenuRepository.findByRightCode(rightCode);
         return Response.success(rightMenuEntities);
     }
 }

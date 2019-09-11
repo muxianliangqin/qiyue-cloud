@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "web", uniqueConstraints={
+@Table(name = "web", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"url"})
 })
 public class WebEntity implements Serializable {
@@ -45,7 +45,7 @@ public class WebEntity implements Serializable {
     private Integer userId;
 
     @OneToMany
-    @JoinColumn(name = "web_id",referencedColumnName = "id")
+    @JoinColumn(name = "web_id", referencedColumnName = "id")
     @Where(clause = "category_state=0")
     @OrderBy(clause = "update_time desc")
     private List<CategoryEntity> categories;

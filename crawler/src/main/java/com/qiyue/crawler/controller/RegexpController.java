@@ -16,7 +16,7 @@ public class RegexpController {
     private RegexpService regexpService;
 
     @RequestMapping("/regexp/regexpFindAll")
-    public Response regexpFindAll(){
+    public Response regexpFindAll() {
         return regexpService.regexpFindAll();
     }
 
@@ -31,7 +31,7 @@ public class RegexpController {
     }
 
     @RequestMapping("/regexp/keywordFindAll")
-    public Response keywordFindAll(@PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable){
+    public Response keywordFindAll(@PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return regexpService.keywordFindAll(pageable);
     }
 

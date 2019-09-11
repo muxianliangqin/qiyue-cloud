@@ -10,8 +10,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @SpringBootApplication
 @Configuration
 @EnableDiscoveryClient
-@EnableRedisHttpSession(redisNamespace=Constant.SESSION_REDIS_NAME_SPACE,
-        maxInactiveIntervalInSeconds=60 * 30)
+@EnableRedisHttpSession(redisNamespace = Constant.SESSION_REDIS_NAME_SPACE,
+        maxInactiveIntervalInSeconds = 60 * 30)
 public class UserApplication {
 
     public static void main(String[] args) {

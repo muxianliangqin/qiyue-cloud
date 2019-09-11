@@ -9,7 +9,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @SpringBootApplication
 @EnableZuulProxy
-@EnableRedisHttpSession(redisNamespace=Constant.SESSION_REDIS_NAME_SPACE, redisFlushMode=RedisFlushMode.IMMEDIATE)
+@EnableRedisHttpSession(redisNamespace = Constant.SESSION_REDIS_NAME_SPACE, redisFlushMode = RedisFlushMode.IMMEDIATE)
 public class GatewayApplication {
 
     public static void main(String[] args) {

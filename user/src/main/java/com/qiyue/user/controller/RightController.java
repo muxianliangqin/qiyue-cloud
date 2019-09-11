@@ -20,7 +20,7 @@ public class RightController {
 
     /* 权限处理 */
     @RequestMapping("/right/findAll")
-    public Response rightFindAll(@PageableDefault(sort = "code",direction = Sort.Direction.ASC) Pageable pageable) {
+    public Response rightFindAll(@PageableDefault(sort = "code", direction = Sort.Direction.ASC) Pageable pageable) {
         return rightService.rightFindAll(pageable);
     }
 

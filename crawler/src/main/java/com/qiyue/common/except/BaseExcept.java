@@ -6,7 +6,7 @@ public class BaseExcept extends RuntimeException {
 
     private String errorMsg;
 
-    public BaseExcept(String errorCode,String errorMsg) {
+    public BaseExcept(String errorCode, String errorMsg) {
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
     }

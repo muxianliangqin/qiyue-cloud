@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "regexps", uniqueConstraints={
+@Table(name = "regexps", uniqueConstraints = {
         @UniqueConstraint(columnNames = "reg_exp")
 })
 public class RegexpsEntity {

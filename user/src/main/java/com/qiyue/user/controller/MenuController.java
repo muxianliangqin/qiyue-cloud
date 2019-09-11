@@ -24,13 +24,13 @@ public class MenuController {
     private MenuService menuService;
 
     @RequestMapping("/getMenuNode")
-    public Response getMenuNode(int userId){
+    public Response getMenuNode(int userId) {
         return menuService.getMenuNode(userId);
     }
 
     /* 菜单处理 */
     @RequestMapping("/menu/findAllPage")
-    public Response findAll(@PageableDefault(sort = "code",direction = Sort.Direction.ASC) Pageable pageable) {
+    public Response findAll(@PageableDefault(sort = "code", direction = Sort.Direction.ASC) Pageable pageable) {
         return menuService.findAll(pageable);
     }
 
