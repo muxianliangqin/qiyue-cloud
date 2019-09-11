@@ -27,7 +27,7 @@ public class TimeAspect {
      * ~ 第三个 * 任意方法
      * ~ .. 匹配任意数量的参数.
      */
-    @Pointcut("execution(* com.qiyue.crawler.controller..*.*(..))")
+    @Pointcut("execution(* com.qiyue.*.controller..*.*(..))")
     private void controllerCutMethod() {
     }
 
