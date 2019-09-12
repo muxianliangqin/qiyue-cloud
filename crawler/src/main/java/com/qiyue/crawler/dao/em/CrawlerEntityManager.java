@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,6 +39,33 @@ public class CrawlerEntityManager {
             }
             int[] ints = ps.executeBatch();
             conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    @Transactional
+    public void keywordWebSet(int webId, List<Integer> categories, List<Integer> keywords) {
+        try {
+            String sql = "insert ignore into web_keyword (web_id,category_id,keyword_id) " +
+                    "values (?,?,?)";
+            SessionImplementor session = entityManager.unwrap(SessionImplementor.class);
+            Connection conn = session.connection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+//            conn.setAutoCommit(false);
+            for (int i = 0; i < categories.size(); i++) {
+                for (int j = 0; j < keywords.size(); j++) {
+                    ps.setInt(1, webId);
+                    ps.setInt(2, categories.get(i));
+                    ps.setInt(3, keywords.get(j));
+                    ps.addBatch();
+                    if ((i*j + 1) % 500 == 0) {
+                        int[] ints = ps.executeBatch();
+                    }
+                }
+            }
+            int[] ints = ps.executeBatch();
+//            conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

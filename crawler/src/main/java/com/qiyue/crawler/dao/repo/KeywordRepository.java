@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface KeywordRepository extends JpaRepository<KeywordEntity, Integer> {
 
     @Modifying
@@ -29,4 +31,6 @@ public interface KeywordRepository extends JpaRepository<KeywordEntity, Integer>
                @Param("id") int id);
 
     Page<KeywordEntity> findAllByUserId(int userId, Pageable pageable);
+
+    List<KeywordEntity> findAllByUserId(int userId);
 }

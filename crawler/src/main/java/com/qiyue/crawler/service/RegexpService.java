@@ -1,6 +1,7 @@
 package com.qiyue.crawler.service;
 
 import com.qiyue.common.session.ContextUtil;
+import com.qiyue.crawler.dao.em.CrawlerEntityManager;
 import com.qiyue.crawler.dao.entity.KeywordEntity;
 import com.qiyue.crawler.dao.entity.RegexpsEntity;
 import com.qiyue.crawler.dao.repo.KeywordRepository;
@@ -23,6 +24,9 @@ public class RegexpService {
     @Autowired
     private KeywordRepository keywordRepository;
 
+    @Autowired
+    private CrawlerEntityManager crawlerEntityManager;
+
     public Response regexpFindAll() {
         Sort sort = new Sort(Sort.Direction.ASC, "code");
         List<RegexpsEntity> regexpsEntities = regexpsRepository.findAll(sort);
@@ -42,10 +46,21 @@ public class RegexpService {
         return Response.success(i);
     }
 
-    public Response keywordFindAll(Pageable pageable) {
+    public Response keywordFindPage(Pageable pageable) {
         int userId = ContextUtil.getUser().getId();
         Page<KeywordEntity> keywordEntityPage = keywordRepository.findAllByUserId(userId, pageable);
         return Response.success(keywordEntityPage);
+    }
+
+     public Response keywordFindAll() {
+        int userId = ContextUtil.getUser().getId();
+        List<KeywordEntity> keywordEntity = keywordRepository.findAllByUserId(userId);
+        return Response.success(keywordEntity);
+    }
+
+     public Response keywordWebSet(int webId, List<Integer> categories, List<Integer> keywords) {
+        crawlerEntityManager.keywordWebSet(webId, categories, keywords);
+        return Response.success();
     }
 
     @Transactional

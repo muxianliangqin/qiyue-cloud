@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class RegexpController {
     @Autowired
@@ -30,13 +32,25 @@ public class RegexpController {
         return regexpService.modify(name, regexp, codes, id);
     }
 
+    @RequestMapping("/regexp/keywordFindPage")
+    public Response keywordFindPage(
+            @PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return regexpService.keywordFindPage(pageable);
+    }
+
     @RequestMapping("/regexp/keywordFindAll")
-    public Response keywordFindAll(@PageableDefault(sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        return regexpService.keywordFindAll(pageable);
+    public Response keywordFindAll() {
+        return regexpService.keywordFindAll();
+    }
+
+    @RequestMapping("/regexp/keywordWebSet")
+    public Response keywordWebSet(int webId, List<Integer> categories, List<Integer> keywords) {
+        return regexpService.keywordWebSet(webId, categories, keywords);
     }
 
     @RequestMapping("/regexp/keywordDel")
     public Response keywordDel(int id) {
         return regexpService.keywordDel(id);
     }
+
 }
