@@ -114,6 +114,7 @@ public class CrawlerService {
     public Response pluginResultSave(CrawlerResult crawlerResult) {
         Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findByUrl(crawlerResult.getBaseURI());
         if (categoryEntityOptional.isPresent()) {
+            updateCategoryEntity(categoryEntityOptional.get(), crawlerResult);
             saveNewsEntities(categoryEntityOptional.get().getId(), crawlerResult);
         } else {
             Optional<WebEntity> optionalWebEntity = webRepository.findByUrl(crawlerResult.getOrigin());
@@ -154,6 +155,18 @@ public class CrawlerService {
         categoryEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         return categoryRepository.save(categoryEntity);
+    }
+
+    private CategoryEntity updateCategoryEntity(CategoryEntity old, CrawlerResult crawlerResult) {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setTitle(crawlerResult.getTitle());
+        categoryEntity.setXpathTitle(crawlerResult.getXpathTitle());
+        categoryEntity.setXpathText(crawlerResult.getXpathText());
+        categoryEntity.setCharset(crawlerResult.getCharset());
+        categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        SqlUtil.copyNullProperties(old, categoryEntity);
+        CategoryEntity newOne = categoryRepository.saveAndFlush(categoryEntity);
+        return newOne;
     }
 
     private WebEntity saveWebEntities(CrawlerResult crawlerResult) {

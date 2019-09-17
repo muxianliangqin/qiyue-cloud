@@ -1,5 +1,7 @@
 package com.qiyue.crawler.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.qiyue.common.request.KeywordWebSet;
 import com.qiyue.common.session.ContextUtil;
 import com.qiyue.crawler.dao.em.CrawlerEntityManager;
 import com.qiyue.crawler.dao.entity.KeywordEntity;
@@ -58,8 +60,10 @@ public class RegexpService {
         return Response.success(keywordEntity);
     }
 
-     public Response keywordWebSet(int webId, List<Integer> categories, List<Integer> keywords) {
-        crawlerEntityManager.keywordWebSet(webId, categories, keywords);
+     public Response keywordWebSet(String request) {
+         KeywordWebSet keywordWebSet = JSONObject.parseObject(request, KeywordWebSet.class);
+        crawlerEntityManager.keywordWebSet(keywordWebSet.getWebId(), keywordWebSet.getCategories(),
+                keywordWebSet.getKeywords());
         return Response.success();
     }
 

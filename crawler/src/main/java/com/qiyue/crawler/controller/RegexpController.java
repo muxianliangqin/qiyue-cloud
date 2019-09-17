@@ -44,8 +44,8 @@ public class RegexpController {
     }
 
     @RequestMapping("/regexp/keywordWebSet")
-    public Response keywordWebSet(int webId, List<Integer> categories, List<Integer> keywords) {
-        return regexpService.keywordWebSet(webId, categories, keywords);
+    public Response keywordWebSet(String request) {
+        return regexpService.keywordWebSet(request);
     }
 
     @RequestMapping("/regexp/keywordDel")
