@@ -106,7 +106,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip>
                     <mainClass>com.qiyue.UserApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>

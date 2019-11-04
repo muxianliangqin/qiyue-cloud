@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: qiyue-cloud-gateway
+  datasource:
+    url: jdbc:mysql://47.106.140.189:3306/user?useSSL=false
+    username: test
+    password: root1234
+
+  #sql日志打印
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: false
+  redis:
+    database: 0
+    port: 6379
+    host: 47.106.140.189
+    password: root1234
+    timeout: 3s
+    #lettuce 是一个可以做缓冲池的插件，也可以不用，使用pool为三级参数，即spring.redis.pool...
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 20
+        min-idle: 0
+        max-wait: 3000ms
+
+server:
+  port: 7001
+
+#日志级别
+logging:
+  level:
+    root: info
+    org :
+      hibernate: info
+      springframework:
+        web: info
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://47.106.140.189/server/eureka/
+
+zuul:
+  sensitiveHeaders: "*"
+  routes:
+    qiyue-cloud-crawler: /crawler/**
+    qiyue-cloud-user: /user/**
+    qiyue-cloud-weChat: /weChat/**
