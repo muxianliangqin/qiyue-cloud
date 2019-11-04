@@ -1,4 +1,4 @@
-package com.qiyue.wechat;
+package com.qiyue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

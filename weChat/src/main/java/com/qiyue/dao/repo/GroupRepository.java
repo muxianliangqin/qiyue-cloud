@@ -1,6 +1,6 @@
-package com.qiyue.wechat.dao.repo;
+package com.qiyue.dao.repo;
 
-import com.qiyue.wechat.dao.entity.GroupEntity;
+import com.qiyue.dao.entity.GroupEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

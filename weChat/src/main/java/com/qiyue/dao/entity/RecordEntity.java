@@ -1,4 +1,4 @@
-package com.qiyue.wechat.dao.entity;
+package com.qiyue.dao.entity;
 
 import lombok.Data;
 

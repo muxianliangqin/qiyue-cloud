@@ -1,4 +1,4 @@
-package com.qiyue.wechat;
+package com.qiyue;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

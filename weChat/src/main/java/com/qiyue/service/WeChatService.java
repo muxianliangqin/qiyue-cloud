@@ -1,17 +1,16 @@
-package com.qiyue.wechat.service;
+package com.qiyue.service;
 
 import com.qiyue.common.response.Response;
-import com.qiyue.wechat.dao.entity.GroupEntity;
-import com.qiyue.wechat.dao.entity.RecordEntity;
-import com.qiyue.wechat.dao.repo.GroupRepository;
-import com.qiyue.wechat.dao.repo.RecordRepository;
+import com.qiyue.dao.entity.GroupEntity;
+import com.qiyue.dao.entity.RecordEntity;
+import com.qiyue.dao.repo.GroupRepository;
+import com.qiyue.dao.repo.RecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 public class WeChatService {

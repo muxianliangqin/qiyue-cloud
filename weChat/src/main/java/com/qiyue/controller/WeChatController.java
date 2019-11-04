@@ -1,10 +1,8 @@
-package com.qiyue.wechat.controller;
+package com.qiyue.controller;
 
 import com.qiyue.common.response.Response;
-import com.qiyue.wechat.dao.entity.RecordEntity;
-import com.qiyue.wechat.service.WeChatService;
+import com.qiyue.service.WeChatService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;

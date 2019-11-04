@@ -107,7 +107,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
-                    <mainClass>com.qiyue.GatewayApplication</mainClass>
+                    <mainClass>com.qiyue.UserApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
