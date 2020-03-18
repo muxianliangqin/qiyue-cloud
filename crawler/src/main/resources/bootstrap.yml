@@ -3,7 +3,7 @@ spring:
     name: qiyue-cloud-crawler
   cloud:
     config:
-      profile: dev
+      profile: prod
       uri: http://localhost:7040/
       label: master
 
