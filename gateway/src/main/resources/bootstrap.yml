@@ -6,9 +6,3 @@ spring:
       profile: prod
       uri: http://localhost:7040/
       label: master
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: refresh

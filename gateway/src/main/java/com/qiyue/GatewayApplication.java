@@ -8,7 +8,6 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.session.data.redis.RedisFlushMode;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-@RefreshScope
 @SpringBootApplication
 @EnableZuulProxy
 @EnableRedisHttpSession(redisNamespace = Constant.SESSION_REDIS_NAME_SPACE, redisFlushMode = RedisFlushMode.IMMEDIATE)

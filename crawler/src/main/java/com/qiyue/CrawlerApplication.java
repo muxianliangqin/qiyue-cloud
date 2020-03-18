@@ -7,7 +7,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-@RefreshScope
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableRedisHttpSession(redisNamespace = Constant.SESSION_REDIS_NAME_SPACE)
