@@ -6,9 +6,9 @@
     <groupId>com.qiyue</groupId>
     <artifactId>eureka-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
-    <name>eureka-server</name>
+    <name>server</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
