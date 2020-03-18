@@ -4,25 +4,13 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.qiyue.common.constant.Constant;
-import com.qiyue.common.redis.RedisUtil;
-import com.qiyue.common.session.ContextUtil;
-import com.qiyue.common.session.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class RequestFilter extends ZuulFilter {
-
-    @Autowired
-    private RedisUtil redisUtil;
 
     @Override
     public String filterType() {

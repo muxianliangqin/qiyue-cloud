@@ -1,6 +1,7 @@
 package com.qiyue.crawler.service;
 
 import com.qiyue.common.constant.Constant;
+import com.qiyue.common.constant.ErrorConstant;
 import com.qiyue.common.session.ContextUtil;
 import com.qiyue.crawler.dao.em.CrawlerEntityManager;
 import com.qiyue.crawler.dao.entity.CategoryEntity;
@@ -75,7 +76,7 @@ public class CrawlerService {
     public Response modifyWeb(WebEntity webEntity) {
         Optional<WebEntity> webEntityOptional = webRepository.findById(webEntity.getId());
         if (!webEntityOptional.isPresent()) {
-            return Response.fail("NO_RECORD");
+            return Response.fail(ErrorConstant.NO_RECORD);
         }
         webEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
 //        categoryEntity.setUpdateUser("");
@@ -101,7 +102,7 @@ public class CrawlerService {
     public Response modifyCategory(CategoryEntity categoryEntity) {
         Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findById(categoryEntity.getId());
         if (!categoryEntityOptional.isPresent()) {
-            return Response.fail("NO_RECORD");
+            return Response.fail(ErrorConstant.NO_RECORD);
         }
         categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
 //        categoryEntity.setUpdateUser("");

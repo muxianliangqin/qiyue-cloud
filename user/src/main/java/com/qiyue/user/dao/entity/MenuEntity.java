@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -42,13 +43,13 @@ public class MenuEntity extends Element implements Serializable {
     private String state;
 
     @Column(name = "create_time")
-    private String createTime;
+    private Date createTime = new Date();
 
     @Column(name = "create_user")
     private String createUser;
 
     @Column(name = "update_time")
-    private String updateTime;
+    private Date updateTime = new Date();
 
     @Column(name = "update_user")
     private String updateUser;

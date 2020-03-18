@@ -14,7 +14,6 @@
         <module>user</module>
         <module>crawler</module>
         <module>gateway</module>
-        <module>weChat</module>
     </modules>
 
     <parent>
@@ -30,5 +29,5 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
     </properties>
-    
+
 </project>

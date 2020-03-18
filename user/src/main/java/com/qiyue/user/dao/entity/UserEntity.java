@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.print.DocFlavor;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Entity
@@ -45,13 +46,13 @@ public class UserEntity implements Serializable {
     private String state;
 
     @Column(name = "create_time")
-    private String createTime;
+    private Date createTime = new Date();
 
     @Column(name = "create_user")
     private String createUser;
 
     @Column(name = "update_time")
-    private String updateTime;
+    private Date updateTime = new Date();
 
     @Column(name = "update_user")
     private String updateUser;

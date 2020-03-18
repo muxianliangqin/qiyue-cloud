@@ -5,6 +5,7 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /*
 @FilterDef:与@OneToMany的one表@Filter配合使用，type:java.lang.Integer或integer都行
@@ -34,13 +35,13 @@ public class MenuLoanEntity {
     private String state;
 
     @Column(name = "create_time")
-    private String createTime;
+    private Date createTime = new Date();
 
     @Column(name = "create_user")
     private String createUser;
 
     @Column(name = "update_time")
-    private String updateTime;
+    private Date updateTime = new Date();
 
     @Column(name = "update_user")
     private String updateUser;

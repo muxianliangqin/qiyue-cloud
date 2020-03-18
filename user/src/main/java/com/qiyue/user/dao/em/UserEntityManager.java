@@ -1,5 +1,6 @@
 package com.qiyue.user.dao.em;
 
+import com.qiyue.common.constant.ErrorConstant;
 import com.qiyue.user.dao.entity.MenuLoanEntity;
 import com.qiyue.user.dao.entity.UserMenuEntity;
 import com.qiyue.common.response.Response;
@@ -36,7 +37,7 @@ public class UserEntityManager {
             return Response.success("ok");
         } catch (SQLException e) {
             e.printStackTrace();
-            return Response.fail("USER_MENU_INSERT_BATCH_ERROR");
+            return Response.fail(ErrorConstant.INSERT_BATCH_ERROR);
         }
     }
 
@@ -60,7 +61,7 @@ public class UserEntityManager {
             return Response.success("ok");
         } catch (SQLException e) {
             e.printStackTrace();
-            return Response.fail("MENU_LOAN_INSERT_BATCH_ERROR");
+            return Response.fail(ErrorConstant.INSERT_BATCH_ERROR);
         }
     }
 }

@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: qiyue-cloud-crawler
+  cloud:
+    config:
+      profile: dev
+      uri: http://localhost:7040/
+      label: master
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh

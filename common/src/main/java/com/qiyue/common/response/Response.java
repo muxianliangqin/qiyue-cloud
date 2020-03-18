@@ -1,37 +1,16 @@
 package com.qiyue.common.response;
 
+import com.qiyue.common.constant.ErrorConstant;
 import com.qiyue.common.enumerate.Error;
+import lombok.Data;
 
+@Data
 public class Response {
     private String errorCode;
 
     private String errorMsg;
 
     private Object content;
-
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
-    }
-
-    public Object getContent() {
-        return content;
-    }
-
-    public void setContent(Object content) {
-        this.content = content;
-    }
 
     public static Response success() {
         Response response = new Response();
@@ -62,7 +41,8 @@ public class Response {
         try {
             error = Error.valueOf(enumName);
         } catch (IllegalArgumentException e) {
-            error = Error.valueOf("ENUM_ERROR");
+            e.printStackTrace();
+            error = Error.valueOf(ErrorConstant.ENUM_ERROR);
         }
         response.errorCode = error.getCode();
         response.errorMsg = error.getMsg();
