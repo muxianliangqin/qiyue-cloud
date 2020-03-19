@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.List;
 
 @RefreshScope
@@ -17,7 +18,7 @@ import java.util.List;
 public class RequestFilter extends ZuulFilter {
 
     @Value("${check.session.excludes}")
-    private List checkSessionExcludes;
+    private String checkSessionExcludes;
 
     @Override
     public String filterType() {
@@ -39,8 +40,9 @@ public class RequestFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         String uri = request.getRequestURI();
-        // 不检查session的路径
-        if (checkSessionExcludes.contains(uri)) {
+        // 不检查session的路径，以 "," 分割
+        List<String> excludes = Arrays.asList(checkSessionExcludes.split(","));
+        if (excludes.contains(uri)) {
             System.out.printf("请求uri: %s 不检查session %n", uri);
             // 设置true表示zuul将请求往后传到其他子服务，false表示不再往后传
             ctx.setSendZuulResponse(true);
