@@ -39,6 +39,7 @@ public class RequestFilter extends ZuulFilter {
         String uri = request.getRequestURI();
         // 不检查session的路径
         if (checkSessionExcludes.contains(uri)) {
+            System.out.printf("请求uri: %s %n", uri);
             // 设置true表示zuul将请求往后传到其他子服务，false表示不再往后传
             ctx.setSendZuulResponse(true);
             return null;
