@@ -37,25 +37,26 @@ public class RequestFilter extends ZuulFilter {
 
     @Override
     public Object run() throws ZuulException {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest request = ctx.getRequest();
-        String uri = request.getRequestURI();
-        // 不检查session的路径，以 "," 分割
-        List<String> excludes = Arrays.asList(checkSessionExcludes.split(","));
-        if (excludes.contains(uri)) {
-            System.out.printf("请求uri: %s 不检查session %n", uri);
+        try {
+            RequestContext ctx = RequestContext.getCurrentContext();
+            HttpServletRequest request = ctx.getRequest();
+            String uri = request.getRequestURI();
+            // 不检查session的路径，以 "," 分割
+            List<String> excludes = Arrays.asList(checkSessionExcludes.split(","));
+            if (!excludes.contains(uri)) {
+                // 判断session是否存在，如不存在证明已过期
+                HttpSession session = request.getSession(false);
+                if (null == session) {
+                    ctx.setSendZuulResponse(false);
+                    ctx.setResponseStatusCode(Constant.HTTP_RESPONSE_STATUS_SESSION_EXPIRE);
+                    return null;
+                }
+            }
             // 设置true表示zuul将请求往后传到其他子服务，false表示不再往后传
             ctx.setSendZuulResponse(true);
-            return null;
+        } catch (Exception e) {
+
         }
-        // 判断session是否存在，如不存在证明已过期
-        HttpSession session = request.getSession(false);
-        if (null == session) {
-            ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(Constant.HTTP_RESPONSE_STATUS_SESSION_EXPIRE);
-            return null;
-        }
-        ctx.setSendZuulResponse(true);
         return null;
     }
 }
