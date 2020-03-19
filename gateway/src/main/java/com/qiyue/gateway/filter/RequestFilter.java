@@ -5,16 +5,18 @@ import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.qiyue.common.constant.Constant;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@RefreshScope
 @Component
 public class RequestFilter extends ZuulFilter {
 
-    @Value(value = "check.session.excludes")
+    @Value("${check.session.excludes}")
     private List checkSessionExcludes;
 
     @Override
@@ -39,7 +41,7 @@ public class RequestFilter extends ZuulFilter {
         String uri = request.getRequestURI();
         // 不检查session的路径
         if (checkSessionExcludes.contains(uri)) {
-            System.out.printf("请求uri: %s %n", uri);
+            System.out.printf("请求uri: %s 不检查session %n", uri);
             // 设置true表示zuul将请求往后传到其他子服务，false表示不再往后传
             ctx.setSendZuulResponse(true);
             return null;
