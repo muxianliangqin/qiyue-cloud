@@ -31,21 +31,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
+        <!--optional:true 表示可选的，依赖不会传递-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <!--<optional>true</optional>-->
         </dependency>
+        <!--scope:provided 表示依赖外部提供，test、provided依赖不会传递-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
 
         <!-- Use MySQL Connector-J -->
