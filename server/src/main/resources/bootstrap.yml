@@ -1,6 +1,6 @@
 spring:
   application:
-    name: qiyue-cloud-user
+    name: qiyue-cloud-server
   cloud:
     config:
       profile: prod
