@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: qiyue-cloud-user
+  cloud:
+    config:
+      profile: prod
+      uri: http://localhost:7040/
+      label: master
