@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.qiyue.base.constant.Constant;
 import com.qiyue.base.constant.ErrorConstant;
 import com.qiyue.base.redis.RedisHandler;
+import com.qiyue.base.user.User;
 import com.qiyue.service.response.Response;
-import com.qiyue.service.user.User;
 import com.qiyue.base.util.BaseUtil;
 import com.qiyue.user.dao.em.UserEntityManager;
 import com.qiyue.user.dao.entity.UserEntity;
@@ -13,6 +13,7 @@ import com.qiyue.user.dao.entity.UserMenuEntity;
 import com.qiyue.user.dao.repository.UserMenuRepository;
 import com.qiyue.user.dao.repository.UserRepository;
 import com.qiyue.user.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -69,8 +70,9 @@ public class UserImpl implements UserService {
     @Override
     public Response logout(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader(Constant.TOKEN_NAMESPACE);
-        redisHandler.getHashTemplate().delete(Constant.TOKEN_NAMESPACE, token);
-        response.setHeader(Constant.TOKEN_NAMESPACE, Constant.STRING_SPACE);
+        if (StringUtils.isNoneEmpty(token)) {
+            redisHandler.getHashTemplate().delete(Constant.TOKEN_NAMESPACE, token);
+        }
         return Response.success();
     }
 

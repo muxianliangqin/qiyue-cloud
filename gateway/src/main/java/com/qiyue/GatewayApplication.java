@@ -1,6 +1,5 @@
 package com.qiyue;
 
-import com.qiyue.gateway.constant.Constant;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

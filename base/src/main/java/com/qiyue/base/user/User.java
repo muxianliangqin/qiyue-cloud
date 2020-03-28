@@ -1,5 +1,4 @@
-package com.qiyue.service.user
-        ;
+package com.qiyue.base.user;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;

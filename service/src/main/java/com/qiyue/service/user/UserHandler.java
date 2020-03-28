@@ -2,7 +2,7 @@ package com.qiyue.service.user;
 
 import com.qiyue.base.constant.Constant;
 import com.qiyue.base.redis.RedisHandler;
-import com.qiyue.service.user.User;
+import com.qiyue.base.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
