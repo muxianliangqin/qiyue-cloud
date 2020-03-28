@@ -8,12 +8,14 @@
     <artifactId>qiyue</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <description>所有服务的父工程</description>
 
     <modules>
-        <module>common</module>
+        <module>base</module>
         <module>user</module>
         <module>crawler</module>
         <module>gateway</module>
+        <module>server</module>
     </modules>
 
     <parent>

@@ -1,7 +1,7 @@
 package com.qiyue.user.controller;
 
 import com.qiyue.user.dao.entity.RightEntity;
-import com.qiyue.common.response.Response;
+import com.qiyue.service.response.Response;
 import com.qiyue.user.service.RightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

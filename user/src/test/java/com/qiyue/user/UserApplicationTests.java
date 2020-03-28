@@ -1,7 +1,6 @@
 package com.qiyue.user;
 
-import com.qiyue.common.node.Node;
-import com.qiyue.common.util.BaseUtil;
+import com.qiyue.base.util.BaseUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

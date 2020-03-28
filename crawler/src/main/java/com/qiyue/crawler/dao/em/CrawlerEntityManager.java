@@ -45,6 +45,7 @@ public class CrawlerEntityManager {
         }
 
     }
+
     @Transactional
     public void keywordWebSet(int webId, List<Integer> categories, List<Integer> keywords) {
         try {
@@ -60,7 +61,7 @@ public class CrawlerEntityManager {
                     ps.setInt(2, categories.get(i));
                     ps.setInt(3, keywords.get(j));
                     ps.addBatch();
-                    if ((i*j + 1) % 500 == 0) {
+                    if ((i * j + 1) % 500 == 0) {
                         int[] ints = ps.executeBatch();
                     }
                 }

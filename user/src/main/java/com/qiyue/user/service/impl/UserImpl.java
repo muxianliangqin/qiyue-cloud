@@ -1,12 +1,12 @@
 package com.qiyue.user.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.qiyue.common.constant.Constant;
-import com.qiyue.common.constant.ErrorConstant;
-import com.qiyue.common.response.Response;
-import com.qiyue.common.session.User;
-import com.qiyue.common.util.BaseUtil;
-import com.qiyue.common.util.DateUtil;
+import com.qiyue.base.constant.Constant;
+import com.qiyue.base.constant.ErrorConstant;
+import com.qiyue.base.redis.RedisHandler;
+import com.qiyue.service.response.Response;
+import com.qiyue.service.user.User;
+import com.qiyue.base.util.BaseUtil;
 import com.qiyue.user.dao.em.UserEntityManager;
 import com.qiyue.user.dao.entity.UserEntity;
 import com.qiyue.user.dao.entity.UserMenuEntity;
@@ -14,18 +14,26 @@ import com.qiyue.user.dao.repository.UserMenuRepository;
 import com.qiyue.user.dao.repository.UserRepository;
 import com.qiyue.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 
+@RefreshScope
 @Service
 public class UserImpl implements UserService {
+
+    @Value("${token.expires}")
+    private long tokenExpires;
 
     @Autowired
     private UserRepository userRepository;
@@ -36,35 +44,35 @@ public class UserImpl implements UserService {
     @Autowired
     private UserEntityManager userEntityManager;
 
+    @Autowired
+    private RedisHandler redisHandler;
+
     @Override
     public Response login(HttpServletRequest request,
+                          HttpServletResponse response,
                           String username, String password) throws Exception {
         Optional<UserEntity> userEntity = userRepository.findByMobile(username);
         if (!userEntity.isPresent()) {
             return Response.fail(ErrorConstant.LOGIN_ERROR);
         }
-        UserEntity user = userEntity.get();
-        password = BaseUtil.encrypt(password, user.getSalt());
-        if (!BaseUtil.slowEquals(password, user.getPassword())) {
+        UserEntity ue = userEntity.get();
+        password = BaseUtil.encrypt(password, ue.getSalt());
+        if (!BaseUtil.slowEquals(password, ue.getPassword())) {
             return Response.fail(ErrorConstant.LOGIN_ERROR);
         }
-        user = userMessageFilter(user);
-        HttpSession session = request.getSession();
-        User sessionUser = (User) session.getAttribute(Constant.SESSION_USER);
-        // 如果session中已存在的user信息与登录用户不一致
-        if (null != sessionUser && !user.getUsername().equals(sessionUser.getUsername())) {
-            return Response.fail(ErrorConstant.LOGIN_MULTI_ERROR);
-        }
-        session.setAttribute(Constant.SESSION_USER, transformUser(user));
+        User user = transformUser(ue);
+        String token = BaseUtil.getRandomString(Constant.TOKEN_LENGTH, Constant.TYPE_MIX);
+        response.addHeader(Constant.TOKEN_NAMESPACE, token);
+        response.setHeader("Access-Control-Expose-Headers", Constant.TOKEN_NAMESPACE);
+        redisHandler.getHashTemplate().set(Constant.TOKEN_NAMESPACE, token, user, tokenExpires);
         return Response.success(user);
     }
 
     @Override
-    public Response logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (null != session) {
-            session.invalidate();
-        }
+    public Response logout(HttpServletRequest request, HttpServletResponse response) {
+        String token = request.getHeader(Constant.TOKEN_NAMESPACE);
+        redisHandler.getHashTemplate().delete(Constant.TOKEN_NAMESPACE, token);
+        response.setHeader(Constant.TOKEN_NAMESPACE, Constant.STRING_SPACE);
         return Response.success();
     }
 
@@ -72,11 +80,8 @@ public class UserImpl implements UserService {
         User user = new User();
         user.setId(userEntity.getId());
         user.setUsername(userEntity.getUsername());
-        user.setEmail(userEntity.getEmail());
         user.setAlias(userEntity.getAlias());
         user.setGender(userEntity.getGender());
-        user.setMobile(userEntity.getMobile());
-        user.setOpenid(userEntity.getOpenid());
         user.setState(userEntity.getState());
         return user;
     }

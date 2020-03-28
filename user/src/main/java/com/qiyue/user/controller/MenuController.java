@@ -3,7 +3,7 @@ package com.qiyue.user.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.qiyue.user.dao.entity.MenuEntity;
 import com.qiyue.user.dao.entity.MenuLoanEntity;
-import com.qiyue.common.response.Response;
+import com.qiyue.service.response.Response;
 import com.qiyue.user.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

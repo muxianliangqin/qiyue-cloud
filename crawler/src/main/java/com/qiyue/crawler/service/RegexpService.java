@@ -1,14 +1,14 @@
 package com.qiyue.crawler.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.qiyue.common.request.KeywordWebSet;
-import com.qiyue.common.session.ContextUtil;
+import com.qiyue.base.request.KeywordWebSet;
 import com.qiyue.crawler.dao.em.CrawlerEntityManager;
 import com.qiyue.crawler.dao.entity.KeywordEntity;
 import com.qiyue.crawler.dao.entity.RegexpsEntity;
 import com.qiyue.crawler.dao.repo.KeywordRepository;
 import com.qiyue.crawler.dao.repo.RegexpsRepository;
-import com.qiyue.common.response.Response;
+import com.qiyue.service.response.Response;
+import com.qiyue.service.user.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +29,9 @@ public class RegexpService {
     @Autowired
     private CrawlerEntityManager crawlerEntityManager;
 
+    @Autowired
+    private UserHandler userHandler;
+
     public Response regexpFindAll() {
         Sort sort = new Sort(Sort.Direction.ASC, "code");
         List<RegexpsEntity> regexpsEntities = regexpsRepository.findAll(sort);
@@ -37,7 +40,7 @@ public class RegexpService {
 
     @Transactional
     public Response add(String name, String regexp, String codes) {
-        int userId = ContextUtil.getUser().getId();
+        int userId = userHandler.getUser().getId();
         int i = keywordRepository.add(name, regexp, codes, userId);
         return Response.success(i);
     }
@@ -49,19 +52,19 @@ public class RegexpService {
     }
 
     public Response keywordFindPage(Pageable pageable) {
-        int userId = ContextUtil.getUser().getId();
+        int userId = userHandler.getUser().getId();
         Page<KeywordEntity> keywordEntityPage = keywordRepository.findAllByUserId(userId, pageable);
         return Response.success(keywordEntityPage);
     }
 
-     public Response keywordFindAll() {
-        int userId = ContextUtil.getUser().getId();
+    public Response keywordFindAll() {
+        int userId = userHandler.getUser().getId();
         List<KeywordEntity> keywordEntity = keywordRepository.findAllByUserId(userId);
         return Response.success(keywordEntity);
     }
 
-     public Response keywordWebSet(String request) {
-         KeywordWebSet keywordWebSet = JSONObject.parseObject(request, KeywordWebSet.class);
+    public Response keywordWebSet(String request) {
+        KeywordWebSet keywordWebSet = JSONObject.parseObject(request, KeywordWebSet.class);
         crawlerEntityManager.keywordWebSet(keywordWebSet.getWebId(), keywordWebSet.getCategories(),
                 keywordWebSet.getKeywords());
         return Response.success();

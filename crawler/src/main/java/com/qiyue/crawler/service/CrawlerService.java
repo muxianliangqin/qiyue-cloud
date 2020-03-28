@@ -1,8 +1,7 @@
 package com.qiyue.crawler.service;
 
-import com.qiyue.common.constant.Constant;
-import com.qiyue.common.constant.ErrorConstant;
-import com.qiyue.common.session.ContextUtil;
+import com.qiyue.base.constant.Constant;
+import com.qiyue.base.constant.ErrorConstant;
 import com.qiyue.crawler.dao.em.CrawlerEntityManager;
 import com.qiyue.crawler.dao.entity.CategoryEntity;
 import com.qiyue.crawler.dao.entity.NewsEntity;
@@ -10,20 +9,16 @@ import com.qiyue.crawler.dao.entity.WebEntity;
 import com.qiyue.crawler.dao.repo.CategoryRepository;
 import com.qiyue.crawler.dao.repo.NewsRepository;
 import com.qiyue.crawler.dao.repo.WebRepository;
-import com.qiyue.common.response.Response;
-import com.qiyue.common.request.CrawlerResult;
-import com.qiyue.common.request.NewsLink;
-import com.qiyue.common.util.DateUtil;
-import com.qiyue.common.util.SqlUtil;
+import com.qiyue.service.response.Response;
+import com.qiyue.base.request.CrawlerResult;
+import com.qiyue.base.request.NewsLink;
+import com.qiyue.base.util.DateUtil;
+import com.qiyue.base.util.SqlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;

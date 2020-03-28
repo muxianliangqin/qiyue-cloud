@@ -1,9 +1,9 @@
 package com.qiyue.user.dao.em;
 
-import com.qiyue.common.constant.ErrorConstant;
+import com.qiyue.base.constant.ErrorConstant;
 import com.qiyue.user.dao.entity.MenuLoanEntity;
 import com.qiyue.user.dao.entity.UserMenuEntity;
-import com.qiyue.common.response.Response;
+import com.qiyue.service.response.Response;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

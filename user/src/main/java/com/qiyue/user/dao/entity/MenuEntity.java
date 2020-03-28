@@ -1,6 +1,6 @@
 package com.qiyue.user.dao.entity;
 
-import com.qiyue.common.node.Element;
+import com.qiyue.base.node.Element;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Filter;

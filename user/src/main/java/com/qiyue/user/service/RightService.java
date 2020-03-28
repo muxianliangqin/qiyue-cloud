@@ -1,7 +1,7 @@
 package com.qiyue.user.service;
 
 import com.qiyue.user.dao.entity.RightEntity;
-import com.qiyue.common.response.Response;
+import com.qiyue.service.response.Response;
 import org.springframework.data.domain.Pageable;
 
 
