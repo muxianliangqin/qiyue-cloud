@@ -24,8 +24,11 @@ import java.util.List;
 @Component
 public class RequestFilter implements GlobalFilter, Ordered {
 
-    @Value("${check.session.excludes}")
-    private String checkSessionExcludes;
+    @Value("${login.auth.check.excludes}")
+    private String authExcludes;
+
+    @Value("${login.auth.token.expires}")
+    private int tokenExpires;
 
     @Autowired
     private RedisHandler redisHandler;
@@ -35,12 +38,13 @@ public class RequestFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         String uri = request.getURI().getPath();
-        String[] uris = checkSessionExcludes.split(",");
+        String[] uris = authExcludes.split(",");
         if (Arrays.asList(uris).contains(uri)) {
             return chain.filter(exchange);
         }
         HttpHeaders httpHeaders = request.getHeaders();
         List<String> tokens = null;
+        Object user = null;
         /*
         鉴权条件，如果发生以下情况，鉴权不通过
         1、header中没有token属性
@@ -51,10 +55,11 @@ public class RequestFilter implements GlobalFilter, Ordered {
         if ((tokens = httpHeaders.get(Constant.TOKEN_NAMESPACE)) == null
                 || tokens.isEmpty()
                 || tokens.size() > 1
-                || !redisHandler.getHashTemplate().hasKey(Constant.TOKEN_NAMESPACE, tokens.get(0))) {
+                || (user = redisHandler.getHashTemplate().get(Constant.TOKEN_NAMESPACE, tokens.get(0))) == null) {
             response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
             return response.setComplete();
         }
+        redisHandler.getHashTemplate().set(Constant.TOKEN_NAMESPACE, tokens.get(0), user, tokenExpires);
         return chain.filter(exchange);
     }
 

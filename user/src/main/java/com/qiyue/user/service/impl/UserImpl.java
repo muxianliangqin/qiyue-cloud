@@ -20,11 +20,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +30,7 @@ import java.util.Optional;
 @Service
 public class UserImpl implements UserService {
 
-    @Value("${token.expires}")
+    @Value("${login.auth.token.expires}")
     private long tokenExpires;
 
     @Autowired
