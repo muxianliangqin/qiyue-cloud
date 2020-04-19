@@ -3,13 +3,15 @@ package com.qiyue.crawler.dao.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Data
 @Table(name = "category", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"url", "xpath_title"})
 })
-public class CategoryEntity {
+public class CategoryEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -40,13 +42,13 @@ public class CategoryEntity {
     private String state;
 
     @Column(name = "create_time")
-    private String createTime;
+    private Date createTime = new Date();
 
     @Column(name = "create_user")
     private String createUser;
 
     @Column(name = "update_time")
-    private String updateTime;
+    private Date updateTime = new Date();
 
     @Column(name = "update_user")
     private String updateUser;

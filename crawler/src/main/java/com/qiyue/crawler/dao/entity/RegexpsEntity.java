@@ -3,13 +3,14 @@ package com.qiyue.crawler.dao.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "regexps", uniqueConstraints = {
         @UniqueConstraint(columnNames = "reg_exp")
 })
-public class RegexpsEntity {
+public class RegexpsEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

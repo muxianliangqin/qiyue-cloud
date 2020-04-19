@@ -73,7 +73,7 @@ public class CrawlerService {
         if (!webEntityOptional.isPresent()) {
             return Response.fail(ErrorConstant.NO_RECORD);
         }
-        webEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        webEntity.setUpdateTime(new Date());
 //        categoryEntity.setUpdateUser("");
         // 使用此方法时，注意对象的int等属性使用Integer包装类，否则属性初始化值不是null，导致不会替换
         SqlUtil.copyNullProperties(webEntityOptional.get(), webEntity);
@@ -99,7 +99,7 @@ public class CrawlerService {
         if (!categoryEntityOptional.isPresent()) {
             return Response.fail(ErrorConstant.NO_RECORD);
         }
-        categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        categoryEntity.setUpdateTime(new Date());
 //        categoryEntity.setUpdateUser("");
         SqlUtil.copyNullProperties(categoryEntityOptional.get(), categoryEntity);
         CategoryEntity newOne = categoryRepository.saveAndFlush(categoryEntity);
@@ -148,8 +148,8 @@ public class CrawlerService {
         categoryEntity.setWebId(webId);
         categoryEntity.setState("0");
         categoryEntity.setNewNum(0);
-        categoryEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
-        categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        categoryEntity.setCreateTime(new Date());
+        categoryEntity.setUpdateTime(new Date());
         return categoryRepository.save(categoryEntity);
     }
 
@@ -159,7 +159,7 @@ public class CrawlerService {
         categoryEntity.setXpathTitle(crawlerResult.getXpathTitle());
         categoryEntity.setXpathText(crawlerResult.getXpathText());
         categoryEntity.setCharset(crawlerResult.getCharset());
-        categoryEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
+        categoryEntity.setUpdateTime(new Date());
         SqlUtil.copyNullProperties(old, categoryEntity);
         CategoryEntity newOne = categoryRepository.saveAndFlush(categoryEntity);
         return newOne;
@@ -171,8 +171,6 @@ public class CrawlerService {
         webEntity.setTitle("null");
         webEntity.setUserId(crawlerResult.getUserId());
         webEntity.setState("0");
-        webEntity.setCreateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
-        webEntity.setUpdateTime(DateUtil.getSystemTime(Constant.DATE_FORMATER_WITH_HYPHEN));
         return webRepository.save(webEntity);
     }
 

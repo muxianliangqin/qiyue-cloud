@@ -6,6 +6,7 @@ import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -29,20 +30,20 @@ public class WebEntity implements Serializable {
     @Column(name = "web_state")
     private String state;
 
+    @Column(name = "user_id")
+    private Integer userId;
+
     @Column(name = "create_time")
-    private String createTime;
+    private Date createTime = new Date();
 
     @Column(name = "create_user")
     private String createUser;
 
     @Column(name = "update_time")
-    private String updateTime;
+    private Date updateTime = new Date();
 
     @Column(name = "update_user")
     private String updateUser;
-
-    @Column(name = "user_id")
-    private Integer userId;
 
     @OneToMany
     @JoinColumn(name = "web_id", referencedColumnName = "id")
