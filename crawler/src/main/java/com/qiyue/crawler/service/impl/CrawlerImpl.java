@@ -18,12 +18,14 @@ import com.qiyue.crawler.dao.repo.WebRepository;
 import com.qiyue.crawler.service.CrawlerService;
 import com.qiyue.service.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -34,6 +36,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class CrawlerImpl implements CrawlerService {
+
+    @Value(value = "${file.attachment.crawler.dir}")
+    private String attachmentDir;
 
     @Autowired
     private WebRepository webRepository;
@@ -211,6 +216,7 @@ public class CrawlerImpl implements CrawlerService {
         if (attachmentsEntityOptional.isPresent()) {
             AttachmentsEntity attachmentsEntity = attachmentsEntityOptional.get();
             String filePath = attachmentsEntity.getPath();
+            filePath = attachmentDir + File.separator + filePath;
             FileInputStream fis = null;
             OutputStream os = null;
             try {
