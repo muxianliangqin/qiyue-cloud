@@ -1,88 +1,95 @@
 package com.qiyue.user.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.qiyue.user.dao.entity.MenuEntity;
-import com.qiyue.user.dao.entity.MenuLoanEntity;
-import com.qiyue.service.response.Response;
+import com.qiyue.base.node.Element;
+import com.qiyue.base.node.TreeNode;
+import com.qiyue.base.model.request.Request;
+import com.qiyue.base.model.response.Response;
+import com.qiyue.user.model.vo.MenuVO;
 import com.qiyue.user.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @EnableDiscoveryClient
+@RequestMapping(value = "/menu")
 public class MenuController {
 
     @Autowired
     private MenuService menuService;
 
-    @RequestMapping("/getMenuNode")
-    public Response getMenuNode(int userId) {
-        return menuService.getMenuNode(userId);
+    /* 增 */
+    @RequestMapping("/add")
+    public Response<Element<MenuVO>> menuAdd(@RequestBody Request<MenuVO> request) {
+        return menuService.menuAdd(request.getParams());
     }
 
-    /* 菜单处理 */
-    @RequestMapping("/menu/findAllPage")
-    public Response findAll(@PageableDefault(sort = "code", direction = Sort.Direction.ASC) Pageable pageable) {
-        return menuService.findAll(pageable);
+    /* 删 */
+    @RequestMapping("/del")
+    public Response menuDel(@RequestBody Request<Long> request) {
+        return menuService.menuDel(request.getParams());
     }
 
-    @RequestMapping("/menu/findAll")
-    public Response menuFindAll() {
-        return menuService.menuFindAll();
+
+    @RequestMapping("/delBatch")
+    public Response menuDelBatch(@RequestBody Request<List<Long>> request) {
+        return menuService.menuDelBatch(request.getParams());
     }
 
-    @RequestMapping("/menu/del")
-    public Response menuDel(int id) {
-        return menuService.menuDel(id);
+    /* 改 */
+    @RequestMapping("/stop")
+    public Response menuStop(@RequestBody Request<Long> request) {
+        return menuService.menuStop(request.getParams());
     }
 
-    @RequestMapping("/menu/stop")
-    public Response menuStop(@RequestParam(name = "id") int id) {
-        return menuService.menuStop(id);
+    @RequestMapping("/restart")
+    public Response menuRestart(@RequestBody Request<Long> request) {
+        return menuService.menuRestart(request.getParams());
     }
 
-    @RequestMapping("/menu/restart")
-    public Response menuRestart(@RequestParam(name = "id") int id) {
-        return menuService.menuRestart(id);
+    @RequestMapping("/stopBatch")
+    public Response menuStopBatch(@RequestBody Request<List<Long>> request) {
+        return menuService.menuStopBatch(request.getParams());
     }
 
-    @RequestMapping("/menu/delBatch")
-    public Response menuDelBatch(@RequestParam(name = "ids") List<Integer> ids) {
-        return menuService.menuDelBatch(ids);
+    @RequestMapping("/restartBatch")
+    public Response menuRestartBatch(@RequestBody Request<List<Long>> request) {
+        return menuService.menuRestartBatch(request.getParams());
     }
 
-    @RequestMapping("/menu/stopBatch")
-    public Response menuStopBatch(@RequestParam(name = "ids") List<Integer> ids) {
-        return menuService.menuStopBatch(ids);
+    @RequestMapping("/modify")
+    public Response<String> menuModify(@RequestBody Request<MenuVO> request) {
+        return menuService.menuModify(request.getParams());
     }
 
-    @RequestMapping("/menu/restartBatch")
-    public Response menuRestartBatch(@RequestParam(name = "ids") List<Integer> ids) {
-        return menuService.menuRestartBatch(ids);
+    /* 查 */
+    @RequestMapping("/getMenusByUserId")
+    public Response<List<MenuVO>> getMenusByUserId(@RequestBody Request<Long> request) {
+        return menuService.getMenusByUserId(request.getParams());
     }
 
-    @RequestMapping("/menu/add")
-    public Response menuAdd(MenuEntity menuEntity) {
-        return menuService.menuAdd(menuEntity);
+    @RequestMapping("/getMenusByRoleIds")
+    public Response<List<MenuVO>> getMenusByRoleIds(@RequestBody Request<List<Long>> request) {
+        return menuService.getMenusByRoleIds(request.getParams());
     }
 
-    @RequestMapping("/menu/modify")
-    public Response menuModify(MenuEntity menuEntity) {
-        return menuService.menuModify(menuEntity);
+    @RequestMapping("/getMenusByRoleId")
+    public Response<List<MenuVO>> getMenusByRoleId(@RequestBody Request<Long> request) {
+        return menuService.getMenusByRoleId(request.getParams());
     }
 
-    @RequestMapping("/menuLoan/addBatch")
-    public Response menuLoanAddBatch(@RequestParam(name = "menuLoanEntities") String json) {
-        List<MenuLoanEntity> menuLoanEntities = JSONObject.parseArray(json, MenuLoanEntity.class);
-        return menuService.menuLoanAddBatch(menuLoanEntities);
+    @RequestMapping("/getMenuNodeByUserId")
+    public Response<TreeNode> getMenuNodeByUserId(@RequestBody Request<Long> request) {
+        return menuService.getMenuNodeByUserId(request.getParams());
+    }
+
+    @RequestMapping("/getMenuNodeForAll")
+    public Response<TreeNode> getMenuNodeForAll() {
+        return menuService.getMenuNodeForAll();
     }
 
 }

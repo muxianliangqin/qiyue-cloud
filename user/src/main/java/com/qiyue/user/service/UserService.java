@@ -1,39 +1,33 @@
 package com.qiyue.user.service;
 
-import com.qiyue.user.dao.entity.UserEntity;
-import com.qiyue.service.response.Response;
+import com.qiyue.base.model.request.Request;
+import com.qiyue.base.model.response.Response;
+import com.qiyue.user.model.vo.UserInfoVO;
+import com.qiyue.user.entity.UserEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Service
 public interface UserService {
 
-    Response login(HttpServletRequest request,
-                   HttpServletResponse response,
-                   String username, String password) throws Exception;
+    Response userAdd(Request<UserEntity> request) throws Exception;
 
-    Response logout(HttpServletRequest request, HttpServletResponse response);
+    Response userDel(Request<UserEntity> request);
 
-    Response checkToken(String token);
+    Response userStop(Request<UserEntity> request);
 
-    Response findAllPage(Pageable pageable);
+    Response userRestart(Request<UserEntity> request);
 
-    Response findAll();
+    Response userModify(Request<UserEntity> request);
 
-    Response userDel(int id);
+    Response findUserMenus(Request<UserEntity> request);
 
-    Response userStop(int id);
+    Response<Page<UserInfoVO>> findAllPage(Pageable pageable);
 
-    Response userRestart(int id);
+    Response<List<UserInfoVO>> findAll();
 
-    Response userAdd(UserEntity userEntity) throws Exception;
-
-    Response userModify(UserEntity userEntity);
-
-    Response findUserMenus(int userId);
-
-    Response setUserMenus(String menus);
+    Response<List<UserInfoVO>> findByUsernameLike(Request<String> request);
 }

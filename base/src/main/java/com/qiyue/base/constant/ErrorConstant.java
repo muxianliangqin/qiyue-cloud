@@ -1,29 +1,28 @@
 package com.qiyue.base.constant;
 
+import com.qiyue.base.enums.ErrorEnum;
+
 /**
  * 本常量类中每一个变量都与Error枚举一一对应，以便于错误码与错误信息的管理
  */
 public class ErrorConstant {
 
-    public static final String SUCCESS = "SUCCESS";
-    /* 自定义错误区 */
-    public static final String LOGIN_ERROR = "LOGIN_ERROR";
+    public static final ErrorEnum SUCCESS = ErrorEnum.SUCCESS;
+    // 登录失败
+    public static final ErrorEnum LOGIN_ERROR = ErrorEnum.LOGIN_ERROR;
     // 重复登录
-    public static final String LOGIN_MULTI_ERROR = "LOGIN_MULTI_ERROR";
+    public static final ErrorEnum LOGIN_MULTI_ERROR = ErrorEnum.LOGIN_MULTI_ERROR;
     // token错误
-    public static final String TOKEN_ERROR = "TOKEN_ERROR";
+    public static final ErrorEnum TOKEN_ERROR = ErrorEnum.TOKEN_ERROR;
     // 记录不存在
-    public static final String NO_RECORD = "NO_RECORD";
+    public static final ErrorEnum NO_RECORD = ErrorEnum.RECORD_NOT_FOUND;
     // 批量插入失败
-    public static final String INSERT_BATCH_ERROR = "INSERT_BATCH_ERROR";
+    public static final ErrorEnum INSERT_BATCH_ERROR = ErrorEnum.INSERT_BATCH_ERROR;
     // 批量插入参数错误
-    public static final String INSERT_EMPTY_INPUT_ERROR = "INSERT_EMPTY_INPUT_ERROR";
+    public static final ErrorEnum INSERT_EMPTY_INPUT_ERROR = ErrorEnum.INSERT_EMPTY_INPUT_ERROR;
     // 文件不存在
-    public static final String FILE_NOT_FOUND = "FILE_NOT_FOUND";
+    public static final ErrorEnum FILE_NOT_FOUND = ErrorEnum.FILE_NOT_FOUND;
 
-    /* 系统错误区 */
-    // 枚举值不存在
-    public static final String ENUM_ERROR = "ENUM_ERROR";
     // 位置错误
-    public static final String UNKNOWN_ERROR = "UNKNOWN_ERROR";
+    public static final ErrorEnum UNKNOWN_ERROR = ErrorEnum.UNKNOWN_ERROR;
 }

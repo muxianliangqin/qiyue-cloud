@@ -1,35 +1,44 @@
 package com.qiyue.user.service;
 
-import com.qiyue.user.dao.entity.MenuEntity;
-import com.qiyue.user.dao.entity.MenuLoanEntity;
-import com.qiyue.service.response.Response;
-import org.springframework.data.domain.Pageable;
+import com.qiyue.base.node.Element;
+import com.qiyue.base.node.TreeNode;
+import com.qiyue.base.model.response.Response;
+import com.qiyue.user.model.vo.MenuVO;
 
-import java.util.*;
+import java.util.List;
 
 public interface MenuService {
 
-    Response getMenuNode(int userId);
 
-    Response findAll(Pageable pageable);
+    Response<Element<MenuVO>> menuAdd(MenuVO menuVO);
 
-    Response menuFindAll();
+    Response menuDel(Long menuId);
 
-    Response menuDel(int id);
+    Response menuDelBatch(List<Long> menuIds);
 
-    Response menuStop(int id);
+    Response menuStop(Long menuId);
 
-    Response menuRestart(int id);
+    Response menuRestart(Long menuId);
 
-    Response menuDelBatch(List<Integer> ids);
+    Response menuStopBatch(List<Long> menuIds);
 
-    Response menuStopBatch(List<Integer> ids);
+    Response menuRestartBatch(List<Long> menuIds);
 
-    Response menuRestartBatch(List<Integer> ids);
+    Response<String> menuModify(MenuVO menuVO);
 
-    Response menuAdd(MenuEntity menuEntity);
+    /**
+     * 根据userId查询拥有的菜单权限
+     *
+     * @param userId
+     * @return
+     */
+    Response<List<MenuVO>> getMenusByUserId(Long userId);
 
-    Response menuModify(MenuEntity menuEntity);
+    Response<List<MenuVO>> getMenusByRoleIds(List<Long> roleIds);
 
-    Response menuLoanAddBatch(List<MenuLoanEntity> menuLoanEntities);
+    Response<List<MenuVO>> getMenusByRoleId(Long roleId);
+
+    Response<TreeNode> getMenuNodeByUserId(Long userId);
+
+    Response<TreeNode> getMenuNodeForAll();
 }

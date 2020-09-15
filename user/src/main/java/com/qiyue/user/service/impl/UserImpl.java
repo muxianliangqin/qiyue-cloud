@@ -1,195 +1,155 @@
 package com.qiyue.user.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.qiyue.base.constant.Constant;
-import com.qiyue.base.constant.ErrorConstant;
-import com.qiyue.base.redis.RedisHandler;
-import com.qiyue.base.user.User;
-import com.qiyue.service.response.Response;
-import com.qiyue.base.util.BaseUtil;
-import com.qiyue.user.dao.em.UserEntityManager;
-import com.qiyue.user.dao.entity.UserEntity;
-import com.qiyue.user.dao.entity.UserMenuEntity;
-import com.qiyue.user.dao.repository.UserMenuRepository;
-import com.qiyue.user.dao.repository.UserRepository;
+import com.qiyue.base.enums.ErrorEnum;
+import com.qiyue.base.exceptions.DatabaseException;
+import com.qiyue.base.utils.ParamVerify;
+import com.qiyue.base.utils.StringUtil;
+import com.qiyue.base.utils.encrypt.CipherUtil;
+import com.qiyue.base.model.request.Request;
+import com.qiyue.base.model.response.Response;
+import com.qiyue.base.utils.BaseUtil;
+import com.qiyue.user.constant.UserConstant;
+import com.qiyue.user.model.vo.UserInfoVO;
+import com.qiyue.user.entity.UserEntity;
+import com.qiyue.user.dao.entity.UserDao;
+import com.qiyue.user.enums.DataStateEnum;
 import com.qiyue.user.service.UserService;
+import com.qiyue.user.utils.IdUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @RefreshScope
 @Service
 public class UserImpl implements UserService {
 
-    @Value("${login.auth.token.expires}")
-    private long tokenExpires;
-
     @Autowired
-    private UserRepository userRepository;
+    private UserDao userDao;
 
-    @Autowired
-    private UserMenuRepository userMenuRepository;
+    private static String STATE = "state";
 
-    @Autowired
-    private UserEntityManager userEntityManager;
-
-    @Autowired
-    private RedisHandler redisHandler;
-
+    /* 增 */
     @Override
-    public Response login(HttpServletRequest request,
-                          HttpServletResponse response,
-                          String username, String password) throws Exception {
-        Optional<UserEntity> userEntity = userRepository.findByMobile(username);
-        if (!userEntity.isPresent()) {
-            return Response.fail(ErrorConstant.LOGIN_ERROR);
-        }
-        UserEntity ue = userEntity.get();
-        password = BaseUtil.encrypt(password, ue.getSalt());
-        if (!BaseUtil.slowEquals(password, ue.getPassword())) {
-            return Response.fail(ErrorConstant.LOGIN_ERROR);
-        }
-        User user = transformUser(ue);
-        String token = BaseUtil.getRandomString(Constant.TOKEN_LENGTH, Constant.TYPE_MIX);
-        response.addHeader(Constant.TOKEN_NAMESPACE, token);
-        response.setHeader("Access-Control-Expose-Headers", Constant.TOKEN_NAMESPACE);
-        redisHandler.getHashTemplate().set(Constant.TOKEN_NAMESPACE, token, user, tokenExpires);
-        return Response.success(user);
-    }
-
-    @Override
-    public Response logout(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader(Constant.TOKEN_NAMESPACE);
-        if (StringUtils.isNoneEmpty(token)) {
-            redisHandler.getHashTemplate().delete(Constant.TOKEN_NAMESPACE, token);
-        }
+    @Transactional(rollbackFor = Exception.class)
+    public Response<String> userAdd(Request<UserEntity> request) {
+        UserEntity userEntity = request.getParams();
+        ParamVerify.isNotNull(userEntity.getUsername(), "用户名称", "username");
+        ParamVerify.isNotNull(userEntity.getMobile(), "手机号码", "mobile");
+        ParamVerify.isNotNull(userEntity.getAlias(), "昵称", "alias");
+        ParamVerify.isNotNull(userEntity.getGender(), "性别", "gender");
+        ParamVerify.isNotNull(userEntity.getPassword(), "密码", "password");
+        userEntity.setUserId(IdUtil.nextId());
+        String salt = BaseUtil.getRandomString(UserConstant.SALT_LENGTH, Constant.TYPE_MIX);
+        String password = CipherUtil.SHA.encrypt(userEntity.getPassword(), salt);
+        userEntity.setSalt(salt);
+        userEntity.setPassword(password);
+        userDao.save(userEntity);
         return Response.success();
     }
 
-    public User transformUser(UserEntity userEntity) {
-        User user = new User();
-        user.setId(userEntity.getId());
-        user.setUsername(userEntity.getUsername());
-        user.setAlias(userEntity.getAlias());
-        user.setGender(userEntity.getGender());
-        user.setState(userEntity.getState());
-        return user;
+    /* 删 */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Response<String> userDel(Request<UserEntity> request) {
+        UserEntity userEntity = request.getParams();
+        ParamVerify.isNotNull(userEntity.getUserId(), "用户ID", "userId");
+        userDao.deleteByUserId(userEntity.getUserId());
+        return Response.success();
+    }
+
+    /* 改 */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Response<String> userStop(Request<UserEntity> request) {
+        UserEntity params = request.getParams();
+        ParamVerify.isNotNull(params.getUserId(), "用户ID", "userId");
+        UserEntity userEntity = userDao.findByUserId(params.getUserId()).orElseThrow(() ->
+                new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "userId", params.getUserId())
+        );
+        userEntity.setState(DataStateEnum.UNUSABLE.getState());
+        userDao.save(userEntity);
+        return Response.success();
     }
 
     @Override
-    public Response checkToken(String token) {
-        Optional<UserEntity> userEntity = userRepository.findByToken(token);
-        if (userEntity.isPresent()) {
-            UserEntity user = userMessageFilter(userEntity.get());
-            return Response.success(user);
+    @Transactional(rollbackFor = Exception.class)
+    public Response<String> userRestart(Request<UserEntity> request) {
+        UserEntity params = request.getParams();
+        ParamVerify.isNotNull(params.getUserId(), "用户ID", "userId");
+        UserEntity userEntity = userDao.findByUserId(params.getUserId()).orElseThrow(() ->
+                new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "userId", params.getUserId())
+        );
+        userEntity.setState(DataStateEnum.USABLE.getState());
+        userDao.save(userEntity);
+        return Response.success();
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Response<String> userModify(Request<UserEntity> request) {
+        UserEntity userEntity = request.getParams();
+        ParamVerify.isNotNull(userEntity.getUsername(), "用户名称", "username");
+        ParamVerify.isNotNull(userEntity.getMobile(), "手机号码", "mobile");
+        ParamVerify.isNotNull(userEntity.getAlias(), "昵称", "alias");
+        ParamVerify.isNotNull(userEntity.getGender(), "性别", "gender");
+        UserEntity oldOne = userDao.findByUserId(userEntity.getUserId()).orElseThrow(() ->
+                new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "id", userEntity.getUserId())
+        );
+        if (StringUtils.isNotEmpty(userEntity.getPassword())) {
+            String salt = BaseUtil.getRandomString(UserConstant.SALT_LENGTH, Constant.TYPE_MIX);
+            String password = CipherUtil.SHA.encrypt(userEntity.getPassword(), salt);
+            oldOne.setSalt(salt);
+            oldOne.setPassword(password);
         }
-        return Response.fail(ErrorConstant.TOKEN_ERROR);
-    }
-
-    /*
-    将用户的一些敏感信息去除
-     */
-    public UserEntity userMessageFilter(UserEntity user) {
-        user.setPassword(null);
-        user.setSalt(null);
-        return user;
-    }
-
-    @Override
-    public Response findAllPage(Pageable pageable) {
-        Page<UserEntity> userEntityPage = userRepository.findAll(pageable);
-        userEntityPage.getContent().forEach((k) -> {
-            k = userMessageFilter(k);
-        });
-        return Response.success(userEntityPage);
-    }
-
-    @Override
-    public Response findAll() {
-        List<UserEntity> userEntities = userRepository.findAll();
-        userEntities.forEach((k) -> {
-            k = userMessageFilter(k);
-        });
-        return Response.success(userEntities);
-    }
-
-    @Override
-    @Transactional
-    public Response userDel(int id) {
-        userRepository.deleteById(id);
-        return Response.success("ok");
-    }
-
-    @Override
-    @Transactional
-    public Response userStop(int id) {
-        int num = userRepository.stop(id);
-        return Response.success(num);
-    }
-
-    @Override
-    @Transactional
-    public Response userRestart(int id) {
-        int num = userRepository.restart(id);
-        return Response.success(num);
-    }
-
-    @Override
-    @Transactional
-    public Response userAdd(UserEntity userEntity) throws Exception {
-        String salt = BaseUtil.getRandomString(20, Constant.TYPE_MIX);
-        String password = BaseUtil.encrypt(userEntity.getPassword(), salt);
-        int num = userRepository.add(userEntity.getUsername(),
-                userEntity.getMobile(),
-                password,
-                salt,
-                userEntity.getAlias(),
-                userEntity.getGender());
-        return Response.success(num);
-    }
-
-    @Override
-    @Transactional
-    public Response userModify(UserEntity userEntity) {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(userEntity.getId());
-        if (!userEntityOptional.isPresent()) {
-            Response.fail(ErrorConstant.NO_RECORD);
-        }
-        UserEntity oldOne = userEntityOptional.get();
         oldOne.setUsername(userEntity.getUsername());
         oldOne.setMobile(userEntity.getMobile());
         oldOne.setAlias(userEntity.getAlias());
         oldOne.setGender(userEntity.getGender());
-        UserEntity newOne = userRepository.saveAndFlush(oldOne);
-        return Response.success(newOne);
-    }
-
-    @Override
-    public Response findUserMenus(int userId) {
-        List<UserMenuEntity> userMenuEntities = userMenuRepository.findByUserId(userId);
-        return Response.success(userMenuEntities);
-    }
-
-    @Override
-    @Transactional
-    public Response setUserMenus(String menus) {
-        JSONObject obj = JSONObject.parseObject(menus);
-        List<Integer> subtractMenus = (List<Integer>) obj.get("subtractMenus");
-        userMenuRepository.deleteByMenuCodeIn(subtractMenus);
-        Object addMenus = obj.get("addMenus");
-        List<UserMenuEntity> userMenuEntities = JSONObject.parseArray(
-                JSONObject.toJSONString(addMenus), UserMenuEntity.class);
-        userEntityManager.userMenuAddBatch(userMenuEntities);
+        userDao.save(oldOne);
         return Response.success();
     }
+
+    /* 查 */
+    @Override
+    public Response<Page<UserInfoVO>> findAllPage(Pageable pageable) {
+        Page<UserEntity> userEntityPage = userDao.findAll(pageable);
+        Page<UserInfoVO> userPage = userEntityPage.map(UserInfoVO::transform);
+        return Response.success(userPage);
+    }
+
+    @Override
+    public Response<List<UserInfoVO>> findAll() {
+        List<UserEntity> userEntityList = userDao.findAll();
+        return Response.success(UserInfoVO.transform(userEntityList));
+    }
+
+    @Override
+    public Response<List<UserInfoVO>> findByUsernameLike(Request<String> request) {
+        String username = request.getParams();
+        username= StringUtil.format("%{}%", username);
+        List<UserEntity> userEntities = userDao.findByUsernameLike(username);
+        return Response.success(UserInfoVO.transform(userEntities));
+    }
+
+    /**
+     * 获取用户有权限的菜单
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public Response<String> findUserMenus(Request<UserEntity> request) {
+//        List<UserMenuEntity> userMenuEntities = userMenuRepository.findByUserId(userId);
+//        return Response.success(userMenuEntities);
+        return Response.success();
+    }
+
 }

@@ -21,6 +21,7 @@ public class Constant {
     public static final String SYMBOL_SPACE = " ";//  符号：空格
     public static final String SYMBOL_NULL_STRING = "";//  符号：空字符串
     public static final String SYMBOL_DOT = ".";//  符号：点
+    public static final String SYMBOL_COMMA = ",";//  符号：英文逗号
 
     //正则表达式
     public static final String REGEX_VERTICAL_BAR = "\\|"; //  正则表达式：|
@@ -48,6 +49,8 @@ public class Constant {
     public static final String REGEX_DATE_CHINESE_NO_TIME = "[0-9]{4}年[0-9]{1,2}月[0-9]{1,2}日";//yyyy年MM月dd日
     public static final String REGEX_DATE_WITH_HYPHEN_NO_TIME = "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}";//yyyy-MM-dd
 
+    public static final String REGEX_STRING_FORMAT_PLACEHOLDER = "\\{}";
+
     //编码
     public static final String ENCODE_UTF8 = "UTF-8"; // 编码：utf-8
     public static final String ENCODE_GBK = "GBK"; // 编码：GBK
@@ -74,4 +77,6 @@ public class Constant {
 
     // IO流读写时bytes的缓存大小
     public static final int IO_BYTES_BUFFER_SIZE = 64 * 1024;
+    // 用户登出时，返回http状态码：700
+    public static final int LOGOUT_HTTP_STATUS = 700;
 }
