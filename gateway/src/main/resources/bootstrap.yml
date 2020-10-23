@@ -6,4 +6,4 @@ spring:
       profile: prod
       uri: http://localhost:7040/
       label: master
-      name: ${spring.application.name},qiyue-cloud-base,qiyue-cloud-redis,qiyue-cloud-rabbitmq,qiyue-cloud-custom
+      name: gateway,base,redis,rabbitmq,custom
