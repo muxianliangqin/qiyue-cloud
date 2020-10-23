@@ -3,6 +3,7 @@ spring:
     name: qiyue-cloud-server
   cloud:
     config:
-      profile: dev
-      uri: http://47.106.140.189/configuration/
+      profile: prod
+      uri: http://localhost:7040/
       label: master
+      name: server
