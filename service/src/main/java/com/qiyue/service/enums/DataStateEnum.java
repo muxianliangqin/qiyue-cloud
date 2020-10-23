@@ -1,8 +1,9 @@
 package com.qiyue.service.enums;
 
 public enum DataStateEnum {
-    USABLE(0, "可用"),
-    UNUSABLE(1, "不可用"),
+    // 一般初始状态为数据可用、未操作
+    ORIGINAL(0, "初始状态"),
+    SECOND(1, "第二状态"),
     ;
 
     private Integer state;

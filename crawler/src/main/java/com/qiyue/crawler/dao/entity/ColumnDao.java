@@ -15,4 +15,6 @@ public interface ColumnDao extends JpaRepository<ColumnEntity, Long> {
     int deleteByWebId(Long webId);
 
     List<ColumnEntity> findByWebIdAndState(Long webId, Integer state);
+
+    List<ColumnEntity> findByStateOrderByCrawlTimeAsc(Integer state);
 }

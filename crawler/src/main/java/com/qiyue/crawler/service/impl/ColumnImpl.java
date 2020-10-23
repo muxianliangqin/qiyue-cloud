@@ -5,17 +5,12 @@ import com.qiyue.base.exceptions.DatabaseException;
 import com.qiyue.base.model.response.Response;
 import com.qiyue.base.utils.ParamVerify;
 import com.qiyue.crawler.dao.entity.ColumnDao;
-import com.qiyue.crawler.dao.entity.WebDao;
 import com.qiyue.crawler.entity.ColumnEntity;
-import com.qiyue.crawler.entity.WebEntity;
 import com.qiyue.crawler.service.ColumnService;
-import com.qiyue.crawler.service.WebService;
 import com.qiyue.crawler.utils.IdUtil;
 import com.qiyue.service.enums.DataStateEnum;
 import com.qiyue.service.utils.ContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +24,7 @@ public class ColumnImpl implements ColumnService {
 
     @Override
     public Response<List<ColumnEntity>> findByWebId(Long webId) {
-        List<ColumnEntity> columnEntityList = columnDao.findByWebIdAndState(webId, DataStateEnum.USABLE.getState());
+        List<ColumnEntity> columnEntityList = columnDao.findByWebIdAndState(webId, DataStateEnum.ORIGINAL.getState());
         return Response.success(columnEntityList);
     }
 

@@ -28,7 +28,7 @@ public class WebImpl implements WebService {
 
     @Override
     public Response<Page<WebEntity>> findByPage(Pageable pageable) {
-        Page<WebEntity> webEntityPage = webDao.findAllByState(DataStateEnum.USABLE.getState(), pageable);
+        Page<WebEntity> webEntityPage = webDao.findAllByState(DataStateEnum.ORIGINAL.getState(), pageable);
         return Response.success(webEntityPage);
     }
 

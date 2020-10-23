@@ -66,6 +66,7 @@ public class CrawlerImpl implements CrawlerService {
             newOne.setTitle(param.getColumnTitle());
             newOne.setXpathArticleTitle(param.getXpathArticleTitle());
             newOne.setXpathArticleContent(param.getXpathArticleContent());
+            newOne.setXpathArticlePage(param.getXpathArticlePage());
             newOne.setCharset(StringUtils.isEmpty(param.getCharset()) ? Constant.ENCODE_UTF8 : param.getCharset());
             return columnDao.save(newOne);
         });

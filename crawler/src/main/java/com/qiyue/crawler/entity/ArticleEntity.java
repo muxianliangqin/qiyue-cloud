@@ -53,6 +53,9 @@ public class ArticleEntity implements Serializable {
     /*文章的附件，file_id的列表*/
     @Column(name = "attachments")
     private String attachments;
+    /*爬取文章正文和附件时错误信息*/
+    @Column(name = "error")
+    private String error;
     /*状态，0-可用，1-删除*/
     @Column(name = "state")
     private Integer state;

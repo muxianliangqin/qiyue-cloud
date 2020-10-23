@@ -17,6 +17,8 @@ public class PluginCrawlerParam {
     private String xpathArticleTitle;
     //    获取文章内容xpath
     private String xpathArticleContent;
+    //    获取标题分页xpath
+    private String xpathArticlePage;
     //    编码
     private String charset;
     //    文章列表

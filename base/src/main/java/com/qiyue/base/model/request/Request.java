@@ -21,24 +21,7 @@ public class Request<T> {
     private T params;
 
     public PageRequest getPage() {
-        if (null == page) {
-            return null;
-        }
-        List<String> orders = page.getOrders();
-        if (null == orders) {
-            return PageRequest.of(page.getPage(), page.getSize());
-        }
-        List<Sort.Order> orderList = orders.stream()
-                .filter(k -> k.matches("^[A-z]+(,(ASC|asc|DESC|desc))?$"))
-                .map(k -> {
-                    String[] split = k.split(",");
-                    if (split.length > 1) {
-                        return new Sort.Order(Sort.Direction.valueOf(split[1].toUpperCase()), split[0]);
-                    } else {
-                        return new Sort.Order(Sort.Direction.DESC, split[0]);
-                    }
-                }).collect(Collectors.toList());
-        return PageRequest.of(page.getPage(), page.getSize(), Sort.by(orderList));
+        return getPageable(this.page);
     }
 
     public T getParams() {
@@ -62,4 +45,24 @@ public class Request<T> {
         private List<String> orders;
     }
 
+    public static PageRequest getPageable(Page page) {
+        if (null == page) {
+            return null;
+        }
+        List<String> orders = page.getOrders();
+        if (null == orders) {
+            return PageRequest.of(page.getPage(), page.getSize());
+        }
+        List<Sort.Order> orderList = orders.stream()
+                .filter(k -> k.matches("^[A-z]+(,(ASC|asc|DESC|desc))?$"))
+                .map(k -> {
+                    String[] split = k.split(",");
+                    if (split.length > 1) {
+                        return new Sort.Order(Sort.Direction.valueOf(split[1].toUpperCase()), split[0]);
+                    } else {
+                        return new Sort.Order(Sort.Direction.DESC, split[0]);
+                    }
+                }).collect(Collectors.toList());
+        return PageRequest.of(page.getPage(), page.getSize(), Sort.by(orderList));
+    }
 }
