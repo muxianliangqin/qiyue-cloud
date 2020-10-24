@@ -6,4 +6,4 @@ spring:
       profile: prod
       uri: http://localhost:7040/
       label: master
-      name: user,base,redis,rabbitmq,custom
+      name: user,base,redis,rabbitmq,common

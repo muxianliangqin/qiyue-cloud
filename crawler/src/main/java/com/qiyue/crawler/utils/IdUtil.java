@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class IdUtil implements InitializingBean {
 
-    @Value(value = "${id.unique.crawler.workerId}")
+    @Value(value = "${id.unique.java.crawler.workerId}")
     private long workerId;
 
-    @Value(value = "${id.unique.crawler.dataCenterId}")
+    @Value(value = "${id.unique.java.crawler.dataCenterId}")
     private long dataCenterId;
 
     private static UniqueId uniqueId;

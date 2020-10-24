@@ -6,4 +6,4 @@ spring:
       profile: prod
       uri: http://localhost:7040/
       label: master
-      name: crawler,base,redis,rabbitmq,kafka,xxl-job,custom
+      name: crawler,base,redis,rabbitmq,kafka,xxl-job,common
