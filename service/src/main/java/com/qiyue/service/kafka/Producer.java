@@ -22,7 +22,7 @@ public class Producer {
     @Value(value = "${spring.application.name}")
     private String systemId;
 
-    @Value(value = "${kafka.crawler.topic}")
+    @Value(value = "${kafka.topic.crawler}")
     private String topic;
 
     @Resource
