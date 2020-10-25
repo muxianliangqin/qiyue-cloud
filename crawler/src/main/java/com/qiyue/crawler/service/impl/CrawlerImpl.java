@@ -46,7 +46,7 @@ public class CrawlerImpl implements CrawlerService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response savePluginCrawler(PluginCrawlerParam param) {
+    public Response<String> savePluginCrawler(PluginCrawlerParam param) {
         ParamVerify.isNotNull(param.getWebUrl(), "网站链接", "webUrl");
         ParamVerify.isNotNull(param.getColumnUrl(), "栏目链接", "columnUrl");
         ParamVerify.isNotNull(param.getColumnTitle(), "栏目标题", "columnTitle");

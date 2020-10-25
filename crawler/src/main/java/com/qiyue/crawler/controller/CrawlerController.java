@@ -1,14 +1,15 @@
 package com.qiyue.crawler.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.qiyue.base.model.response.Response;
 import com.qiyue.crawler.model.param.PluginCrawlerParam;
 import com.qiyue.crawler.service.CrawlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class CrawlerController {
@@ -16,7 +17,11 @@ public class CrawlerController {
     private CrawlerService crawlerService;
 
     @RequestMapping("/plugin/save")
-    public Response savePluginCrawler(@RequestBody PluginCrawlerParam crawlerParam) {
+    public Response<String> savePluginCrawler(@RequestBody PluginCrawlerParam crawlerParam,
+                                              HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         return crawlerService.savePluginCrawler(crawlerParam);
     }
 
