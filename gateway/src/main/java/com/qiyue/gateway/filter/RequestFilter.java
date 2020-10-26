@@ -1,9 +1,10 @@
 package com.qiyue.gateway.filter;
 
 import com.qiyue.base.constant.Constant;
-import com.qiyue.base.redis.RedisHandler;
 import com.qiyue.base.model.bo.UserInfoBO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qiyue.base.redis.RedisHandler;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @RefreshScope
 @Component
 public class RequestFilter implements GlobalFilter, Ordered {
@@ -30,8 +32,11 @@ public class RequestFilter implements GlobalFilter, Ordered {
     @Value("${login.auth.token.expires}")
     private int tokenExpires;
 
-    @Autowired
-    private RedisHandler redisHandler;
+    private final RedisHandler redisHandler;
+
+    public RequestFilter(RedisHandler redisHandler) {
+        this.redisHandler = redisHandler;
+    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -43,9 +48,9 @@ public class RequestFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
         HttpHeaders httpHeaders = request.getHeaders();
-        List<String> tokens = null;
+        List<String> tokens;
         String token = null;
-        UserInfoBO userInfoBO = null;
+        UserInfoBO userInfoBO;
         /*
         鉴权条件，如果发生以下情况，鉴权不通过
         1、header中没有token属性
@@ -54,13 +59,14 @@ public class RequestFilter implements GlobalFilter, Ordered {
         4、token属性值不在redis中
          */
         if ((tokens = httpHeaders.get(Constant.TOKEN_NAMESPACE)) == null
-                || tokens.isEmpty()
-                || tokens.size() > 1
-                || (userInfoBO = (UserInfoBO) redisHandler.getHashTemplate().get(Constant.TOKEN_NAMESPACE, token = tokens.get(0))) == null) {
+                || tokens.size() != 1
+                || StringUtils.isBlank(token = tokens.get(0))
+                || (userInfoBO = (UserInfoBO) redisHandler.getHashTemplate().get(Constant.TOKEN_NAMESPACE, token)) == null) {
+            log.info("token不存在或token错误,{}", token);
             response.setStatusCode(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
             return response.setComplete();
         }
-        redisHandler.getHashTemplate().set(Constant.TOKEN_NAMESPACE, tokens.get(0), userInfoBO, tokenExpires);
+        redisHandler.getHashTemplate().set(Constant.TOKEN_NAMESPACE, token, userInfoBO, tokenExpires);
         return chain.filter(exchange);
     }
 
