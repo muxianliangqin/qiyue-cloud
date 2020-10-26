@@ -24,11 +24,7 @@ public class CrawlerController {
      */
     @CrossOrigin(allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
     @RequestMapping("/plugin/save")
-    public Response<String> savePluginCrawler(@RequestBody PluginCrawlerParam crawlerParam,
-                                              HttpServletRequest request, HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
+    public Response<String> savePluginCrawler(@RequestBody PluginCrawlerParam crawlerParam) {
         return crawlerService.savePluginCrawler(crawlerParam);
     }
 
