@@ -104,7 +104,12 @@ public class ArticleImpl implements ArticleService {
                 orList.add(predicate);
             }
             Predicate predicateOr = criteriaBuilder.or(orList.toArray(new Predicate[0]));
-            return query.where(predicateAnd, predicateOr).getRestriction();
+            List<Predicate> predicateWhere = new ArrayList<>();
+            predicateWhere.add(predicateAnd);
+            if (!CollectionUtils.isEmpty(orList)) {
+                predicateWhere.add(predicateOr);
+            }
+            return query.where(predicateWhere.toArray(new Predicate[0])).getRestriction();
         };
     }
 }
