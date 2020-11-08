@@ -13,6 +13,7 @@ public class Constant {
     //符号
     public static final String SYMBOL_POUND_KEY = "#";//  符号：#
     public static final String SYMBOL_DOLLAR = "$";//  符号：$
+    public static final String SYMBOL_PERCENT = "%";//  符号：%
     public static final String SYMBOL_URL_LEVEL_UP = "../";//  符号：../
     public static final String SYMBOL_URL_LEVEL_SAME = "./";//  符号：./
     public static final String SYMBOL_SEPARATOR = "/";//  符号：/

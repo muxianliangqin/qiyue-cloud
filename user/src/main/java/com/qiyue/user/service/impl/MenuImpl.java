@@ -3,19 +3,19 @@ package com.qiyue.user.service.impl;
 import com.qiyue.base.enums.ErrorEnum;
 import com.qiyue.base.exceptions.BusinessException;
 import com.qiyue.base.exceptions.DatabaseException;
+import com.qiyue.base.model.response.Response;
 import com.qiyue.base.node.Element;
 import com.qiyue.base.node.TreeNode;
 import com.qiyue.base.utils.EnumUtil;
 import com.qiyue.base.utils.ParamVerify;
 import com.qiyue.base.utils.StreamUtil;
 import com.qiyue.base.utils.StringUtil;
-import com.qiyue.base.model.response.Response;
 import com.qiyue.user.constant.UserConstant;
+import com.qiyue.user.dao.entity.MenuDao;
 import com.qiyue.user.dao.entity.RoleDao;
 import com.qiyue.user.dao.entity.RoleMenuDao;
 import com.qiyue.user.dao.vo.MenuVODao;
 import com.qiyue.user.entity.MenuEntity;
-import com.qiyue.user.dao.entity.MenuDao;
 import com.qiyue.user.entity.RoleEntity;
 import com.qiyue.user.entity.RoleMenuEntity;
 import com.qiyue.user.enums.DataStateEnum;
@@ -25,7 +25,6 @@ import com.qiyue.user.model.vo.MenuVO;
 import com.qiyue.user.service.MenuService;
 import com.qiyue.user.utils.IdUtil;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,14 +36,17 @@ import java.util.stream.Collectors;
 @Service
 public class MenuImpl implements MenuService {
 
-    @Autowired
-    private RoleDao roleDao;
-    @Autowired
-    private RoleMenuDao roleMenuDao;
-    @Autowired
-    private MenuDao menuDao;
-    @Autowired
-    private MenuVODao menuVODao;
+    private final RoleDao roleDao;
+    private final RoleMenuDao roleMenuDao;
+    private final MenuDao menuDao;
+    private final MenuVODao menuVODao;
+
+    public MenuImpl(RoleDao roleDao, RoleMenuDao roleMenuDao, MenuDao menuDao, MenuVODao menuVODao) {
+        this.roleDao = roleDao;
+        this.roleMenuDao = roleMenuDao;
+        this.menuDao = menuDao;
+        this.menuVODao = menuVODao;
+    }
 
     /* 增 */
     @Override
@@ -74,20 +76,18 @@ public class MenuImpl implements MenuService {
     /* 删 */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response menuDel(Long id) {
+    public Response<String> menuDel(Long id) {
         menuDao.deleteById(id);
         return Response.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response menuDelBatch(List<Long> menuIds) {
+    public Response<String> menuDelBatch(List<Long> menuIds) {
         ParamVerify.isNotNull(menuIds, "需要删除的菜单menuIds集合", "menuIds");
-        List<MenuEntity> menuEntities = menuIds.stream().map(k -> {
-            return menuDao.findByMenuId(k).orElseThrow(() ->
-                    new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "menuId", k)
-            );
-        }).collect(Collectors.toList());
+        List<MenuEntity> menuEntities = menuIds.stream().map(k -> menuDao.findByMenuId(k).orElseThrow(() ->
+                new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "menuId", k)
+        )).collect(Collectors.toList());
         menuDao.deleteInBatch(menuEntities);
         return Response.success();
     }
@@ -95,7 +95,7 @@ public class MenuImpl implements MenuService {
     /* 改 */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response menuStop(Long menuId) {
+    public Response<String> menuStop(Long menuId) {
         MenuEntity menuEntity = menuDao.findByMenuId(menuId).orElseThrow(() ->
                 new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "menuId", menuId)
         );
@@ -106,7 +106,7 @@ public class MenuImpl implements MenuService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response menuRestart(Long menuId) {
+    public Response<String> menuRestart(Long menuId) {
         MenuEntity menuEntity = menuDao.findByMenuId(menuId).orElseThrow(() ->
                 new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "menuId", menuId)
         );
@@ -117,7 +117,7 @@ public class MenuImpl implements MenuService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response menuStopBatch(List<Long> menuIds) {
+    public Response<String> menuStopBatch(List<Long> menuIds) {
         menuIds.forEach(k -> {
             MenuEntity menuEntity = menuDao.findByMenuId(k).orElseThrow(() ->
                     new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "menuId", k)
@@ -130,7 +130,7 @@ public class MenuImpl implements MenuService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response menuRestartBatch(List<Long> menuIds) {
+    public Response<String> menuRestartBatch(List<Long> menuIds) {
         menuIds.forEach(k -> {
             MenuEntity menuEntity = menuDao.findByMenuId(k).orElseThrow(() ->
                     new DatabaseException(ErrorEnum.RECORD_NOT_FOUND, "menuId", k)
@@ -192,6 +192,7 @@ public class MenuImpl implements MenuService {
         ParamVerify.isNotNull(roleIds, "角色ID集合", "roleIds");
         List<MenuVO> menuVOList = menuVODao.getMenusByRoleIds(roleIds);
         menuVOList = StreamUtil.peek(menuVOList, MenuVO.TRANSFER);
+        menuVOList = MenuVO.DISTINCT.apply(menuVOList);
         return Response.success(menuVOList);
     }
 

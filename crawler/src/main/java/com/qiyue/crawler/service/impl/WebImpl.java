@@ -4,6 +4,7 @@ import com.qiyue.base.enums.ErrorEnum;
 import com.qiyue.base.exceptions.DatabaseException;
 import com.qiyue.base.model.response.Response;
 import com.qiyue.base.utils.ParamVerify;
+import com.qiyue.base.utils.SqlUtil;
 import com.qiyue.crawler.dao.entity.ColumnDao;
 import com.qiyue.crawler.dao.entity.WebDao;
 import com.qiyue.crawler.entity.WebEntity;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class WebImpl implements WebService {
@@ -30,6 +33,11 @@ public class WebImpl implements WebService {
     public Response<Page<WebEntity>> findByPage(Pageable pageable) {
         Page<WebEntity> webEntityPage = webDao.findAllByState(DataStateEnum.ORIGINAL.getState(), pageable);
         return Response.success(webEntityPage);
+    }
+
+    @Override
+    public Response<List<WebEntity>> findByTitleLike(String title) {
+        return Response.success(webDao.findByTitleLike(SqlUtil.like(title)));
     }
 
     @Override

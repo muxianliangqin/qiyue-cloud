@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/web")
 public class WebController {
@@ -19,6 +21,11 @@ public class WebController {
     @RequestMapping("/findByPage")
     public Response<Page<WebEntity>> findByPage(@RequestBody Request<Void> request){
         return webService.findByPage(request.getPage());
+    }
+
+    @RequestMapping("/findByTitleLike")
+    public Response<List<WebEntity>> findByTitleLike(@RequestBody Request<String> request){
+        return webService.findByTitleLike(request.getParams());
     }
 
     @RequestMapping("/delete")

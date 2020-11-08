@@ -25,6 +25,11 @@ public class ColumnController {
         return columnService.findByWebId(request.getParams());
     }
 
+    @RequestMapping("/findByTitleLike")
+    public Response<List<ColumnEntity>> findByTitleLike(@RequestBody Request<String> request){
+        return columnService.findByTitleLike(request.getParams());
+    }
+
     @RequestMapping("/delete")
     public Response<String> delete(@RequestBody Request<Long> request){
         return columnService.delete(request.getParams());

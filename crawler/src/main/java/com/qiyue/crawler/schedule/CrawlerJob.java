@@ -62,6 +62,7 @@ public class CrawlerJob {
             k.setAttachments(null);
             k.setText(null);
             k.setHtml(null);
+            k.setError(null);
             Message<ArticleEntity> message = new Message<>();
             message.setData(k);
             message.setLabel("crawlArticle");

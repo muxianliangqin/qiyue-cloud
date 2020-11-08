@@ -30,34 +30,34 @@ public class MenuController {
 
     /* 删 */
     @RequestMapping("/del")
-    public Response menuDel(@RequestBody Request<Long> request) {
+    public Response<String> menuDel(@RequestBody Request<Long> request) {
         return menuService.menuDel(request.getParams());
     }
 
 
     @RequestMapping("/delBatch")
-    public Response menuDelBatch(@RequestBody Request<List<Long>> request) {
+    public Response<String> menuDelBatch(@RequestBody Request<List<Long>> request) {
         return menuService.menuDelBatch(request.getParams());
     }
 
     /* 改 */
     @RequestMapping("/stop")
-    public Response menuStop(@RequestBody Request<Long> request) {
+    public Response<String> menuStop(@RequestBody Request<Long> request) {
         return menuService.menuStop(request.getParams());
     }
 
     @RequestMapping("/restart")
-    public Response menuRestart(@RequestBody Request<Long> request) {
+    public Response<String> menuRestart(@RequestBody Request<Long> request) {
         return menuService.menuRestart(request.getParams());
     }
 
     @RequestMapping("/stopBatch")
-    public Response menuStopBatch(@RequestBody Request<List<Long>> request) {
+    public Response<String> menuStopBatch(@RequestBody Request<List<Long>> request) {
         return menuService.menuStopBatch(request.getParams());
     }
 
     @RequestMapping("/restartBatch")
-    public Response menuRestartBatch(@RequestBody Request<List<Long>> request) {
+    public Response<String> menuRestartBatch(@RequestBody Request<List<Long>> request) {
         return menuService.menuRestartBatch(request.getParams());
     }
 

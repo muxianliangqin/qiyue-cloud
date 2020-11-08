@@ -18,4 +18,6 @@ public interface WebDao extends JpaRepository<WebEntity, Long> {
 
     Optional<WebEntity> findByWebId(Long webId);
 
+    List<WebEntity> findByTitleLike(String title);
+
 }

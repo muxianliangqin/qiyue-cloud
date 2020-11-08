@@ -12,25 +12,25 @@ public interface MenuService {
 
     Response<Element<MenuVO>> menuAdd(MenuVO menuVO);
 
-    Response menuDel(Long menuId);
+    Response<String> menuDel(Long menuId);
 
-    Response menuDelBatch(List<Long> menuIds);
+    Response<String> menuDelBatch(List<Long> menuIds);
 
-    Response menuStop(Long menuId);
+    Response<String> menuStop(Long menuId);
 
-    Response menuRestart(Long menuId);
+    Response<String> menuRestart(Long menuId);
 
-    Response menuStopBatch(List<Long> menuIds);
+    Response<String> menuStopBatch(List<Long> menuIds);
 
-    Response menuRestartBatch(List<Long> menuIds);
+    Response<String> menuRestartBatch(List<Long> menuIds);
 
     Response<String> menuModify(MenuVO menuVO);
 
     /**
      * 根据userId查询拥有的菜单权限
      *
-     * @param userId
-     * @return
+     * @param userId 用户id
+     * @return 菜单列表
      */
     Response<List<MenuVO>> getMenusByUserId(Long userId);
 

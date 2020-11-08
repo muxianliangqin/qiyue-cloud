@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Optional;
 
-public interface ArticleDao extends JpaRepository<ArticleEntity, Long>, JpaSpecificationExecutor {
+public interface ArticleDao extends JpaRepository<ArticleEntity, Long>, JpaSpecificationExecutor<ArticleEntity> {
     Optional<ArticleEntity> findByUrl(String url);
 }

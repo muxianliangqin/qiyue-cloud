@@ -4,6 +4,7 @@ import com.qiyue.base.enums.ErrorEnum;
 import com.qiyue.base.exceptions.DatabaseException;
 import com.qiyue.base.model.response.Response;
 import com.qiyue.base.utils.ParamVerify;
+import com.qiyue.base.utils.SqlUtil;
 import com.qiyue.crawler.dao.entity.ColumnDao;
 import com.qiyue.crawler.entity.ColumnEntity;
 import com.qiyue.crawler.service.ColumnService;
@@ -26,6 +27,11 @@ public class ColumnImpl implements ColumnService {
     public Response<List<ColumnEntity>> findByWebId(Long webId) {
         List<ColumnEntity> columnEntityList = columnDao.findByWebIdAndState(webId, DataStateEnum.ORIGINAL.getState());
         return Response.success(columnEntityList);
+    }
+
+    @Override
+    public Response<List<ColumnEntity>> findByTitleLike(String title) {
+        return Response.success(columnDao.findByTitleLike(SqlUtil.like(title)));
     }
 
     @Override

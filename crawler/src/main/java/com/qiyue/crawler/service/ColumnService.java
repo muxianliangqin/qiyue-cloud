@@ -12,6 +12,8 @@ public interface ColumnService {
 
     Response<List<ColumnEntity>> findByWebId(Long webId);
 
+    Response<List<ColumnEntity>> findByTitleLike(String title);
+
     Response<String> delete(Long columnId);
 
     Response<String> add(ColumnEntity columnEntity);

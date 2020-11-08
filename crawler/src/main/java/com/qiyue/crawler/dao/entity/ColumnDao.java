@@ -12,6 +12,8 @@ public interface ColumnDao extends JpaRepository<ColumnEntity, Long> {
 
     Optional<ColumnEntity> findByColumnId(Long columnId);
 
+    List<ColumnEntity> findByTitleLike(String title);
+
     int deleteByWebId(Long webId);
 
     List<ColumnEntity> findByWebIdAndState(Long webId, Integer state);
