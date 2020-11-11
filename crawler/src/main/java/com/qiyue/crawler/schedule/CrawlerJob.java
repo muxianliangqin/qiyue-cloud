@@ -16,9 +16,11 @@ import com.qiyue.service.kafka.Producer;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,9 +64,15 @@ public class CrawlerJob {
             params.setState(DataStateEnum.ORIGINAL.getState());
             params.setCrawledNum(5);
         }
+        Request.Page page = new Request.Page();
+        page.setSize(500);
+        page.setPage(1);
+        List<String> orders = new ArrayList<>();
+        orders.add("updateTime,ASC");
+        page.setOrders(orders);
         request.setParams(params);
-        log.info("执行定时任务-->pushArticleInfoToKafka，参数：{}", params);
-        Response<List<ArticleEntity>> response = articleService.findBySpecification(request.getParams());
+        log.info("执行定时任务-->pushArticleInfoToKafka，参数：{}", request);
+        Response<Page<ArticleEntity>> response = articleService.findBySpecification(request.getParams(), request.getPage());
         response.getContent().forEach(k -> {
             k.setAttachments(null);
             k.setText(null);
