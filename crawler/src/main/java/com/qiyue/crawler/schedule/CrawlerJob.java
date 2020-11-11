@@ -16,6 +16,7 @@ import com.qiyue.service.kafka.Producer;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +56,7 @@ public class CrawlerJob {
     public ReturnT<String> pushArticleInfoToKafka(String param) {
         Request<ArticleSpecificationParam> request = new Request<>();
         ArticleSpecificationParam params;
-        if (null != param) {
+        if (StringUtils.isNotBlank(param)) {
             params = JSONObject.parseObject(param, ArticleSpecificationParam.class);
         } else {
             params = new ArticleSpecificationParam();
