@@ -64,13 +64,14 @@ public class CrawlerJob {
             params.setState(DataStateEnum.ORIGINAL.getState());
             params.setCrawledNum(5);
         }
+        request.setParams(params);
         Request.Page page = new Request.Page();
         page.setSize(500);
         page.setPage(1);
         List<String> orders = new ArrayList<>();
         orders.add("updateTime,ASC");
         page.setOrders(orders);
-        request.setParams(params);
+        request.setPage(page);
         log.info("执行定时任务-->pushArticleInfoToKafka，参数：{}", request);
         Response<Page<ArticleEntity>> response = articleService.findBySpecification(request.getParams(), request.getPage());
         response.getContent().forEach(k -> {
