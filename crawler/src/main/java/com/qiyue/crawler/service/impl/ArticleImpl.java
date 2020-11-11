@@ -2,7 +2,7 @@ package com.qiyue.crawler.service.impl;
 
 import com.qiyue.base.model.response.Response;
 import com.qiyue.base.utils.ParamVerify;
-import com.qiyue.base.utils.StringUtil;
+import com.qiyue.base.utils.SqlUtil;
 import com.qiyue.crawler.dao.entity.ArticleDao;
 import com.qiyue.crawler.dao.entity.ColumnDao;
 import com.qiyue.crawler.entity.ArticleEntity;
@@ -55,23 +55,24 @@ public class ArticleImpl implements ArticleService {
             // 标题模糊查询
             String title = params.getTitle();
             if (StringUtils.isNotEmpty(title)) {
-                Predicate predicate = criteriaBuilder.like(root.get("title"), StringUtil.format("%{}%", title));
+                Predicate predicate = criteriaBuilder.like(root.get("title"), SqlUtil.like(title));
                 andList.add(predicate);
             }
-            // 栏目精确查询
-            Long columnId = params.getColumnId();
-            if (null != columnId) {
+            Long articleId, columnId, webId;
+            if (null != (articleId = params.getArticleId())) {
+                // 文章ID精准查询
+                Predicate predicate = criteriaBuilder.equal(root.get("articleId"), articleId);
+                andList.add(predicate);
+            } else if (null != (columnId = params.getColumnId())) {
+                // 网站栏目查询
                 Predicate predicate = criteriaBuilder.equal(root.get("columnId"), columnId);
                 andList.add(predicate);
-            } else {
+            } else if (null != (webId = params.getWebId())) {
                 // 网站查询
-                Long webId = params.getWebId();
-                if (null != webId) {
-                    List<ColumnEntity> columnEntityList = columnDao.findByWebIdAndState(webId, DataStateEnum.ORIGINAL.getState());
-                    List<Long> columnIdList = columnEntityList.stream().map(ColumnEntity::getColumnId).collect(Collectors.toList());
-                    if (!CollectionUtils.isEmpty(columnIdList)) {
-                        andList.add(root.<Long>get("columnId").in(columnIdList));
-                    }
+                List<ColumnEntity> columnEntityList = columnDao.findByWebIdAndState(webId, DataStateEnum.ORIGINAL.getState());
+                List<Long> columnIdList = columnEntityList.stream().map(ColumnEntity::getColumnId).collect(Collectors.toList());
+                if (!CollectionUtils.isEmpty(columnIdList)) {
+                    andList.add(root.<Long>get("columnId").in(columnIdList));
                 }
             }
             // 数据是否有效

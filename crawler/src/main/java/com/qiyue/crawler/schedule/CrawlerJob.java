@@ -1,5 +1,6 @@
 package com.qiyue.crawler.schedule;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qiyue.base.model.request.Request;
 import com.qiyue.base.model.response.Response;
 import com.qiyue.crawler.dao.entity.ColumnDao;
@@ -51,12 +52,18 @@ public class CrawlerJob {
     @XxlJob(value = "pushArticleInfoToKafka")
     public ReturnT<String> pushArticleInfoToKafka(String param) {
         Request<ArticleSpecificationParam> request = new Request<>();
-        ArticleSpecificationParam params = new ArticleSpecificationParam();
-        params.setCrawledAttachment(ArticleCrawlerAttachmentEnum.NO.getStatus());
-        params.setCrawledContent(ArticleCrawlerContentEnum.NO.getStatus());
-        params.setState(DataStateEnum.ORIGINAL.getState());
-        params.setCrawledNum(5);
+        ArticleSpecificationParam params;
+        if (null != param) {
+            params = JSONObject.parseObject(param, ArticleSpecificationParam.class);
+        } else {
+            params = new ArticleSpecificationParam();
+            params.setCrawledAttachment(ArticleCrawlerAttachmentEnum.NO.getStatus());
+            params.setCrawledContent(ArticleCrawlerContentEnum.NO.getStatus());
+            params.setState(DataStateEnum.ORIGINAL.getState());
+            params.setCrawledNum(5);
+        }
         request.setParams(params);
+        log.info("执行定时任务-->pushArticleInfoToKafka，参数：{}", params);
         Response<List<ArticleEntity>> response = articleService.findBySpecification(request.getParams());
         response.getContent().forEach(k -> {
             k.setAttachments(null);

@@ -18,5 +18,7 @@ public class ArticleSpecificationParam {
     private Integer state;
     /*文章归属网站ID*/
     private Long webId;
+    /*文章ID*/
+    private Long articleId;
 
 }
