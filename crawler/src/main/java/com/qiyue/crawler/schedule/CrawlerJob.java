@@ -67,7 +67,7 @@ public class CrawlerJob {
         request.setParams(params);
         Request.Page page = new Request.Page();
         page.setSize(500);
-        page.setPage(1);
+        page.setPage(0);
         List<String> orders = new ArrayList<>();
         orders.add("updateTime,ASC");
         page.setOrders(orders);
