@@ -17,6 +17,7 @@ import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,9 @@ public class CrawlerJob {
 
     @Resource
     private ArticleService articleService;
+
+    @Value(value = "${xxl-job.pushArticleInfoToKafka.pageSize}")
+    private Integer pageSize;
 
     @XxlJob(value = "pushTitleInfoToKafka")
     public ReturnT<String> pushTitleInfoToKafka(String param) {
@@ -67,7 +71,7 @@ public class CrawlerJob {
         }
         request.setParams(params);
         Request.Page page = new Request.Page();
-        page.setSize(500);
+        page.setSize(pageSize);
         page.setPage(0);
         List<String> orders = new ArrayList<>();
         orders.add("updateTime,ASC");
