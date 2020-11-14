@@ -3,22 +3,21 @@ package com.qiyue.user.service.impl;
 import com.qiyue.base.constant.Constant;
 import com.qiyue.base.enums.ErrorEnum;
 import com.qiyue.base.exceptions.DatabaseException;
-import com.qiyue.base.utils.ParamVerify;
-import com.qiyue.base.utils.StringUtil;
-import com.qiyue.base.utils.encrypt.CipherUtil;
 import com.qiyue.base.model.request.Request;
 import com.qiyue.base.model.response.Response;
 import com.qiyue.base.utils.BaseUtil;
+import com.qiyue.base.utils.ParamVerify;
+import com.qiyue.base.utils.StringUtil;
+import com.qiyue.base.utils.encrypt.CipherUtil;
 import com.qiyue.user.constant.UserConstant;
-import com.qiyue.user.model.vo.UserInfoVO;
-import com.qiyue.user.entity.UserEntity;
 import com.qiyue.user.dao.entity.UserDao;
+import com.qiyue.user.entity.UserEntity;
 import com.qiyue.user.enums.DataStateEnum;
+import com.qiyue.user.model.vo.UserInfoVO;
 import com.qiyue.user.service.UserService;
 import com.qiyue.user.utils.IdUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@RefreshScope
 @Service
 public class UserImpl implements UserService {
 

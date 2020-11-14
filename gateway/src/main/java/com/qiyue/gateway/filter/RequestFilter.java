@@ -6,7 +6,6 @@ import com.qiyue.base.redis.RedisHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -22,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
-@RefreshScope
 @Component
 public class RequestFilter implements GlobalFilter, Ordered {
 
