@@ -18,6 +18,7 @@ import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
+@RefreshScope
 @Component
 public class CrawlerJob {
 
