@@ -36,8 +36,11 @@ public class ArticleEntity implements Serializable {
     @Column(name = "column_id")
     private Long columnId;
     /*是否已经爬取正文,0-未成功，1-已成功*/
-    @Column(name = "crawled_content")
-    private Integer crawledContent;
+    @Column(name = "crawled_text")
+    private Integer crawledText;
+    /*是否获取了html,0-未成功，1-已成功*/
+    @Column(name = "crawled_html")
+    private Integer crawledHtml;
     /*是否已爬取文章附件，0-未成功，1-已成功*/
     @Column(name = "crawled_attachment")
     private Integer crawledAttachment;
@@ -45,11 +48,8 @@ public class ArticleEntity implements Serializable {
     @Column(name = "crawled_num")
     private Integer crawledNum;
     /*内容*/
-    @Column(name = "text")
-    private String text;
-    /*内容包含html标签*/
-    @Column(name = "html")
-    private String html;
+    @Column(name = "content_id")
+    private String contentId;
     /*文章的附件，file_id的列表*/
     @Column(name = "attachments")
     private String attachments;

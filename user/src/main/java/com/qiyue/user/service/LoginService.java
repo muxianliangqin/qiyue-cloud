@@ -11,11 +11,6 @@ public interface LoginService {
 
     /**
      * 登录
-     *
-     * @param httpServletRequest
-     * @param httpServletResponse
-     * @param request
-     * @return
      */
     Response login(Request<UserEntity> request,
                    HttpServletRequest httpServletRequest,
@@ -23,10 +18,6 @@ public interface LoginService {
 
     /**
      * 登出
-     *
-     * @param request
-     * @param response
-     * @return
      */
     Response logout(HttpServletRequest request, HttpServletResponse response);
 

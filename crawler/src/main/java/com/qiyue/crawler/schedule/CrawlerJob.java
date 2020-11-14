@@ -81,8 +81,6 @@ public class CrawlerJob {
         Response<Page<ArticleEntity>> response = articleService.findBySpecification(request.getParams(), request.getPage());
         response.getContent().forEach(k -> {
             k.setAttachments(null);
-            k.setText(null);
-            k.setHtml(null);
             k.setError(null);
             Message<ArticleEntity> message = new Message<>();
             message.setData(k);
