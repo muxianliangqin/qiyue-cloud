@@ -22,7 +22,7 @@ public class CrawlerController {
      * @param crawlerParam 爬取结果
      * @return 接口执行结果
      */
-    @CrossOrigin(allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+//    @CrossOrigin(allowCredentials = "true", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
     @RequestMapping("/plugin/save")
     public Response<String> savePluginCrawler(@RequestBody PluginCrawlerParam crawlerParam) {
         return crawlerService.savePluginCrawler(crawlerParam);
