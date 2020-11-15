@@ -42,13 +42,6 @@ public class ArticleImpl implements ArticleService {
         return Response.success(articleEntityPage);
     }
 
-    @Override
-    public Response<List<ArticleEntity>> findBySpecification(ArticleSpecificationParam params) {
-        Specification<ArticleEntity> specification = getSpecification(params);
-        List<ArticleEntity> articleEntityPage = articleDao.findAll(specification);
-        return Response.success(articleEntityPage);
-    }
-
     private Specification<ArticleEntity> getSpecification(ArticleSpecificationParam params) {
         return (Specification<ArticleEntity>) (root, query, criteriaBuilder) -> {
             List<Predicate> andList = new ArrayList<>();
@@ -85,6 +78,28 @@ public class ArticleImpl implements ArticleService {
             Integer crawledNum = params.getCrawledNum();
             if (null != crawledNum && crawledNum > 0) {
                 Predicate predicate = criteriaBuilder.lessThanOrEqualTo(root.get("crawledNum"), crawledNum);
+                andList.add(predicate);
+            }
+            // 是否有正文
+            Integer haveText = params.getHaveText();
+            if (null != haveText) {
+                Predicate predicate;
+                if (DataStateEnum.SECOND.getState().equals(haveText)) {
+                    predicate = criteriaBuilder.isNotNull(root.get("contentId"));
+                } else {
+                    predicate = criteriaBuilder.isNull(root.get("contentId"));
+                }
+                andList.add(predicate);
+            }
+            // 是否有附件
+            Integer haveAttachment = params.getHaveAttachment();
+            if (null != haveAttachment) {
+                Predicate predicate;
+                if (DataStateEnum.SECOND.getState().equals(haveAttachment)) {
+                    predicate = criteriaBuilder.isNotNull(root.get("attachments"));
+                } else {
+                    predicate = criteriaBuilder.isNull(root.get("attachments"));
+                }
                 andList.add(predicate);
             }
             Predicate predicateAnd = criteriaBuilder.and(andList.toArray(new Predicate[0]));

@@ -11,7 +11,4 @@ import java.util.List;
 public interface ArticleService {
 
     Response<Page<ArticleEntity>> findBySpecification(ArticleSpecificationParam params, Pageable pageable);
-
-    Response<List<ArticleEntity>> findBySpecification(ArticleSpecificationParam params);
-
 }

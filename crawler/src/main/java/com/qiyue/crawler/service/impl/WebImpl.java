@@ -7,18 +7,30 @@ import com.qiyue.base.utils.ParamVerify;
 import com.qiyue.base.utils.SqlUtil;
 import com.qiyue.crawler.dao.entity.ColumnDao;
 import com.qiyue.crawler.dao.entity.WebDao;
+import com.qiyue.crawler.entity.ArticleEntity;
+import com.qiyue.crawler.entity.ColumnEntity;
 import com.qiyue.crawler.entity.WebEntity;
+import com.qiyue.crawler.enums.ArticleCrawlerAttachmentEnum;
+import com.qiyue.crawler.enums.ArticleCrawlerContentEnum;
+import com.qiyue.crawler.model.param.ArticleSpecificationParam;
+import com.qiyue.crawler.model.param.WebSpecificationParam;
 import com.qiyue.crawler.service.WebService;
 import com.qiyue.crawler.utils.IdUtil;
 import com.qiyue.service.enums.DataStateEnum;
 import com.qiyue.service.utils.ContextUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WebImpl implements WebService {
@@ -30,8 +42,8 @@ public class WebImpl implements WebService {
     private ColumnDao columnDao;
 
     @Override
-    public Response<Page<WebEntity>> findByPage(Pageable pageable) {
-        Page<WebEntity> webEntityPage = webDao.findAllByState(DataStateEnum.ORIGINAL.getState(), pageable);
+    public Response<Page<WebEntity>> findByPage(WebSpecificationParam param, Pageable pageable) {
+        Page<WebEntity> webEntityPage = webDao.findAll(this.getSpecification(param), pageable);
         return Response.success(webEntityPage);
     }
 
@@ -78,4 +90,19 @@ public class WebImpl implements WebService {
         return Response.success();
     }
 
+    private Specification<WebEntity> getSpecification(WebSpecificationParam params) {
+        return (Specification<WebEntity>) (root, query, criteriaBuilder) -> {
+            List<Predicate> andList = new ArrayList<>();
+            // 标题模糊查询
+            Long webId = params.getWebId();
+            if (null != webId) {
+                Predicate predicate = criteriaBuilder.equal(root.get("webId"), webId);
+                andList.add(predicate);
+            }
+            Predicate predicateAnd = criteriaBuilder.and(andList.toArray(new Predicate[0]));
+            List<Predicate> predicateWhere = new ArrayList<>();
+            predicateWhere.add(predicateAnd);
+            return query.where(predicateWhere.toArray(new Predicate[0])).getRestriction();
+        };
+    }
 }

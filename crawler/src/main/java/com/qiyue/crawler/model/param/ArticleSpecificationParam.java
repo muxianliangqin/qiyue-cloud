@@ -20,5 +20,9 @@ public class ArticleSpecificationParam {
     private Long webId;
     /*文章ID*/
     private Long articleId;
+    /*是否有正文*/
+    private Integer haveText;
+    /*是否有附件*/
+    private Integer haveAttachment;
 
 }
