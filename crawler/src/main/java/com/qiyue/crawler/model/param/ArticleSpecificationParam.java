@@ -9,7 +9,7 @@ public class ArticleSpecificationParam {
     /*文章归属栏目ID*/
     private Long columnId;
     /*是否已经爬取正文,0-未成功，1-已成功*/
-    private Integer crawledContent;
+    private Integer crawledText;
     /*是否已爬取文章附件，0-未成功，1-已成功*/
     private Integer crawledAttachment;
     /*尝试爬取正文和附件的次数，默认超过5次就不在爬取*/

@@ -8,7 +8,7 @@ import com.qiyue.crawler.dao.entity.ColumnDao;
 import com.qiyue.crawler.entity.ArticleEntity;
 import com.qiyue.crawler.entity.ColumnEntity;
 import com.qiyue.crawler.enums.ArticleCrawlerAttachmentEnum;
-import com.qiyue.crawler.enums.ArticleCrawlerContentEnum;
+import com.qiyue.crawler.enums.ArticleCrawlerTextEnum;
 import com.qiyue.crawler.model.param.ArticleSpecificationParam;
 import com.qiyue.crawler.service.ArticleService;
 import com.qiyue.service.enums.DataStateEnum;
@@ -106,10 +106,10 @@ public class ArticleImpl implements ArticleService {
             // or条件
             List<Predicate> orList = new ArrayList<>();
             // 是否爬取内容
-            Integer crawledContent = params.getCrawledContent();
-            if (null != crawledContent) {
-                ParamVerify.validity(crawledContent, ArticleCrawlerContentEnum.values(), ArticleCrawlerContentEnum::getStatus, "crawledContent");
-                Predicate predicate = criteriaBuilder.equal(root.<Integer>get("crawledContent"), crawledContent);
+            Integer crawledText = params.getCrawledText();
+            if (null != crawledText) {
+                ParamVerify.validity(crawledText, ArticleCrawlerTextEnum.values(), ArticleCrawlerTextEnum::getStatus, "crawledText");
+                Predicate predicate = criteriaBuilder.equal(root.<Integer>get("crawledText"), crawledText);
                 orList.add(predicate);
             }
             // 是否爬取附件

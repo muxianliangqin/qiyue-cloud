@@ -1,6 +1,6 @@
 package com.qiyue.crawler.enums;
 
-public enum ArticleCrawlerContentEnum {
+public enum ArticleCrawlerTextEnum {
     NO(0, "未成功"),
     YES(1, "已成功"),
     ;
@@ -8,7 +8,7 @@ public enum ArticleCrawlerContentEnum {
     private Integer status;
     private String msg;
 
-    ArticleCrawlerContentEnum(Integer status, String msg) {
+    ArticleCrawlerTextEnum(Integer status, String msg) {
         this.status = status;
         this.msg = msg;
     }

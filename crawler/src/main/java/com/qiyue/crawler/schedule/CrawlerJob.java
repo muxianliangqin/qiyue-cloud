@@ -7,7 +7,7 @@ import com.qiyue.crawler.dao.entity.ColumnDao;
 import com.qiyue.crawler.entity.ArticleEntity;
 import com.qiyue.crawler.entity.ColumnEntity;
 import com.qiyue.crawler.enums.ArticleCrawlerAttachmentEnum;
-import com.qiyue.crawler.enums.ArticleCrawlerContentEnum;
+import com.qiyue.crawler.enums.ArticleCrawlerTextEnum;
 import com.qiyue.crawler.model.param.ArticleSpecificationParam;
 import com.qiyue.crawler.service.ArticleService;
 import com.qiyue.service.enums.DataStateEnum;
@@ -65,7 +65,7 @@ public class CrawlerJob {
         } else {
             params = new ArticleSpecificationParam();
             params.setCrawledAttachment(ArticleCrawlerAttachmentEnum.NO.getStatus());
-            params.setCrawledContent(ArticleCrawlerContentEnum.NO.getStatus());
+            params.setCrawledText(ArticleCrawlerTextEnum.NO.getStatus());
             params.setState(DataStateEnum.ORIGINAL.getState());
             params.setCrawledNum(5);
         }
